@@ -1,4 +1,4 @@
-package test;
+package rest;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 import java.io.File;
 
-public class TestMain {
+public class SparkAppMain {
 
 	private static Gson g = new Gson();
 	
@@ -28,6 +28,9 @@ public class TestMain {
 		dao.ucitajKorisnike();
 		
 		get("rest/korisnici", (req, res) -> {
+			//res.type("application/json");
+			//System.out.println("pogodili smo rest/korisnici");
+			//return g.toJson(dao.getKorisnici());
 			return "ookej";
 		});
 

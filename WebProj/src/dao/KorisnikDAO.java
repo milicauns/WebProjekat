@@ -50,6 +50,10 @@ public class KorisnikDAO {
 		}		
 	}
 	
+	public ArrayList<Korisnik> getKorisnici(){
+		return korisnici;
+	}
+	
 	
 
 }
