@@ -5,7 +5,15 @@
 </head>
 <body>
 
-<p>Pozdrav</p>
+<div id="loginDiv">
+    <p>Korisnicko ime</p>
+    <input type="text" v-model="korisnickoIme">
+    <br>
+    <p>Lozinka</p>
+    <input type="password" v-model="lozinka">
+    <br>
+    <button v-on:click="loginKorisnik">Prijavi se</button>
+</div>
 
 <!-- Potrebne biblioteke -->
 <script src="js/vue.js"></script>
@@ -14,6 +22,6 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/toast.js"></script>
 <!-- Nase skripte -->
-
+<script src="js/login.js"></script>
 </body>
 </html>

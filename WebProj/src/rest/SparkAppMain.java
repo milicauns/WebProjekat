@@ -6,6 +6,10 @@ import java.io.IOException;
 import com.google.gson.Gson;
 
 import dao.*;
+import dto.AdministratorDTO;
+import dto.ParametriLoginKorisnikDTO;
+import model.Korisnik;
+import servis.KorisnikServis;
 
 import static spark.Spark.get;
 import static spark.Spark.port;
@@ -23,18 +27,25 @@ public class SparkAppMain {
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 
 		System.out.println("hello world");
-		KorisnikDAO dao = new KorisnikDAO();
 		
-		dao.ucitajKorisnike();
+		KorisnikServis korisnikServis = new KorisnikServis();
 		
 		get("rest/korisnici", (req, res) -> {
-			//res.type("application/json");
-			//System.out.println("pogodili smo rest/korisnici");
-			//return g.toJson(dao.getKorisnici());
-			return "ookej";
+			return "test";
 		});
 
+		
+		post("rest/login/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			ParametriLoginKorisnikDTO loginKorisnik = g.fromJson(req.body(), ParametriLoginKorisnikDTO.class);
+			System.out.println(loginKorisnik.korisnickoIme);
+			System.out.println(loginKorisnik.lozinka);
+			Korisnik admin = korisnikServis.UlogujKorisnika(loginKorisnik);
+			System.out.println("PRONADJEN KORISNIK je "+admin.getKorisnickoIme());
+			System.out.println("g.toJSON = "+g.toJson(admin));
+			return g.toJson(admin);
+		});
 
 	}
-
 }

@@ -16,6 +16,10 @@ public class KorisnikDAO {
 	private ArrayList<Korisnik> korisnici = new ArrayList<>();
 	private String putanjaFajla="podaci/korisnici.json";
 	
+	public KorisnikDAO() {
+		ucitajKorisnike();	
+	}
+	
 	
 	public void sacuvajKorisnike(){
 			

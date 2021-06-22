@@ -1,14 +1,20 @@
 
 var app = new Vue({
-
-el: '#logindiv',
-
-data: {
-
-korisnickoIme: "",
-lozinka: "",
-
-
-}
+    el: '#loginDiv',
+    data: {
+        korisnickoIme: "",
+        lozinka: "",
+    },
+    mounted () {
+    },
+    methods: {
+        loginKorisnik: function () {
+            alert(this.korisnickoIme);
+            
+            axios.post('rest/login/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka })
+                .then(response => {alert('uspesno '+response.data.korisnickoIme)})
+                .catch(() => {alert('NEKA GRESKA PRI LOGINU')});
+        }
+    }
 
 });

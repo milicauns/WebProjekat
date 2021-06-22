@@ -51,8 +51,6 @@ public class Korisnik {
 		return korisnickoIme;
 	}
 
-
-
 	public void setKorisnickoIme(String korisnickoIme) {
 		this.korisnickoIme = korisnickoIme;
 	}
