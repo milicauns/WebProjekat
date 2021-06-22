@@ -21,7 +21,7 @@ public class Korisnik {
 	private int brojSakupljenihBodova;
 	private TipKupca tipKupca;
 	
-	private Restoran restoran;
+	private String nazivRestorana;
 	
 	private ArrayList<String> porudzbineZaDostavu;
 
@@ -39,11 +39,10 @@ public class Korisnik {
 		this.uloga = uloga;
 		
 			this.porudzbine = new ArrayList<>();
-			this.korpa = new Korpa(korisnickoIme);
 			this.brojSakupljenihBodova = 0;
 			this.tipKupca = new TipKupca();
 			this.porudzbineZaDostavu = new ArrayList<>();
-			this.restoran = new Restoran();
+			this.nazivRestorana = "None";
 	}
 
 
@@ -180,14 +179,14 @@ public class Korisnik {
 
 
 
-	public Restoran getRestoran() {
-		return restoran;
+	public String getNazivRestorana() {
+		return nazivRestorana;
 	}
 
 
 
-	public void setRestoran(Restoran restoran) {
-		this.restoran = restoran;
+	public void setNazivRestorana(String noviNazivRestorana) {
+		this.nazivRestorana = noviNazivRestorana;
 	}
 
 
