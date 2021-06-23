@@ -14,16 +14,22 @@ public class KorisnikServis {
 		korisniciDAO = new KorisnikDAO();
 	}
 	
+	public boolean KorisnikPostoji(String korisnickoIme) {
+		
+		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
+			if(korisnik.getKorisnickoIme().equals(korisnickoIme)) 
+				return true;
+		}
+		return false;
+	}
+	
 	public Korisnik UlogujKorisnika(ParametriLoginKorisnikDTO loginKorisnik) {
 		
 		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
 			if(korisnik.getKorisnickoIme().equals(loginKorisnik.korisnickoIme) &&
 			   korisnik.getLozinka().equals(loginKorisnik.lozinka)) 
-			{
 				return korisnik;
-			}
-		}
-		
+		}		
 		return null;
 	}
 
@@ -37,6 +43,8 @@ public class KorisnikServis {
 	public void RegistrujDostavljaca(ParametriRegistracijeDTO dostavljacInfo) {		
 		korisniciDAO.DodajKorisnika(new Korisnik(dostavljacInfo.korisnickoIme,dostavljacInfo.lozinka,dostavljacInfo.ime,dostavljacInfo.prezime,dostavljacInfo.pol,dostavljacInfo.datumRodjenja,Uloga.DOSTAVLJAC));
 	}
+
+
 
 
 	

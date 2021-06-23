@@ -49,9 +49,14 @@ public class SparkAppMain {
 			res.type("application/json");
 			res.status(200);
 			ParametriLoginKorisnikDTO loginKorisnik = g.fromJson(req.body(), ParametriLoginKorisnikDTO.class);
-
-			Korisnik korisnik = korisnikServis.UlogujKorisnika(loginKorisnik);
 			
+			if(!korisnikServis.KorisnikPostoji(loginKorisnik.korisnickoIme))
+				return "NEPOSTOJECE KORISNICKO IME";
+			
+			Korisnik korisnik = korisnikServis.UlogujKorisnika(loginKorisnik);
+			if(korisnik == null)
+				return "POGRESNA LOZINKA";
+				
 			if(korisnik.getUloga().equals(Uloga.ADMINISTRATOR)) {	
 				
 				Session ss = req.session(true);
@@ -69,8 +74,7 @@ public class SparkAppMain {
 				res.redirect("./static/kupacPocetna.html");
 			}
 
-
-			return g.toJson(korisnik);
+			return "OK";
 		});
 		
 		post("rest/registracijaKupac/", (req, res) -> {
