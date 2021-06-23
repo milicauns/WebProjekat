@@ -1,6 +1,7 @@
 package rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
@@ -9,6 +10,7 @@ import dto.ParametriLoginKorisnikDTO;
 import dto.ParametriRegistracijeDTO;
 import enums.Uloga;
 import model.Korisnik;
+import model.Restoran;
 import servis.*;
 import spark.Session;
 
@@ -30,12 +32,11 @@ public class SparkAppMain {
 		KorisnikServis korisnikServis = new KorisnikServis();
 		RestoranServis restoranServis = new RestoranServis();
 		
-		
-		
-		get("rest/getRestorani", (req, res) -> {
+		get("rest/restorani", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
-			return restoranServis.GetRestorani();
+			ArrayList<Restoran> restorani = restoranServis.GetRestorani();
+			return g.toJson(restorani);
 		});
 		
 		get("rest/getTrazeniRestorani", (req, res) -> {
@@ -48,6 +49,7 @@ public class SparkAppMain {
 		get("rest/login/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
+			System.out.println(req.body());
 			ParametriLoginKorisnikDTO loginKorisnik = g.fromJson(req.body(), ParametriLoginKorisnikDTO.class);
 			
 			if(!korisnikServis.KorisnikPostoji(loginKorisnik.korisnickoIme))

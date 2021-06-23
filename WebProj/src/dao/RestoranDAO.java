@@ -13,7 +13,7 @@ import model.Restoran;
 
 public class RestoranDAO {
 
-	private String putanjaFajla = "restorani.json"; 
+	private String putanjaFajla = "podaci/restorani.json"; 
 	private ArrayList<Restoran> restorani = new ArrayList<>();
 	
 	public RestoranDAO() {

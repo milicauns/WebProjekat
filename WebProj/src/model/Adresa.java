@@ -5,9 +5,9 @@ public class Adresa {
 	private String Ulica;
 	private String broj;
 	private String mesto;
-	private String postanskiBroj;
+	private int postanskiBroj;
 	
-	public Adresa(String ulica, String broj, String mesto, String postanskiBroj) {
+	public Adresa(String ulica, String broj, String mesto, int postanskiBroj) {
 		super();
 		Ulica = ulica;
 		this.broj = broj;
@@ -39,11 +39,11 @@ public class Adresa {
 		this.mesto = mesto;
 	}
 
-	public String getPostanskiBroj() {
+	public int getPostanskiBroj() {
 		return postanskiBroj;
 	}
 
-	public void setPostanskiBroj(String postanskiBroj) {
+	public void setPostanskiBroj(int postanskiBroj) {
 		this.postanskiBroj = postanskiBroj;
 	}
 	

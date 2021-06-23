@@ -1,14 +1,12 @@
 var app = new Vue({
-    el: '#restoraniDiv',
+    el: '#restoraniID',
     data: {
 		restorani: null,
-        searchInput: "",
         odabraniRestoran: {},
     },
-    mounted () {	
-	  axios.get('rest/getRestorani/')
-       .then(response => (this.restorani = response.data))
-	
+    mounted() {
+        axios.get('rest/restorani')
+            .then(response => (this.restorani = response.data))
     },
     methods: {
 		 PretragaRestorana: function () {
