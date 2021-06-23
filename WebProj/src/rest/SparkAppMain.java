@@ -17,6 +17,7 @@ import spark.Session;
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.halt;
 import static spark.Spark.staticFiles;
 import java.io.File;
 
@@ -26,6 +27,7 @@ public class SparkAppMain {
 	
 	public static void main(String[] args) throws IOException{
 		port(8080);
+		
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 	
@@ -46,33 +48,35 @@ public class SparkAppMain {
 			return restoranServis.GetTrazeniRestorani(searchInput);
 		});
 		
-		get("rest/login/", (req, res) -> {
-			res.type("application/json");
+		get("rest/login", (req, res) -> {
+			res.type("text/html");
 			res.status(200);
-			System.out.println(req.body());
-			ParametriLoginKorisnikDTO loginKorisnik = g.fromJson(req.body(), ParametriLoginKorisnikDTO.class);
+			
+			ParametriLoginKorisnikDTO loginKorisnik = new ParametriLoginKorisnikDTO(); 
+			loginKorisnik.korisnickoIme = req.queryParams("korisnickoIme");
+		    loginKorisnik.lozinka = req.queryParams("lozinka");
+		    
+		    System.out.println("POKUSAJ LOGOVANJA: "+loginKorisnik.korisnickoIme + " " + loginKorisnik.lozinka);
 			
 			if(!korisnikServis.KorisnikPostoji(loginKorisnik.korisnickoIme))
-				return "NEPOSTOJECE KORISNICKO IME";
+				return "Err: NEPOSTOJECE KORISNICKO IME";
 			
 			Korisnik korisnik = korisnikServis.UlogujKorisnika(loginKorisnik);
 			if(korisnik == null)
-				return "POGRESNA LOZINKA";
+				return "Err: POGRESNA LOZINKA";
+			res.cookie("nazivKukija", "VREDNOST KUKIJA HAHAHAHA");             // set cookie with a value
+			if(korisnik.getUloga() == Uloga.ADMINISTRATOR) {	
 				
-			if(korisnik.getUloga().equals(Uloga.ADMINISTRATOR)) {	
-				
-				Session ss = req.session(true);
-				ss.attribute("korisnik",g.toJson(korisnik));				
+				//Session ss = req.session(true);
+				//ss.attribute("korisnik",g.toJson(korisnik));	 	// zasto ovde koristimo g.toJson ?		
+				res.status(302);
 				res.redirect("administratorPocetna.html");
-				
-			}else if(korisnik.getUloga().equals(Uloga.MENADZER)) {
-				
+				//halt();
+			}else if(korisnik.getUloga() == Uloga.MENADZER) {
 				res.redirect("./static/menadzerPocetna.html");
-			}else if(korisnik.getUloga().equals(Uloga.DOSTAVLJAC)) {
-				
+			}else if(korisnik.getUloga() == Uloga.DOSTAVLJAC) {
 				res.redirect("./static/dostavljacPocetna.html");
 			}else {
-				
 				res.redirect("./static/kupacPocetna.html");
 			}
 

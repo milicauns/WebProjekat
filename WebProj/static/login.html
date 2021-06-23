@@ -133,10 +133,10 @@ body {
 <body>
 	
 	<div class="topnav">
-	  <a href="#">Pocetna</a>
-	  <a href="#">Pomoc</a>
-	  <a href="#" style="float:right">Registracija</a>
-	  <a href="administratorPocetna.html" style="float:right">Login</a>
+        <a href="index.html">Pocetna</a>
+        <a href="#">Pomoc</a>
+        <a href="#" style="float:right">Registracija</a>
+        <a href="login.html" style="float:right">Login</a>
 	</div>
 	
 	<div class="header">
@@ -148,7 +148,7 @@ body {
 	  <div class="leftcolumn">
 		<div class="card">
 		  <h1>Login</h1>
-          <div class="formaCSS">
+          <div id="loginDiv" class="formaCSS">
                 <p>Korisnicko ime</p>
                 <input type="text" v-model="korisnickoIme">
                 <br>
@@ -181,6 +181,5 @@ body {
 <script src="js/toast.js"></script>
 <!-- Nase skripte -->
 <script src="js/login.js"></script>
-<script src="js/restorani.js"></script>
 </body>
 </html>
