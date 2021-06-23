@@ -1,21 +1,22 @@
 package servis;
 
 import dao.KorisnikDAO;
-import dto.AdministratorDTO;
 import dto.ParametriLoginKorisnikDTO;
+import dto.ParametriRegistracijeDTO;
+import enums.Uloga;
 import model.Korisnik;
 
 public class KorisnikServis {
 	
-	private KorisnikDAO korisniciDao;
+	private KorisnikDAO korisniciDAO;
 	
 	public KorisnikServis() {
-		korisniciDao = new KorisnikDAO();
+		korisniciDAO = new KorisnikDAO();
 	}
 	
 	public Korisnik UlogujKorisnika(ParametriLoginKorisnikDTO loginKorisnik) {
 		
-		for (Korisnik korisnik : korisniciDao.getKorisnici()) {
+		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
 			if(korisnik.getKorisnickoIme().equals(loginKorisnik.korisnickoIme) &&
 			   korisnik.getLozinka().equals(loginKorisnik.lozinka)) 
 			{
@@ -25,6 +26,18 @@ public class KorisnikServis {
 		
 		return null;
 	}
+
+	//validacije zasad nema..
+	public void RegistrujKupca(ParametriRegistracijeDTO kupacInfo) {
+		korisniciDAO.DodajKorisnika(new Korisnik(kupacInfo.korisnickoIme,kupacInfo.lozinka,kupacInfo.ime,kupacInfo.prezime,kupacInfo.pol,kupacInfo.datumRodjenja,Uloga.KUPAC));
+	}	
+	public void RegistrujMenadzera(ParametriRegistracijeDTO menadzerInfo) {		
+		korisniciDAO.DodajKorisnika(new Korisnik(menadzerInfo.korisnickoIme,menadzerInfo.lozinka,menadzerInfo.ime,menadzerInfo.prezime,menadzerInfo.pol,menadzerInfo.datumRodjenja,Uloga.MENADZER));
+	}
+	public void RegistrujDostavljaca(ParametriRegistracijeDTO dostavljacInfo) {		
+		korisniciDAO.DodajKorisnika(new Korisnik(dostavljacInfo.korisnickoIme,dostavljacInfo.lozinka,dostavljacInfo.ime,dostavljacInfo.prezime,dostavljacInfo.pol,dostavljacInfo.datumRodjenja,Uloga.DOSTAVLJAC));
+	}
+
 
 	
 }

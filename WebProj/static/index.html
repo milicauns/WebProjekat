@@ -15,6 +15,41 @@
     <button v-on:click="loginKorisnik">Prijavi se</button>
 </div>
 
+
+<br>
+<label>U slucaju da nemate nalog:</label>
+<a href="registracijaKupac.html">
+	<button v-on:click="loginKorisnik">Registrujte se</button>
+</a>
+
+<h2>Restorani:</h2>
+<div id="restoraniDiv">
+
+<label>Pretrazi restorane:</label>>
+<input type="text" v_model="searchInput">
+<button v-on:click="PretragaRestorana">Pretrazi</button>
+
+<table>
+	<tr bgcolor="lightgrey">
+		<th>Naziv restorana</th>
+		<th>Tip restorana</th>
+		<th>Lokacija</th>
+		<th>Logo</th>
+		<th>Prosecna ocena</th>
+	</tr>
+	
+	<tr v-for="s in restorani" v-on:click="odaberiRestoran(s)" v-bind:class="{selected : odabraniRestoran.naziv===s.naziv}">
+		<td>{{s.naziv }}</td>
+		<td>{{s.tipRestorana }}</td>
+		<td>{{s.lokacija.adresa }}</td>
+		<td><img src="{{s.logo }}"></td>
+		<td>{{s.prosecnaOcena}}</td>
+	</tr>
+	</table>
+
+</div>
+
+
 <!-- Potrebne biblioteke -->
 <script src="js/vue.js"></script>
 <script src="js/vue-router.js"></script>
@@ -23,5 +58,6 @@
 <script src="js/toast.js"></script>
 <!-- Nase skripte -->
 <script src="js/login.js"></script>
+<script src="js/restorani.js"></script>
 </body>
 </html>

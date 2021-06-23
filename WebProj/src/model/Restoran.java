@@ -12,6 +12,7 @@ public class Restoran {
 	private Status status;
 	private Lokacija lokacija;
 	private String logo;
+	private double prosecnaOcena;
 	
 	private ArrayList<Artikal> artikli;
 	
@@ -27,6 +28,7 @@ public class Restoran {
 		this.status = status;
 		this.lokacija = lokacija;
 		this.logo = logo;
+		this.prosecnaOcena = 0.00;
 	}
 
 	public String getNaziv() {
@@ -75,6 +77,14 @@ public class Restoran {
 
 	public void setArtikli(ArrayList<Artikal> artikli) {
 		this.artikli = artikli;
+	}
+
+	public double getProsecnaOcena() {
+		return prosecnaOcena;
+	}
+
+	public void setProsecnaOcena(double prosecnaOcena) {
+		this.prosecnaOcena = prosecnaOcena;
 	}
 	
 	

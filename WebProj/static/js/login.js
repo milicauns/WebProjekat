@@ -11,7 +11,7 @@ var app = new Vue({
         loginKorisnik: function () {
             alert(this.korisnickoIme);
             
-            axios.post('rest/login/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka })
+            axios.get('rest/login/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka })
                 .then(response => {alert('uspesno '+response.data.korisnickoIme)})
                 .catch(() => {alert('NEKA GRESKA PRI LOGINU')});
         }

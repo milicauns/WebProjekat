@@ -9,22 +9,22 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import model.Korisnik;
+import model.Restoran;
 
-public class KorisnikDAO {
+public class RestoranDAO {
+
+	private String putanjaFajla = "restorani.json"; 
+	private ArrayList<Restoran> restorani = new ArrayList<>();
 	
-	private String putanjaFajla="podaci/korisnici.json";
-	private ArrayList<Korisnik> korisnici = new ArrayList<>();
-	
-	public KorisnikDAO() {
-		ucitajKorisnike();	
+	public RestoranDAO() {
+		ucitajRestorane();	
 	}
 	
 	
-	public void sacuvajKorisnike(){
+	public void sacuvajRestorane(){
 			
 		Gson gson = new Gson();
-		String json = gson.toJson(korisnici);	
+		String json = gson.toJson(restorani);	
 		try (PrintWriter out = new PrintWriter(putanjaFajla)) {
 		    out.println(json);
 			out.close();
@@ -35,7 +35,7 @@ public class KorisnikDAO {
 		}
 	}
 	
-	public void ucitajKorisnike(){
+	public void ucitajRestorane(){
 		
 		BufferedReader reader;
 		try {
@@ -44,28 +44,17 @@ public class KorisnikDAO {
 		    String json = reader.readLine();
 		    reader.close();
 		    
-			java.lang.reflect.Type korisniciLista = new TypeToken<ArrayList<Korisnik>>(){}.getType();
+			java.lang.reflect.Type restoraniLista = new TypeToken<ArrayList<Restoran>>(){}.getType();
 			Gson gson = new Gson();
 				
-			korisnici = gson.fromJson(json, korisniciLista);
+			restorani = gson.fromJson(json, restoraniLista);
 		     
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
 	}
 	
-	public ArrayList<Korisnik> getKorisnici(){
-		return korisnici;
+	public ArrayList<Restoran> GetRestorani(){
+		return restorani;
 	}
-
-
-	public void DodajKorisnika(Korisnik korisnik) {
-		korisnici.add(korisnik);
-		sacuvajKorisnike();		
-	}
-	
-	
-
 }
-
-
