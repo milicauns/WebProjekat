@@ -49,7 +49,7 @@ public class SparkAppMain {
 		});
 		
 		get("rest/login", (req, res) -> {
-			res.type("text/html");
+			res.type("application/json");
 			res.status(200);
 			
 			ParametriLoginKorisnikDTO loginKorisnik = new ParametriLoginKorisnikDTO(); 
@@ -59,28 +59,18 @@ public class SparkAppMain {
 		    System.out.println("POKUSAJ LOGOVANJA: "+loginKorisnik.korisnickoIme + " " + loginKorisnik.lozinka);
 			
 			if(!korisnikServis.KorisnikPostoji(loginKorisnik.korisnickoIme))
-				return "Err: NEPOSTOJECE KORISNICKO IME";
+				return "g1"; //"Err: NEPOSTOJECE KORISNICKO IME";
 			
 			Korisnik korisnik = korisnikServis.UlogujKorisnika(loginKorisnik);
 			if(korisnik == null)
-				return "Err: POGRESNA LOZINKA";
-			res.cookie("nazivKukija", "VREDNOST KUKIJA HAHAHAHA");             // set cookie with a value
-			if(korisnik.getUloga() == Uloga.ADMINISTRATOR) {	
-				
-				//Session ss = req.session(true);
-				//ss.attribute("korisnik",g.toJson(korisnik));	 	// zasto ovde koristimo g.toJson ?		
-				res.status(302);
-				res.redirect("administratorPocetna.html");
-				//halt();
-			}else if(korisnik.getUloga() == Uloga.MENADZER) {
-				res.redirect("./static/menadzerPocetna.html");
-			}else if(korisnik.getUloga() == Uloga.DOSTAVLJAC) {
-				res.redirect("./static/dostavljacPocetna.html");
-			}else {
-				res.redirect("./static/kupacPocetna.html");
-			}
+				return "g2";
+			
+			res.cookie("korisnikKOLACIC", korisnik.getKorisnickoIme());             // set cookie with a value
+			
+			Session ss = req.session(true);
+			ss.attribute("korisnik", korisnik);	 	
 
-			return "OK";
+			return g.toJson(korisnik);
 		});
 		
 		post("rest/registracijaKupac/", (req, res) -> {
@@ -106,6 +96,33 @@ public class SparkAppMain {
 			korisnikServis.RegistrujDostavljaca(dostavljacInfo);
 		return "uspjeh";
 		});
+		
+		get("rest/testlogin", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");	 
+			if(korisnik == null) {
+				System.out.println("KORISNIK JE NULL");
+				return "Err:KorisnikNijeUlogovan";
+			}
+			
+			return g.toJson(korisnik);
+		});
+		
+		get("rest/logout", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			System.out.println("Korisnik " + korisnik.getKorisnickoIme() + " se uspesno udlogovao");
+			ss.invalidate();
+			
+			return "OK";
+		});
+		
 		
 		
 

@@ -1,11 +1,11 @@
 Vue.component("login", {
-	data: function () {
-		    return {
-			korisnickoIme: "",
-        	lozinka: ""				
-			    }
-	},
-	template:`
+  data: function () {
+    return {
+      korisnickoIme: "",
+      lozinka: ""
+    }
+  },
+  template: `
 	
 <div class="row">
 	  <div class="leftcolumn">
@@ -31,25 +31,33 @@ Vue.component("login", {
 		</div>
 	  </div>
 	</div>	`
-,
-	methods : {	
-	loginKorisnik: function () {
-            alert("pokusavamo da loginujemo " + this.korisnickoIme);
-            axios.get('rest/login', {
-                params: {
-                    korisnickoIme: this.korisnickoIme,
-                    lozinka: this.lozinka
-                }
-            })
-                .then(response => {
-                    window.location.href = "/";
-
-                })
-                .catch(() => {
-					 window.location.href = "/";
-                    alert('NEKA GRESKA PRI LOGINU')
-                });
+  ,
+  methods: {
+    loginKorisnik: function () {
+      alert("pokusavamo da loginujemo " + this.korisnickoIme);
+      axios.get('rest/login', {
+        params: {
+          korisnickoIme: this.korisnickoIme,
+          lozinka: this.lozinka
         }
-		
-	}
+      })
+        .then(response => {
+          if (response.data == 'g1') {
+            alert('Err: NEPOSTOJECE KORISNICKO IME');
+            return;
+          } else if (response.data == 'g2') {
+            alert('Err: POGRESNA LOZINKA');
+            return;
+          }
+          window.location.href = "/";
+
+        })
+        .catch(function (error) {
+          window.location.href = "/";
+          alert('Err: NEKA GRESKA PRI LOGINU')
+        }
+        );
+    }
+
+  }
 });
