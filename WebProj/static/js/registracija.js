@@ -12,34 +12,68 @@ Vue.component("registracija", {
 	},
 	template:`
 	
-	
-<div id="registracijaKupac">
-
-<label>Korisnicko ime</label>
-<input type="text" v-model="korisnickoIme"/><br>
-
-<label>Ime</label>
-<input type="text" v-model="ime"/><br>
-
-<label>Prezime</label>
-<input type="text" v-model="prezime"/><br>
-
-<label>Datum rodjenja</label>
-<input type="date" v-model="datumRodjenja"/><br>
-
-<label>Pol:</label>
-<select v-model="pol" >
-  <option value = "MUSKI"> Muski</option>
-  <option value = "ZENSKI"> Zenski</option>
-</select><br>
-
-<label>Lozinka:</label>
-<input type="password" v-model="lozinka"/><br>
-
-<button v-on:click="Registracija">Registruj se</button>
-
-</div>
-	
+	<div class="row">
+	<div class="leftcolumn">
+	  <div class="card">
+		<div id="registracijaKupac">
+		<h1>Registracija</h1>
+		  <table>
+			<tr>
+			  <td><label>Korisnicko ime</label></td>
+			  <td><input type="text" v-model="korisnickoIme"/></td>
+			</tr>
+			
+			 <tr>
+			  <td><label>Ime</label></td>
+			  <td><input type="text" v-model="ime"/></td>
+			</tr>
+			
+			 <tr>
+			  <td><label>Prezime</label></td>
+			  <td> <input type="text" v-model="prezime"/></td>
+			</tr>
+			
+			 <tr>
+			  <td><label>Datum rodjenja </label></td>
+			  <td><input type="date" v-model="datumRodjenja"/></td>
+			</tr>
+			
+			 <tr>
+			  <td><label>Pol </label></td>
+			  <td>
+				<select v-model="pol" >
+				  <option value = "MUSKI"> Muski</option>
+				  <option value = "ZENSKI"> Zenski</option>
+				</select>
+			  </td>
+			</tr>
+			 <tr>
+			  <td><label>Lozinka</label></td>
+			  <td><input type="password" v-model="lozinka"/></td>
+			</tr>
+			
+			<tr>
+			  <td><label>Ponovite lozinku</label></td>
+			  <td><input type="password" v-model="lozinka"/></td>
+			</tr>
+			
+			<tr>
+			  <td></td>
+			  <td><button v-on:click="Registracija">Registruj se</button></td>
+			</tr>
+  
+		  </table>
+		</div>
+	  </div>
+	</div>
+	<div class="rightcolumn">
+	  <div class="card">
+		<h2>Imas nalog?</h2>
+		<a href=""><button>Prijavi se</button></a>
+	  </div>
+	  
+	</div>
+  </div>
 		
 `
 ,
