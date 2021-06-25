@@ -131,98 +131,39 @@ body {
 </style>
 </head>
 <body>
-	
+
+<div id="initialDiv">
 	<div class="topnav">
 	  <a href="index.html">Pocetna</a>
 	  <a href="#">Pomoc</a>
-	  <a href="#" style="float:right">Registracija</a>
-	  <a href="login.html" style="float:right">Login</a>
-	</div>
+	  <a href="#/registracija" style="float:right">Registracija</a>
+	  <a href="#/login" style="float:right">Login</a>
+	</div>	
 	
 	<div class="header">
 	  <h1>Donesi Hranu</h1>
 	  <p>Servis za online narucivanje hrane i dostavu.</p>
 	</div>
-	
-	<div class="row">
-	  <div class="leftcolumn">
-		<div class="card">
-		  <h1>Restorani</h1>
-	
-		  <div>
-			   Prikaz po kriterijumu
-			  <select name="sort">
-				<option value="PrvoRADI">Prvo Otvoreni</option>
-				<option value="PrvoZATVORENI">Prvo Zatvoreni</option>
-				<option value="OcenaRastuce">Oceni Rastuce</option>
-				<option value="OcenaOpadajuce">Oceni Opadajuce</option>
-				<option value="Naziv A-Z">Naziv A-Z</option>
-				<option value="Naziv Z-A">Naziv Z-A</option>
-				<option value="Lokacija A-Z">Lokacija A-Z</option>
-				<option value="Lokacija Z-A">Lokacija Z-A</option>
-			  </select>
-			<br>
-			<br>
-			<br>
-		  </div>
-		  
-		  <!-- RESTORANI -->
-		<div id="restoraniID">
-			<div v-for="restoran in restorani" class="restoranDiv" style="height:200px;">
-				<div class="row">
-					<div class="leftcolumnRestoran">
-						<img src="statickeSlike/logoRestorana.png" class="logoRestoranaCSS"> 
-						<div>
-						<p>{{restoran.prosecnaOcena}}&#9733;</p>
-						</div>
-					</div>
-					<div class="rightcolumnRestoran">
-						<table>
-							<tr><td><h4>{{restoran.naziv}}</h4></td></tr>
-							<tr><td>Tip restorana: {{restoran.tipRestorana}}</td></tr>
-							<tr><td>Lokacija: {{restoran.lokacija.adresa.mesto}}</td></tr>
-							<tr><td>Status: {{restoran.status}}</td></tr>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		  
-		</div>
-	  </div>
-	  <div class="rightcolumn">
-		<div class="card">
-		  <h2>Pretraga</h2>
-		  <form>
-			<table>
-			  <tr><td><input type="text" placeholder="Naziv Restorana"></td></tr>
-			  <tr><td><input type="text" placeholder="Lokacija Restorana"></td></tr>
-			  <tr><td><input type="number" placeholder="Vise od prosecne ocene"></td></tr>
-			  <tr><td><select name="Tip Restorana">
-				<option value="SVE">SVE</option>
-				<option value="KINESKI">Kineski</option>
-				<option value="ITALIJANSKI">Italijanski</option>
-				<option value="ROSTILJ">Rostilj</option>
-			  </select></td></tr>
-			  <tr><td><input type="checkbox" name="StatusRadi" value="Radi"> Samo otvoreni</td></tr>
-			  <tr><td><button>Pretrazi</button></td></tr>
-			</table>
-		</form>
-		</div>
-	  </div>
-	</div>
+
+	<router-view></router-view>
 	
 	<div class="footer">
 	  <h2>Web Projekat</h2>
 	</div>
 
+
+
+</div>
 <!-- Potrebne biblioteke -->
-<script src="js/vue.js"></script>
-<script src="js/vue-router.js"></script>
-<script src="js/axios.js"></script>
-<script src="js/jquery.min.js"></script>
-<script src="js/toast.js"></script>
+<script src="skripte/vue.js"></script>
+<script src="skripte/vue-router.js"></script>
+<script src="skripte/axios.js"></script>
+<script src="skripte/jquery.min.js"></script>
+<script src="skripte/toast.js"></script>
 <!-- Nase skripte -->
 <script src="js/restorani.js"></script>
+<script src="js/login.js"></script>
+<script src="js/registracija.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
