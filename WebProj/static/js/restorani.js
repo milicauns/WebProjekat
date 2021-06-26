@@ -9,7 +9,8 @@ Vue.component("restorani", {
 				ocena: 0,
 				tip: "",
 				samoOtvoreni: false
-			}
+			},
+			sortType: "PrvoOTVORENI"
 		}
 	},
 	template: `
@@ -21,15 +22,15 @@ Vue.component("restorani", {
 	
 		  <div>
 			   Prikaz po kriterijumu
-			  <select name="sort">
-				<option value="PrvoRADI">Prvo Otvoreni</option>
+			  <select name="sort" v-on:change="sortiraj" v-model="sortType">
+				<option value="PrvoOTVORENI">Prvo Otvoreni</option>
 				<option value="PrvoZATVORENI">Prvo Zatvoreni</option>
 				<option value="OcenaRastuce">Oceni Rastuce</option>
 				<option value="OcenaOpadajuce">Oceni Opadajuce</option>
-				<option value="Naziv A-Z">Naziv A-Z</option>
-				<option value="Naziv Z-A">Naziv Z-A</option>
-				<option value="Lokacija A-Z">Lokacija A-Z</option>
-				<option value="Lokacija Z-A">Lokacija Z-A</option>
+				<option value="NazivA-Z">Naziv A-Z</option>
+				<option value="NazivZ-A">Naziv Z-A</option>
+				<option value="LokacijaA-Z">Lokacija A-Z</option>
+				<option value="LokacijaZ-A">Lokacija Z-A</option>
 			  </select>
 			<br>
 			<br/>
@@ -91,6 +92,25 @@ Vue.component("restorani", {
 					alert('greska sa servera');
 				});	
 
+		},
+		sortiraj: function () {
+			if (this.sortType == 'PrvoOTVORENI') {
+				this.restorani.sort((b, a) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
+			} else if (this.sortType == 'PrvoZATVORENI') {
+				this.restorani.sort((a, b) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
+			} else if (this.sortType == 'OcenaRastuce') {
+				this.restorani.sort((b, a) => (a.ocena > b.ocena) ? 1 : ((b.ocena > a.ocena) ? -1 : 0));
+			} else if (this.sortType == 'OcenaOpadajuce') {
+				this.restorani.sort((a, b) => (a.ocena > b.ocena) ? 1 : ((b.ocena > a.ocena) ? -1 : 0));
+			} else if (this.sortType == 'NazivA-Z') {
+				this.restorani.sort((a, b) => (a.naziv > b.naziv) ? 1 : ((b.naziv > a.naziv) ? -1 : 0));
+			} else if (this.sortType == 'NazivZ-A') {
+				this.restorani.sort((b, a) => (a.naziv > b.naziv) ? 1 : ((b.naziv > a.naziv) ? -1 : 0));
+			} else if (this.sortType == 'LokacijaA-Z') {
+				this.restorani.sort((b, a) => (a.lokacija.adresa.mesto > b.lokacija.adresa.mesto) ? 1 : ((b.lokacija.adresa.mesto > a.lokacija.adresa.mesto) ? -1 : 0));
+			} else if (this.sortType == 'LokacijaZ-A') {
+				this.restorani.sort((a, b) => (a.lokacija.adresa.mesto > b.lokacija.adresa.mesto) ? 1 : ((b.lokacija.adresa.mesto > a.lokacija.adresa.mesto) ? -1 : 0));
+			}
 		}
 	},
 });
