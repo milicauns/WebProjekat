@@ -1,7 +1,7 @@
 Vue.component("profil", {
 	data: function () {
 		    return {
-		korisnik: null,
+		korisnik: {},
 		
 		korisnickoIme:"",
 		ime: "",
