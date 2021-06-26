@@ -1,21 +1,17 @@
 const restorani = { template: '<restorani></restorani>' }
 const login = { template: '<login></login>' }
 const registracija = { template: '<registracija></registracija>' }
-const registracijaRestorana = { template: '<registracijaRestorana></registracijaRestorana>' }
-const korisnici = { template: '<korisnici></korisnici>' }
 const menadzer = { template: '<menadzer></menadzer>' }
-
+const administrator = { template: '<administrator></administrator>' }
 
 const router = new VueRouter({
 	mode: 'hash',
 	routes: [
 		{ path: '/', component: restorani },
 		{ path: '/login', component: login },
-		{ path: '/registracija', component: registracija },
-		{ path: '/registracijaRestorana', component: registracijaRestorana },
-		{ path: '/korisnici', component: korisnici }
-		{ path: '/menadzer', component: menadzer }
-
+		{ path: '/registracija', component: registracija },
+		{ path: '/menadzer', component: menadzer },
+		{ path: '/administrator', component: administrator}
 	]
 });
 

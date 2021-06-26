@@ -11,6 +11,7 @@ public class TipKupca {
 	
 	public TipKupca() {
 		super();
+		ImeTipa = ImeTipaKupca.BRONZANI;
 	}
 
 

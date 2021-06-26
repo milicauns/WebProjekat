@@ -59,7 +59,7 @@ public class KorisnikServis {
 		
 		ArrayList<Korisnik> ret = new ArrayList<>();		
 		for (Korisnik korisnik : GetKorisnici()) {
-			if(korisnik.getUloga().equals(uloga)) ret.add(korisnik);
+			if(korisnik.getUloga() == uloga) ret.add(korisnik);
 		}
 		return ret;
 	}

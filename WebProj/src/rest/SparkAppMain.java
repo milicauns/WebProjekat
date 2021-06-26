@@ -49,7 +49,16 @@ public class SparkAppMain {
 		
 		get("rest/getTrazeniKorisnici", (req, res) -> {
 			res.type("application/json");
-			PretragaKorisnikaDTO pretraga = g.fromJson(req.body(), PretragaKorisnikaDTO.class);
+			// { "ime": this.ime, "prezime": this.prezime, "korisnickoIme": this.korisnickoIme, "uloga": this.uloga, "tipKorisnika": this.tipKorisnika }
+			String ime = req.queryParams("ime");
+			String prezime = req.queryParams("prezime");
+			String korisnickoIme = req.queryParams("korisnickoIme");
+			String uloga = req.queryParams("uloga");
+			String tipKorisnika = req.queryParams("tipKorisnika");
+			
+			PretragaKorisnikaDTO pretraga = new PretragaKorisnikaDTO(ime, prezime, korisnickoIme, uloga, tipKorisnika);
+			System.out.println(pretraga);
+			
 			res.status(200);		
 			return korisnikServis.GetTrazeniKorisnici(pretraga);
 		});

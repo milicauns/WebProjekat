@@ -1,16 +1,16 @@
 Vue.component("registracijaRestorana", {
 	data: function () {
-		    return {
+		return {
 			raspoloziviMenadzeri: null,
-       		menadzer: "",
+			menadzer: "",
 			naziv: "",
 			tip: "",
 			lokacija: "",
 			logo: "putanja do slike",
-			status: ""							
-			    }
+			status: ""
+		}
 	},
-	template:`
+	template: `
 	<div class="row">
 	<div class="leftcolumn">
 	  <div class="card">
@@ -36,13 +36,12 @@ Vue.component("registracijaRestorana", {
 			</tr>
             <tr>
 			  <td><label>Dodaj logo:</label></td>
-			  <td><input type="file" v-model="logo"/></td>
 			</tr>
            <tr>
 			  <td><label>Dodjeli menadzera:</label></td>
 			  <td>
-              <select id="deptList">
-                <option v-model="menadzer" v-for="m in raspoloziviMenadzeri" v-bind:value="m.korisnickoIme">
+              <select v-model="menadzer" id="deptList">
+                <option v-for="m in raspoloziviMenadzeri" v-bind:value="m.korisnickoIme">
                 {{m.ime}}
                 </option>
               </select>
@@ -68,19 +67,19 @@ Vue.component("registracijaRestorana", {
 	</div>
   </div>			
 `
-,
-	mounted(){	
-		
-			axios.get('rest/raspoloziviMenadzeri')
-            .then(response => (this.raspoloziviMenadzeri = response.data))	
-	}, 
-	methods : {	
-	        NoviRestoran: function () {
-        
-            axios.post('rest/registracijaRestoran/', {  })
-                .then(response => {alert('uspesno '+response.data.naziv)})
-                .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
-        }
-		
+	,
+	mounted() {
+
+		axios.get('rest/raspoloziviMenadzeri')
+			.then(response => (this.raspoloziviMenadzeri = response.data));
 	},
+	methods: {
+		NoviRestoran: function () {
+
+			axios.post('rest/registracijaRestoran/', {})
+				.then(response => { alert('uspesno ' + response.data.naziv) })
+				.catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI') });
+		}
+
+	}
 });

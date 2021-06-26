@@ -1,18 +1,18 @@
 Vue.component("korisnici", {
 	data: function () {
-		    return {
+		return {
 			prikazaniKorisnici: null,
-        	odabraniKorisnik: {},
-			
-			uloga="",
-			tipKorisnika="",
-			ime="",
-			prezime="",
-			korisnickoIme=""
-							
-			    }
+			odabraniKorisnik: {},
+
+			uloga: "",
+			tipKorisnika: "",
+			ime: "",
+			prezime: "",
+			korisnickoIme: ""
+
+		}
 	},
-	template:`
+	template: `
 
 <div class="row">
   <div class="leftcolumn">
@@ -32,9 +32,9 @@ Vue.component("korisnici", {
 	</tr>
 	</table>
 	
-	<button v-on:click="prikaziKorisnika" v-bind:disabled="odabraniKorisnik.korisnickoIme==undefied">Prikazi korisnika</button><br />
+	<button v-bind:disabled="odabraniKorisnik.korisnickoIme==undefined">Prikazi korisnika</button><br />
 
-    <div id="prikazKorisnika"  v-if="odabraniKorisnik.korisnickoIme!=undefied" >
+    <div id="prikazKorisnika"  v-if="odabraniKorisnik.korisnickoIme!=undefined" >
 						<table>
 							<tr><td>Korisnicko ime: {{odabraniKorisnik.korisnickoIme}}</td></tr>
                             <tr><td>Ime i prezime: {{odabraniKorisnik.ime}} {{odabraniKorisnik.prezime}}</td></tr>
@@ -53,7 +53,7 @@ Vue.component("korisnici", {
 		  <form>
 			<table>
 			  <tr><td><input type="text" placeholder="Ime" v-model="ime"></td></tr>
-			  <tr><td><input type="text" placeholder="Prezime" v-model="ime"></td></tr>
+			  <tr><td><input type="text" placeholder="Prezime" v-model="prezime"></td></tr>
 			  <tr><td><input type="text" placeholder="Korisnicko ime" v-model="korisnickoIme"></td></tr>
               <tr><td>
               <label>Uloga:</label>
@@ -79,20 +79,25 @@ Vue.component("korisnici", {
 </div>
 	
 		`
-,
-	mounted(){		
-	        axios.get('rest/korisnici')
-            .then(response => (this.prikazaniKorisnici = response.data))
-	}, 
-	methods : {	
-		    odabranKorisnik : function(korisnik) {
-    			this.odabraniKorisnik = korisnik;   		    
-    	},
-		    pretraziKorisnike : function() {
-    		 axios.get('rest/getTrazeniKorisnici/',{ "ime": this.ime, "prezime" : this.prezime,"korisnickoIme" : this.korisnickoIme,"uloga" : this.uloga,"tipKorisnika": this.tipKorisnika})
-            .then(response => (this.prikazaniKorisnici = response.data))  		    
-    	}
-		
-		
+	,
+	mounted() {
+		axios.get('rest/korisnici')
+			.then(response => (this.prikazaniKorisnici = response.data));
 	},
+	methods: {
+		odabranKorisnik: function (korisnik) {
+			this.odabraniKorisnik = korisnik;
+		},
+		pretraziKorisnike: function () {
+			alert('SALJEMO ' + {"ime": this.ime, "prezime": this.prezime, "korisnickoIme": this.korisnickoIme, "uloga": this.uloga, "tipKorisnika": this.tipKorisnika});
+			axios.get('rest/getTrazeniKorisnici', {
+				params: {
+					"ime": this.ime, "prezime": this.prezime, "korisnickoIme": this.korisnickoIme, "uloga": this.uloga, "tipKorisnika": this.tipKorisnika
+				}
+			})
+				.then(response => (this.prikazaniKorisnici = response.data));
+		}
+
+
+	}
 });
