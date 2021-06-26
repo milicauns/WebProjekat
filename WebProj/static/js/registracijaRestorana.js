@@ -1,4 +1,4 @@
-Vue.component("registracija", {
+Vue.component("registracijaRestorana", {
 	data: function () {
 		    return {
 			raspoloziviMenadzeri: null,

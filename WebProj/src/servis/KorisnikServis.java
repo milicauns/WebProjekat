@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import dao.KorisnikDAO;
 import dto.ParametriLoginKorisnikDTO;
 import dto.ParametriRegistracijeDTO;
+import dto.PretragaKorisnikaDTO;
 import enums.Uloga;
 import model.Korisnik;
 
@@ -46,6 +47,10 @@ public class KorisnikServis {
 		korisniciDAO.DodajKorisnika(new Korisnik(dostavljacInfo.korisnickoIme,dostavljacInfo.lozinka,dostavljacInfo.ime,dostavljacInfo.prezime,dostavljacInfo.pol,dostavljacInfo.datumRodjenja,Uloga.DOSTAVLJAC));
 	}
 	
+	public ArrayList<Korisnik> GetKorisnici(){
+		return korisniciDAO.getKorisnici();
+	}
+	
 	public ArrayList<Korisnik> GetKorisnici(Uloga uloga){
 		
 		ArrayList<Korisnik> ret = new ArrayList<>();		
@@ -62,6 +67,11 @@ public class KorisnikServis {
 			if(korisnik.getNazivRestorana().equals("None")) ret.add(korisnik);
 		}
 		return ret;
+	}
+
+	public ArrayList<Korisnik> GetTrazeniKorisnici(PretragaKorisnikaDTO pretraga) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

@@ -47,6 +47,13 @@ public class SparkAppMain {
 			return restoranServis.GetTrazeniRestorani(pretraga);
 		});
 		
+		get("rest/getTrazeniKorisnici", (req, res) -> {
+			res.type("application/json");
+			PretragaKorisnikaDTO pretraga = g.fromJson(req.body(), PretragaKorisnikaDTO.class);
+			res.status(200);		
+			return korisnikServis.GetTrazeniKorisnici(pretraga);
+		});
+		
 		get("rest/raspoloziviMenadzeri", (req, res) -> {
 			res.type("application/json");
 			res.status(200);		
@@ -127,6 +134,12 @@ public class SparkAppMain {
 			ss.invalidate();
 			
 			return "OK";
+		});
+		
+		get("rest/korisnici", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			return g.toJson(korisnikServis.GetKorisnici());
 		});
 		
 		get("rest/kupci", (req, res) -> {
