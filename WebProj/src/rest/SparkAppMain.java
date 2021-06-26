@@ -48,7 +48,7 @@ public class SparkAppMain {
 			PretragaRestoranaDTO pretraga = new PretragaRestoranaDTO(naziv, lokacija, ocena, tip, samoOtvoreni);
 			res.status(200);		
 			System.out.println(pretraga);
-			return restoranServis.GetTrazeniRestorani(pretraga);
+			return g.toJson(restoranServis.GetTrazeniRestorani(pretraga));
 		});
 		
 		get("rest/getTrazeniKorisnici", (req, res) -> {

@@ -63,7 +63,6 @@ Vue.component("restorani", {
 	  <div class="rightcolumn">
 		<div class="card">
 		  <h2>Pretraga</h2>
-		  <form>
 			<table>
 			  <tr><td><input type="text" placeholder="Naziv Restorana" v-model="parPret.naziv"></td></tr>
 			  <tr><td><input type="text" placeholder="Lokacija Restorana" v-model="parPret.lokacija"></td></tr>
@@ -77,25 +76,20 @@ Vue.component("restorani", {
 			  <tr><td><input type="checkbox" name="StatusRadi" value="Radi" v-model="parPret.samoOtvoreni"> Samo otvoreni</td></tr>
 			  <tr><td><button v-on:click="pretragaRestorana">Pretrazi</button></td></tr>
 			</table>
-		</form>
 		</div>
 	  </div>
 </div>		`
 	,
 	mounted() {
-		alert('ucitavam');
 		axios.get('rest/restorani')
 			.then(response => (this.restorani = response.data));
 	},
 	methods: {
 		pretragaRestorana: function () {
-			alert(this.parPret.naziv + ' ' + this.parPret.lokacija + ' ' + this.parPret.ocena + ' ' + this.parPret.tip + ' ' + this.parPret.samoOtvoreni);
-
 			axios.get('rest/getTrazeniRestorani', { params: this.parPret })
 				.then(response => (this.restorani = response.data)).catch(function (error) {
 					alert('greska sa servera');
-				});
-			alert('ej cekam');
+				});	
 
 		}
 	},

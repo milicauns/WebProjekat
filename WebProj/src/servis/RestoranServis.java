@@ -25,8 +25,8 @@ public class RestoranServis {
 		ArrayList<Restoran> ret = new ArrayList<Restoran>();		
 		for(Restoran restoran : restoranDAO.GetRestorani()) {
 			if(pretraga.sviTipoviRestorana || restoran.getTipRestorana() == pretraga.tip) {
-				if(restoran.getNaziv().contains(pretraga.naziv)){
-					if(restoran.getLokacija().getAdresa().getMesto().contains(pretraga.lokacija)) {
+				if(restoran.getNaziv().toLowerCase().contains(pretraga.naziv.toLowerCase())){
+					if(restoran.getLokacija().getAdresa().getMesto().toLowerCase().contains(pretraga.lokacija.toLowerCase())) {
 						if(restoran.getProsecnaOcena() >= pretraga.ocena) {
 							if(pretraga.samoOtvoreni) {
 								if(restoran.getStatus() == Status.RADI) {
@@ -41,6 +41,7 @@ public class RestoranServis {
 			}
 			
 		}
+		
 		
 		System.out.println("TESTIRAMO PRETRAGU");
 		for (Restoran restoran : ret) {

@@ -16,6 +16,9 @@ public class PretragaRestoranaDTO {
 		this.lokacija = lokacija;
 		this.ocena = Double.parseDouble(ocena);
 		
+	
+		
+		
 		this.sviTipoviRestorana = false;
 		if(tip.equals("KINESKI")) this.tip = TipRestorana.KINESKI;
 		else if (tip.equals("ITALIJANSKI")) this.tip = TipRestorana.KINESKI;
@@ -25,6 +28,7 @@ public class PretragaRestoranaDTO {
 			this.sviTipoviRestorana = true;
 		}
 		
+		
 		if(samoOtvoreni.equals("true")) {
 			this.samoOtvoreni = true;
 		}else {
@@ -32,6 +36,7 @@ public class PretragaRestoranaDTO {
 		}
 	}
 
+	
 	@Override
 	public String toString() {
 		return "PretragaRestoranaDTO [naziv=" + naziv + ", lokacija=" + lokacija + ", ocena=" + ocena + ", tip=" + tip
@@ -39,5 +44,6 @@ public class PretragaRestoranaDTO {
 	}
 	
 	
+
 	
 }
