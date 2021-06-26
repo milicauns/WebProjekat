@@ -56,6 +56,20 @@ body {
 	padding-left: 20px;
 }
 
+/* navigacija za komponente */
+.leftcomponent {   
+	float: left;
+	width: 20%;
+}
+
+/* mesto za componente*/
+.rightcomponent {
+	float: left;
+	width: 80%;
+	background-color: #f1f1f1;
+	padding-left: 20px;
+}
+
 /* Fake image */
 .restoranDiv {
 	background-color: rgb(235, 235, 235);
@@ -123,3 +137,35 @@ body {
 	width: 100%;
 	}
 }
+
+
+
+
+
+
+
+
+/* DODATO ZA MENI */
+.vertical-menu {
+	width: 200px;
+  }
+  
+  .vertical-menu button {
+	background-color: #eee;
+	color: black;
+	border: 0px;
+	padding: 12px;
+	text-decoration: none;
+	display: block;
+	width: 100%;
+  }
+  
+  
+  .vertical-menu button:hover {
+	background-color: #ccc;
+  }
+  
+  .vertical-menu button.active {
+	background-color: rgb(150,150,150);
+	color: white;
+  }
