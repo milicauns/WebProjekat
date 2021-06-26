@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import dao.RestoranDAO;
 import model.Restoran;
+import dto.*;
 
 public class RestoranServis {
 	
@@ -18,12 +19,11 @@ public class RestoranServis {
 		return restoranDAO.GetRestorani();
 	}
 	
-	public ArrayList<Restoran> GetTrazeniRestorani(String input) {
+	public ArrayList<Restoran> GetTrazeniRestorani(PretragaRestoranaDTO pretraga) {
 		
 		ArrayList<Restoran> ret = new ArrayList<Restoran>();		
 		for(Restoran r : restoranDAO.GetRestorani()) {
-			if(r.getNaziv().contains(input)	|| r.getTipRestorana().toString().contains(input) || String. valueOf(r.getProsecnaOcena()).contains(input))
-				ret.add(r);			
+		//todo
 		}
 		return ret;
 	}

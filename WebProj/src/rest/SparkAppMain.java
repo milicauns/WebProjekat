@@ -8,16 +8,15 @@ import com.google.gson.Gson;
 
 import dto.ParametriLoginKorisnikDTO;
 import dto.ParametriRegistracijeDTO;
-import enums.Uloga;
-import model.Korisnik;
-import model.Restoran;
+import enums.*;
+import model.*;
 import servis.*;
+import dto.*;
 import spark.Session;
 
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
-import static spark.Spark.halt;
 import static spark.Spark.staticFiles;
 import java.io.File;
 
@@ -43,10 +42,17 @@ public class SparkAppMain {
 		
 		get("rest/getTrazeniRestorani", (req, res) -> {
 			res.type("application/json");
-			String searchInput = g.fromJson(req.body(), String.class);
+			PretragaRestoranaDTO pretraga = g.fromJson(req.body(), PretragaRestoranaDTO.class);
 			res.status(200);		
-			return restoranServis.GetTrazeniRestorani(searchInput);
+			return restoranServis.GetTrazeniRestorani(pretraga);
 		});
+		
+		get("rest/raspoloziviMenadzeri", (req, res) -> {
+			res.type("application/json");
+			res.status(200);		
+			return g.toJson(korisnikServis.GetRaspoloziviMenadzeri());
+		});
+		
 		
 		get("rest/login", (req, res) -> {
 			res.type("application/json");
@@ -121,6 +127,24 @@ public class SparkAppMain {
 			ss.invalidate();
 			
 			return "OK";
+		});
+		
+		get("rest/kupci", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			return g.toJson(korisnikServis.GetKorisnici(Uloga.KUPAC));
+		});
+		
+		get("rest/menadzeri", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			return g.toJson(korisnikServis.GetKorisnici(Uloga.MENADZER));
+		});
+		
+		get("rest/dostavljaci", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			return g.toJson(korisnikServis.GetKorisnici(Uloga.DOSTAVLJAC));
 		});
 		
 		

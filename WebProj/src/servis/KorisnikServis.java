@@ -1,5 +1,7 @@
 package servis;
 
+import java.util.ArrayList;
+
 import dao.KorisnikDAO;
 import dto.ParametriLoginKorisnikDTO;
 import dto.ParametriRegistracijeDTO;
@@ -43,8 +45,25 @@ public class KorisnikServis {
 	public void RegistrujDostavljaca(ParametriRegistracijeDTO dostavljacInfo) {		
 		korisniciDAO.DodajKorisnika(new Korisnik(dostavljacInfo.korisnickoIme,dostavljacInfo.lozinka,dostavljacInfo.ime,dostavljacInfo.prezime,dostavljacInfo.pol,dostavljacInfo.datumRodjenja,Uloga.DOSTAVLJAC));
 	}
+	
+	public ArrayList<Korisnik> GetKorisnici(Uloga uloga){
+		
+		ArrayList<Korisnik> ret = new ArrayList<>();		
+		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
+			if(korisnik.getUloga().equals(uloga)) ret.add(korisnik);
+		}
+		return ret;
+	}
 
-
+	public ArrayList<Korisnik> GetRaspoloziviMenadzeri(){
+		
+		ArrayList<Korisnik> ret = new ArrayList<>();		
+		for (Korisnik korisnik : GetKorisnici(Uloga.MENADZER)) {
+			if(korisnik.getNazivRestorana().equals("None")) ret.add(korisnik);
+		}
+		return ret;
+	}
+	
 
 
 	
