@@ -11,6 +11,7 @@
 	<div class="topnav">
 	  <a href="#/">Pocetna</a>
 	  <a href="#/">Pomoc</a>
+	  <a href="#/menadzer">Menadzer</a>
 	  <a v-if="status=='neUlogovan'" href="#/registracija" style="float:right">Registracija</a>
 	  <a v-if="status=='neUlogovan'" href="#/login" style="float:right">Login</a>
 	  <a v-if="status=='ulogovan'" href="#/" v-on:click="logout" style="float:right">LogOut</a>
@@ -40,5 +41,7 @@
 <script src="js/login.js"></script>
 <script src="js/registracija.js"></script>
 <script src="js/app.js"></script>
+<script src="menadzer/komponenta1.js"></script> 		<!-- izgleda ove komponente moraju pre menadzera -->
+<script src="menadzer/menadzer.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 const restorani = { template: '<restorani></restorani>' }
 const login = { template: '<login></login>' }
 const registracija = { template: '<registracija></registracija>' }
+const menadzer = { template: '<menadzer></menadzer>' }
 
 
 const router = new VueRouter({
@@ -8,7 +9,8 @@ const router = new VueRouter({
 	routes: [
 		{ path: '/', component: restorani },
 		{ path: '/login', component: login },
-		{ path: '/registracija', component: registracija }
+		{ path: '/registracija', component: registracija },
+		{ path: '/menadzer', component: menadzer }
 	]
 });
 
