@@ -17,6 +17,7 @@ import spark.Session;
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import static spark.Spark.put;
 import static spark.Spark.staticFiles;
 import java.io.File;
 
@@ -93,6 +94,30 @@ public class SparkAppMain {
 			ss.attribute("korisnik", korisnik);	 	
 
 			return g.toJson(korisnik);
+		});
+			
+		put("rest/izmeniKorisnika/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			ParametriRegistracijeDTO korisnikInfo = g.fromJson(req.body(),ParametriRegistracijeDTO.class);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			if(korisnikServis.KorisnikPostoji(korisnikInfo.korisnickoIme) && !korisnik.getKorisnickoIme().equals(korisnikInfo.korisnickoIme))
+				return "KORIMEZAUZETO";
+			
+			korisnikServis.izmeniKorisnika(korisnik.getKorisnickoIme(),korisnikInfo);			
+		return "OK";
+		});
+		
+		put("rest/izmeniLozinku/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			PromenaLozinkeDTO promenaLozinke = g.fromJson(req.body(),PromenaLozinkeDTO.class);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+				
+		return korisnikServis.izmeniLozinku(promenaLozinke, korisnik);
 		});
 		
 		post("rest/registracijaKupac/", (req, res) -> {

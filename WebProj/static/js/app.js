@@ -3,6 +3,7 @@ const login = { template: '<login></login>' }
 const registracija = { template: '<registracija></registracija>' }
 const menadzer = { template: '<menadzer></menadzer>' }
 const administrator = { template: '<administrator></administrator>' }
+const profil = { template: '<profil></profil>' }
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -11,7 +12,8 @@ const router = new VueRouter({
 		{ path: '/login', component: login },
 		{ path: '/registracija', component: registracija },
 		{ path: '/menadzer', component: menadzer },
-		{ path: '/administrator', component: administrator}
+		{ path: '/administrator', component: administrator},
+		{ path: '/profil', component: profil}
 	]
 });
 

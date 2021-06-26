@@ -6,6 +6,7 @@ import dao.KorisnikDAO;
 import dto.ParametriLoginKorisnikDTO;
 import dto.ParametriRegistracijeDTO;
 import dto.PretragaKorisnikaDTO;
+import dto.PromenaLozinkeDTO;
 import enums.Uloga;
 import model.Korisnik;
 
@@ -89,7 +90,18 @@ public class KorisnikServis {
 		}
 		return ret;
 	}
-	
+
+	public void izmeniKorisnika(String korisnickoIme, ParametriRegistracijeDTO korisnikInfo) {
+		korisniciDAO.izmeniKorisnika(korisnickoIme,korisnikInfo);
+	}
+
+	public String izmeniLozinku(PromenaLozinkeDTO promenaLozinke,Korisnik korisnik) {
+		
+		if(!promenaLozinke.staraLozinka.equals(korisnik.getLozinka())) return "NETACNA_STARA_LOZINKA";
+		else if(!promenaLozinke.novaLozinka.equals(promenaLozinke.ponovljenaNovaLozinka)) return "PONOVLJENA_LOZINKA_NE_ODGOVARA_NOVOJ";
+		korisniciDAO.izmeniLozinku(korisnik.getKorisnickoIme(),promenaLozinke.novaLozinka);
+		return "OK";
+	}
 
 
 	
