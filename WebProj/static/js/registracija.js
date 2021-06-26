@@ -6,7 +6,9 @@ Vue.component("registracija", {
 		ime: "",
 		prezime: "",
 		pol: "",
-		datumRodjenja: "",
+		datumRodjenja: "",		
+		tipKorisnika: "KUPAC",
+		ulogovaniKorisnik: ""
 							
 			    }
 	},
@@ -47,12 +49,24 @@ Vue.component("registracija", {
 				</select>
 			  </td>
 			</tr>
+			
+			<tr v-if="ulogovaniKorisnik =='ADMINISTRATOR'">
+			  <td><label>Tip korisnika: </label></td>
+			  <td>
+				<select v-model="tipKorisnika" >
+				  <option value = "DOSTAVLJAC"> DOSTAVLJAC</option>
+				  <option value = "MENADZER"> MENADZER</option>
+				</select>
+			  </td>
+			</tr>
+			
+			
 			 <tr>
 			  <td><label>Lozinka</label></td>
 			  <td><input type="password" v-model="lozinka"/></td>
 			</tr>
 			
-			<tr>
+			<tr v-if="ulogovaniKorisnik !='ADMINISTRATOR'">
 			  <td><label>Ponovite lozinku</label></td>
 			  <td><input type="password" v-model="lozinka"/></td>
 			</tr>
@@ -66,7 +80,7 @@ Vue.component("registracija", {
 		</div>
 	  </div>
 	</div>
-	<div class="rightcolumn">
+	<div class="rightcolumn" v-if="ulogovaniKorisnik !='ADMINISTRATOR'">
 	  <div class="card">
 		<h2>Imas nalog?</h2>
 		<a href=""><button>Prijavi se</button></a>
@@ -77,14 +91,47 @@ Vue.component("registracija", {
 		
 `
 ,
-	mounted(){		
+	mounted(){
+	
+	axios.get('rest/testlogin')
+			.then(response => {
+				if (response.data != 'Err:KorisnikNijeUlogovan') {
+					this.ulogovaniKorisnik = "ADMINISTRATOR";
+					
+				}else{				
+					this.ulogovaniKorisnik = "NEULOGOVANIKORISNIK";
+				}
+
+			})
+			.catch(function (error) {
+				alert('GRESKA PRI PROVERI LOGINA');
+			}
+			);
+		
 	}, 
 	methods : {	
 	        Registracija: function () {
+	        
+	        if(this.tipKorisnika === "KUPAC"){
         
             axios.post('rest/registracijaKupac/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
                 .then(response => {alert('uspesno '+response.data.korisnickoIme)})
                 .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
+                
+           }else if(this.tipKorisnika === "MENADZER"){
+           
+           	axios.post('rest/registracijaMenadzer/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
+                .then(response => {alert('uspesno '+response.data.korisnickoIme)})
+                .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
+                          
+           }else{
+           
+           	axios.post('rest/registracijaDostavljac/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
+                .then(response => {alert('uspesno '+response.data.korisnickoIme)})
+                .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
+           
+           
+           }
         }
 		
 	},

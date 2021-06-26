@@ -1,7 +1,7 @@
 Vue.component("administrator", {
     data: function () {
         return {
-            selektovanaKomponenta: 'registracijaRestorana'
+            selektovanaKomponenta: 'korisnici'
         }
     },
     template: `
@@ -9,10 +9,10 @@ Vue.component("administrator", {
   <div class="leftcomponent">
     <div class="card">
       <div class="vertical-menu">
-        <button v-on:click="selektujKomponentu('korisnici')">BUTON 1</button>
-        <button v-on:click="selektujKomponentu('registracijaRestorana')">BUTON 2</button>
-        <button v-on:click="selektujKomponentu('komp3')">BUTON 3</button>
-        <button v-on:click="selektujKomponentu('komp4')">BUTON 4</button>
+        <button v-on:click="selektujKomponentu('korisnici')">KORISNICI</button>
+        <button v-on:click="selektujKomponentu('registracija')">REGISTRACIJA KORISNIKA</button>
+        <button v-on:click="selektujKomponentu('restorani')">RESTORANI</button>
+        <button v-on:click="selektujKomponentu('registracijaRestorana')">REGISTRACIJA RESTORANA</button>
       </div>
     </div>
   </div>
