@@ -47,14 +47,18 @@ public class KorisnikServis {
 		korisniciDAO.DodajKorisnika(new Korisnik(dostavljacInfo.korisnickoIme,dostavljacInfo.lozinka,dostavljacInfo.ime,dostavljacInfo.prezime,dostavljacInfo.pol,dostavljacInfo.datumRodjenja,Uloga.DOSTAVLJAC));
 	}
 	
-	public ArrayList<Korisnik> GetKorisnici(){
-		return korisniciDAO.getKorisnici();
+	public ArrayList<Korisnik> GetKorisnici(){		
+		ArrayList<Korisnik> ret = new ArrayList<>();		
+		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
+			if(!korisnik.isObrisan()) ret.add(korisnik);
+		}
+		return ret;
 	}
 	
 	public ArrayList<Korisnik> GetKorisnici(Uloga uloga){
 		
 		ArrayList<Korisnik> ret = new ArrayList<>();		
-		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
+		for (Korisnik korisnik : GetKorisnici()) {
 			if(korisnik.getUloga().equals(uloga)) ret.add(korisnik);
 		}
 		return ret;
@@ -70,8 +74,20 @@ public class KorisnikServis {
 	}
 
 	public ArrayList<Korisnik> GetTrazeniKorisnici(PretragaKorisnikaDTO pretraga) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ArrayList<Korisnik> ret = new ArrayList<>();		
+		for (Korisnik korisnik : GetKorisnici(Uloga.valueOf(pretraga.uloga))) {
+			
+			if(korisnik.getIme().contains(pretraga.ime)
+					&& korisnik.getPrezime().contains(pretraga.prezime)
+					&& korisnik.getKorisnickoIme().contains(pretraga.korisnickoIme)) {
+				
+				if(pretraga.uloga.equals("KUPAC") && korisnik.getTipKupca().getImeTipa().toString().equals(pretraga.tipKorisnika)) {
+					ret.add(korisnik);
+				}				
+			}
+		}
+		return ret;
 	}
 	
 

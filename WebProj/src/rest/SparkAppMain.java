@@ -140,28 +140,7 @@ public class SparkAppMain {
 			res.type("application/json");
 			res.status(200);
 			return g.toJson(korisnikServis.GetKorisnici());
-		});
-		
-		get("rest/kupci", (req, res) -> {
-			res.type("application/json");
-			res.status(200);
-			return g.toJson(korisnikServis.GetKorisnici(Uloga.KUPAC));
-		});
-		
-		get("rest/menadzeri", (req, res) -> {
-			res.type("application/json");
-			res.status(200);
-			return g.toJson(korisnikServis.GetKorisnici(Uloga.MENADZER));
-		});
-		
-		get("rest/dostavljaci", (req, res) -> {
-			res.type("application/json");
-			res.status(200);
-			return g.toJson(korisnikServis.GetKorisnici(Uloga.DOSTAVLJAC));
-		});
-		
-		
-		
+		});		
 
 	}
 }

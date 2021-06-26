@@ -8,8 +8,7 @@ import enums.*;
 public class Korisnik {
 	
 	private String korisnickoIme;
-	private String lozinka;
-	
+	private String lozinka;	
 	private String ime;
 	private String prezime;
 	private Pol pol;
@@ -24,6 +23,9 @@ public class Korisnik {
 	private String nazivRestorana;
 	
 	private ArrayList<String> porudzbineZaDostavu;
+	
+	private boolean obrisan;
+	private boolean blokiran;
 
 	
 	
@@ -43,6 +45,10 @@ public class Korisnik {
 			this.tipKupca = new TipKupca();
 			this.porudzbineZaDostavu = new ArrayList<>();
 			this.nazivRestorana = "None";
+		
+			this.setObrisan(false);
+			this.setBlokiran(false);
+			
 	}
 
 
@@ -197,6 +203,30 @@ public class Korisnik {
 
 	public void setPorudzbineZaDostavu(ArrayList<String> porudzbineZaDostavu) {
 		this.porudzbineZaDostavu = porudzbineZaDostavu;
+	}
+
+
+
+	public boolean isObrisan() {
+		return obrisan;
+	}
+
+
+
+	public void setObrisan(boolean obrisan) {
+		this.obrisan = obrisan;
+	}
+
+
+
+	public boolean isBlokiran() {
+		return blokiran;
+	}
+
+
+
+	public void setBlokiran(boolean blokiran) {
+		this.blokiran = blokiran;
 	}
 	
 	
