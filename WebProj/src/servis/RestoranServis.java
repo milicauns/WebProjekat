@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import dao.RestoranDAO;
 import model.Restoran;
 import dto.*;
+import enums.Status;
 
 public class RestoranServis {
 	
@@ -22,9 +23,30 @@ public class RestoranServis {
 	public ArrayList<Restoran> GetTrazeniRestorani(PretragaRestoranaDTO pretraga) {
 		
 		ArrayList<Restoran> ret = new ArrayList<Restoran>();		
-		for(Restoran r : restoranDAO.GetRestorani()) {
-		//todo
+		for(Restoran restoran : restoranDAO.GetRestorani()) {
+			if(pretraga.sviTipoviRestorana || restoran.getTipRestorana() == pretraga.tip) {
+				if(restoran.getNaziv().contains(pretraga.naziv)){
+					if(restoran.getLokacija().getAdresa().getMesto().contains(pretraga.lokacija)) {
+						if(restoran.getProsecnaOcena() >= pretraga.ocena) {
+							if(pretraga.samoOtvoreni) {
+								if(restoran.getStatus() == Status.RADI) {
+									ret.add(restoran);
+								}
+							}else {
+								ret.add(restoran);
+							}
+						}
+					}
+				}
+			}
+			
 		}
+		
+		System.out.println("TESTIRAMO PRETRAGU");
+		for (Restoran restoran : ret) {
+			System.out.println(restoran);
+		}
+		
 		return ret;
 	}
 

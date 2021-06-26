@@ -1,11 +1,18 @@
 Vue.component("restorani", {
 	data: function () {
-		    return {
+		return {
 			restorani: null,
-        	odabraniRestoran: {}				
-			    }
+			odabraniRestoran: {},
+			parPret: {
+				naziv: "",
+				lokacija: "",
+				ocena: 0,
+				tip: "",
+				samoOtvoreni: false
+			}
+		}
 	},
-	template:`
+	template: `
 	
 <div class="row">
 	  <div class="leftcolumn">
@@ -58,28 +65,38 @@ Vue.component("restorani", {
 		  <h2>Pretraga</h2>
 		  <form>
 			<table>
-			  <tr><td><input type="text" placeholder="Naziv Restorana"></td></tr>
-			  <tr><td><input type="text" placeholder="Lokacija Restorana"></td></tr>
-			  <tr><td><input type="number" placeholder="Vise od prosecne ocene"></td></tr>
-			  <tr><td><select name="Tip Restorana">
-				<option value="SVE">SVE</option>
+			  <tr><td><input type="text" placeholder="Naziv Restorana" v-model="parPret.naziv"></td></tr>
+			  <tr><td><input type="text" placeholder="Lokacija Restorana" v-model="parPret.lokacija"></td></tr>
+			  <tr><td><input type="number" placeholder="Vise od prosecne ocene" v-model="parPret.ocena"></td></tr>
+			  <tr><td><select name="Tip Restorana" v-model="parPret.tip">
+				<option selected value="SVE">SVE</option>
 				<option value="KINESKI">Kineski</option>
 				<option value="ITALIJANSKI">Italijanski</option>
 				<option value="ROSTILJ">Rostilj</option>
 			  </select></td></tr>
-			  <tr><td><input type="checkbox" name="StatusRadi" value="Radi"> Samo otvoreni</td></tr>
-			  <tr><td><button>Pretrazi</button></td></tr>
+			  <tr><td><input type="checkbox" name="StatusRadi" value="Radi" v-model="parPret.samoOtvoreni"> Samo otvoreni</td></tr>
+			  <tr><td><button v-on:click="pretragaRestorana">Pretrazi</button></td></tr>
 			</table>
 		</form>
 		</div>
 	  </div>
 </div>		`
-,
-	mounted(){		
-	        axios.get('rest/restorani')
-            .then(response => (this.restorani = response.data))
-	}, 
-	methods : {	
-		
+	,
+	mounted() {
+		alert('ucitavam');
+		axios.get('rest/restorani')
+			.then(response => (this.restorani = response.data));
+	},
+	methods: {
+		pretragaRestorana: function () {
+			alert(this.parPret.naziv + ' ' + this.parPret.lokacija + ' ' + this.parPret.ocena + ' ' + this.parPret.tip + ' ' + this.parPret.samoOtvoreni);
+
+			axios.get('rest/getTrazeniRestorani', { params: this.parPret })
+				.then(response => (this.restorani = response.data)).catch(function (error) {
+					alert('greska sa servera');
+				});
+			alert('ej cekam');
+
+		}
 	},
 });

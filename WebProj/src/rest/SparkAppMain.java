@@ -5,9 +5,6 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
-
-import dto.ParametriLoginKorisnikDTO;
-import dto.ParametriRegistracijeDTO;
 import enums.*;
 import model.*;
 import servis.*;
@@ -43,8 +40,14 @@ public class SparkAppMain {
 		
 		get("rest/getTrazeniRestorani", (req, res) -> {
 			res.type("application/json");
-			PretragaRestoranaDTO pretraga = g.fromJson(req.body(), PretragaRestoranaDTO.class);
+			String naziv = req.queryParams("naziv");
+			String lokacija = req.queryParams("lokacija");
+			String ocena = req.queryParams("ocena");
+			String tip = req.queryParams("tip");
+			String samoOtvoreni = req.queryParams("samoOtvoreni");
+			PretragaRestoranaDTO pretraga = new PretragaRestoranaDTO(naziv, lokacija, ocena, tip, samoOtvoreni);
 			res.status(200);		
+			System.out.println(pretraga);
 			return restoranServis.GetTrazeniRestorani(pretraga);
 		});
 		

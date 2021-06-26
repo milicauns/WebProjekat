@@ -28,7 +28,7 @@ public class Restoran {
 		this.status = status;
 		this.lokacija = lokacija;
 		this.logo = logo;
-		this.prosecnaOcena = 0.00;
+		this.prosecnaOcena = 0.0;
 	}
 
 	public String getNaziv() {
@@ -87,7 +87,11 @@ public class Restoran {
 		this.prosecnaOcena = prosecnaOcena;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Restoran [naziv=" + naziv + ", tipRestorana=" + tipRestorana + ", status=" + status + ", lokacija="
+				+ lokacija + ", logo=" + logo + ", prosecnaOcena=" + prosecnaOcena + ", artikli=" + artikli + "]";
+	}
 	
 	
 
