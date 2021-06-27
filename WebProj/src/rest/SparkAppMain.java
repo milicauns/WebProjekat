@@ -30,6 +30,7 @@ public class SparkAppMain {
 	
 		KorisnikServis korisnikServis = new KorisnikServis();
 		RestoranServis restoranServis = new RestoranServis();
+		KomentarServis komentarServis = new KomentarServis();
 		
 		get("rest/restorani", (req, res) -> {
 			res.type("application/json");
@@ -72,6 +73,14 @@ public class SparkAppMain {
 			res.status(200);		
 			return g.toJson(korisnikServis.GetRaspoloziviMenadzeri());
 		});
+
+		get("rest/getKomentariZaRestoran", (req, res) -> {
+			res.type("application/json");
+			res.status(200);		
+		    String nazivRestorana = req.queryParams("naziv");
+			return g.toJson(komentarServis.getSviKomentariZaRestoran(nazivRestorana));
+		});
+		
 		
 		
 		get("rest/login", (req, res) -> {

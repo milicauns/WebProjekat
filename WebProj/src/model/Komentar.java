@@ -10,8 +10,9 @@ public class Komentar {
 	private boolean odobren;
 	
 	
-	public Komentar(String nazivRestorana, String korisnik, String tekst, int ocena) {
+	public Komentar(String porudzbina,String nazivRestorana, String korisnik, String tekst, int ocena) {
 		super();
+		this.porudzbina = porudzbina;
 		this.nazivRestorana = nazivRestorana;
 		this.korisnik = korisnik;
 		this.tekst = tekst;

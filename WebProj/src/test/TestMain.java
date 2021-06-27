@@ -1,23 +1,18 @@
 package test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
-import dao.*;
+import dao.KomentarDAO;
+import dao.RestoranDAO;
 import enums.Status;
 import enums.TipRestorana;
 import model.Adresa;
+import model.Komentar;
 import model.Lokacija;
 import model.Restoran;
-
-import static spark.Spark.get;
-import static spark.Spark.port;
-import static spark.Spark.post;
-import static spark.Spark.staticFiles;
-import java.io.File;
 
 public class TestMain {
 
@@ -50,6 +45,13 @@ public class TestMain {
 //		listaRestorana.add(r2);
 //		listaRestorana.add(r3);
 //		listaRestorana.add(r4);
+		
+		Komentar k1 = new Komentar("hjfv","KebaKraba","pera","tekst komentara",5);
+		Komentar k2 = new Komentar("hjfv","Picerija","pera","tekst komentara",4);
+		
+		KomentarDAO dao = new KomentarDAO();
+		dao.dodajKomentar(k2);
+		dao.dodajKomentar(k1);
 		
 		//restoran.sacuvajRestorane();
 		for (Restoran res : listaRestorana) {

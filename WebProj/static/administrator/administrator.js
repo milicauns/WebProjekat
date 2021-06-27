@@ -11,7 +11,7 @@ Vue.component("administrator", {
       <div class="vertical-menu">
         <button v-on:click="selektujKomponentu('korisnici')">KORISNICI</button>
         <button v-on:click="selektujKomponentu('registracija')">REGISTRACIJA KORISNIKA</button>
-        <button v-on:click="selektujKomponentu('restorani')">RESTORANI</button>
+        <button v-on:click="selektujKomponentu('komentari')">RESTORANI</button>
         <button v-on:click="selektujKomponentu('registracijaRestorana')">REGISTRACIJA RESTORANA</button>
       </div>
     </div>

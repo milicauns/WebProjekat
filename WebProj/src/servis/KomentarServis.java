@@ -13,8 +13,8 @@ public class KomentarServis {
 		komentariDAO = new KomentarDAO();
 	}
 	
-	public void dodajKomentar() {
-		komentariDAO.dodajKomentar();
+	public void dodajKomentar(Komentar k) {
+		komentariDAO.dodajKomentar(k);
 	}
 	
 	public ArrayList<Komentar> getOdobreniKomentariZaRestoran(String nazivRestorana){

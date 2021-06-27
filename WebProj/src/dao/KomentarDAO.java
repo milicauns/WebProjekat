@@ -59,8 +59,9 @@ public class KomentarDAO {
 	}
 
 
-	public void dodajKomentar() {
-		// TODO Auto-generated method stub
+	public void dodajKomentar(Komentar k) {
+		komentari.add(k);
+		sacuvajKomentare();
 		
 	}
 
