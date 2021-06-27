@@ -1,10 +1,16 @@
 Vue.component("prikazrestoran", {
-    data: function () {
-        return {
-            restoran: {}
-        }
-    },
-    template: `
+  data: function () {
+    return {
+      restoran: {},
+      komentari: {},
+      sortType: 'cenaRastuce',
+      checkBox: {
+        checkHrana: true,
+        checkPice: true
+      }
+    }
+  },
+  template: `
 
     <div class="row">
     <div class="card">
@@ -56,13 +62,13 @@ Vue.component("prikazrestoran", {
         
         <!-- prikaz jednog artikla -->
                   <div id="artikal">
-                      <div class="artikalDiv" name="FOR VUE">
+                      <div v-if="prikazUZavisnostiFiltera(artikal)" class="artikalDiv" name="FOR VUE" v-for="artikal in restoran.artikli">
                           <div class="row">
                               <div class="leftcolumnArtikal">
-                                <img src="statickeSlike/logoRestorana.png" class="slikaArtikla"> 
+                                <img :src="getSlikaArtikla(artikal)" class="slikaArtikla"> 
                               </div>
                               <div class="sredinacolumn">
-                                <table style="max-width:200px; word-wrap:break-word;">
+                                <table style="max-width:400px; word-wrap:break-word;">
                                   <tr><td><h4>{{artikal.naziv}}</h4></td></tr>
                                   <tr><td>Tip artikla: {{artikal.tip}}</td></tr>
                                   <tr><td>Cena: {{artikal.cena}}</td></tr>
@@ -73,7 +79,7 @@ Vue.component("prikazrestoran", {
                               <div class="cenaiKolicina">
                                   <input type="number">
                                   <br><br>
-                                  <label> Cena: {{cena*kolicina}} </label>
+                                  <label> Cena: cena*kolicina </label>
                               </div>
                           </div>
                       </div>
@@ -86,9 +92,9 @@ Vue.component("prikazrestoran", {
         <h2>
           Filter
         </h2>
-        <input type="checkbox" value="hrana" checked><label> Hrana</label>
+        <input type="checkbox" v-model="checkBox.checkHrana" value="hrana" checked><label> Hrana</label>
         <br>
-        <input type="checkbox" value="pice" checked><label> Pice</label>
+        <input type="checkbox" v-model="checkBox.checkPice" value="pice" checked><label> Pice</label>
       </div>
     </div>
     <div class="leftcolumn">
@@ -99,14 +105,14 @@ Vue.component("prikazrestoran", {
         
         <div id="komentarilista">
           
-                      <div class="komentarlDiv" name="FOR VUE">
+                      <div class="komentarlDiv" name="FOR VUE" v-for="komentar in komentari">
                           <div class="row">
                               <div class="leftcolumnkomentar">
                                 <label>{{komentar.ocena}}</label>
                               </div>
                               <div class="sredinacolumn">
                                 <table style="max-width:600px; word-wrap:break-word;">
-                                  <tr><td>{{komentar.tekst}} ds dsa d sad asd as das das das das das d as d as d s fd g  d g  drg d dr g fdr g dr g d r g reg  e g fs g fd sf d gf dg </td></tr>
+                                  <tr><td>{{komentar.tekst}}</td></tr>
                                 </table>
                               </div>
                               <div class="autorDesno">
@@ -122,10 +128,57 @@ Vue.component("prikazrestoran", {
   </div>
 
 `,
-    mounted() {
-       // nekako dobaviti koji restoran smo hteli
-    },
-    methods: {
+  mounted() {
+    // nekako dobaviti koji restoran smo hteli
+    var putanja = window.location.href;
+    var nazivRestorana = putanja.split('/prikazrestoran/')[1];
+    var naziv = nazivRestorana.replace('%20', ' ');     // na neku foru umesto razmaka napise taj simbol pa ga replacujemo
+    axios.get('rest/getRestoranByNaziv', {
+      params: {
+        naziv: naziv
+      }
+    })
+      .then(response => (this.restoran = response.data));
 
+    axios.get('rest/getKomentariZaRestoran', {
+      params: {
+        naziv: naziv
+      }
+    })
+      .then(response => (this.komentari = response.data));
+
+
+  },
+  computed: {
+
+  },
+  methods: {
+    sortiraj: function () {
+
+      if (this.sortType == 'cenaRastuce') {
+				this.restoran.artikli.sort((a, b) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
+			} else if (this.sortType == 'cenaOpadajuce') {
+				this.restoran.artikli.sort((b, a) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
+			} else if (this.sortType == 'NazivA-Z') {
+				this.restoran.artikli.sort((a, b) => (a.naziv > b.naziv) ? 1 : ((b.naziv > a.naziv) ? -1 : 0));
+			} else if (this.sortType == 'NazivZ-A') {
+				this.restoran.artikli.sort((b, a) => (a.naziv > b.naziv) ? 1 : ((b.naziv > a.naziv) ? -1 : 0));
+			}
+    },
+    getSlikaArtikla: function (artikal) {
+      if (artikal.slika === 'None') {
+        return 'statickeSlike/food.png';
+      } else {
+        return artikal.slika; 
+      }
+    },
+    prikazUZavisnostiFiltera: function (artikal) {
+      if (artikal.tip == 'PICE') {
+        return this.checkBox.checkPice;
+      } else {
+        // JELO
+        return this.checkBox.checkHrana;
+      }
     }
+  }
 });

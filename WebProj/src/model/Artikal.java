@@ -7,13 +7,13 @@ public class Artikal {
 	private String naziv;
 	private double cena;
 	private TipArtikla tip;
-	private String kolicina;
+	private double kolicina;
 	private String opis;
 	private String slika;
 	private String nazivRestorana;
 	
 	
-	public Artikal(String naziv, double cena, TipArtikla tip, String kolicina, String opis, String slika,
+	public Artikal(String naziv, double cena, TipArtikla tip, double kolicina, String opis, String slika,
 			String nazivRestorana) {
 		super();
 		this.naziv = naziv;
@@ -56,12 +56,12 @@ public class Artikal {
 	}
 
 
-	public String getKolicina() {
+	public double getKolicina() {
 		return kolicina;
 	}
 
 
-	public void setKolicina(String kolicina) {
+	public void setKolicina(double kolicina) {
 		this.kolicina = kolicina;
 	}
 

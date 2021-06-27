@@ -15,6 +15,10 @@ public class RestoranServis {
 	public RestoranServis() {
 		restoranDAO = new RestoranDAO();
 	}
+	
+	public void sacuvajRestorane() {
+		restoranDAO.sacuvajRestorane();
+	}
 
 	public ArrayList<Restoran> GetRestorani() {
 		return restoranDAO.GetRestorani();
@@ -60,6 +64,10 @@ public class RestoranServis {
 			}
 		}
 		return trazenRestoran;
+	}
+	
+	public void dodajRestoran(Restoran noviRestoran) {
+		restoranDAO.GetRestorani().add(noviRestoran);
 	}
 
 	public void dodajRestoran(Restoran noviRestoran) {
