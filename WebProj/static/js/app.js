@@ -15,7 +15,7 @@ const router = new VueRouter({
 		{ path: '/menadzer', component: menadzer },
 		{ path: '/administrator', component: administrator},
 		{ path: '/profil', component: profil },
-		{ path: '/prikazrestoran', component: prikazrestoran}
+		{ path: '/prikazrestoran/:naziv', component: prikazrestoran}
 	]
 });
 

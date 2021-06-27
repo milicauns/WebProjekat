@@ -39,7 +39,7 @@ Vue.component("restorani", {
 		  
 
 		<div id="restoraniID">
-			<div v-for="restoran in restorani" class="restoranDiv" style="height:200px;">
+			<div v-for="restoran in restorani" class="restoranDiv" v-on:click="detaljanPrikazRestorana(restoran)" style="height:200px;">
 				<div class="row">
 					<div class="leftcolumnRestoran">
 						<img src="statickeSlike/logoRestorana.png" class="logoRestoranaCSS"> 
@@ -92,6 +92,10 @@ Vue.component("restorani", {
 					alert('greska sa servera');
 				});	
 
+		},
+
+		detaljanPrikazRestorana: function (restoran) {
+			window.location.href = "#/prikazrestoran/"+restoran.naziv;
 		},
 		sortiraj: function () {
 			if (this.sortType == 'PrvoOTVORENI') {

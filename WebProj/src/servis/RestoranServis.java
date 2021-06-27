@@ -15,6 +15,10 @@ public class RestoranServis {
 	public RestoranServis() {
 		restoranDAO = new RestoranDAO();
 	}
+	
+	public void sacuvajRestorane() {
+		restoranDAO.sacuvajRestorane();
+	}
 
 	public ArrayList<Restoran> GetRestorani() {
 		return restoranDAO.GetRestorani();

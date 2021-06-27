@@ -1,10 +1,12 @@
 Vue.component("prikazrestoran", {
-    data: function () {
-        return {
-            restoran: {}
-        }
-    },
-    template: `
+  data: function () {
+    return {
+      restoran: {},
+      komentari: {},
+      sortType: 'cenaRastuce'
+    }
+  },
+  template: `
 
     <div class="row">
     <div class="card">
@@ -56,7 +58,7 @@ Vue.component("prikazrestoran", {
         
         <!-- prikaz jednog artikla -->
                   <div id="artikal">
-                      <div class="artikalDiv" name="FOR VUE">
+                      <div class="artikalDiv" name="FOR VUE" v-for="artikal in restoran.artikli">
                           <div class="row">
                               <div class="leftcolumnArtikal">
                                 <img src="statickeSlike/logoRestorana.png" class="slikaArtikla"> 
@@ -99,14 +101,14 @@ Vue.component("prikazrestoran", {
         
         <div id="komentarilista">
           
-                      <div class="komentarlDiv" name="FOR VUE">
+                      <div class="komentarlDiv" name="FOR VUE" v-for="komentar in komentari">
                           <div class="row">
                               <div class="leftcolumnkomentar">
                                 <label>{{komentar.ocena}}</label>
                               </div>
                               <div class="sredinacolumn">
                                 <table style="max-width:600px; word-wrap:break-word;">
-                                  <tr><td>{{komentar.tekst}} ds dsa d sad asd as das das das das das d as d as d s fd g  d g  drg d dr g fdr g dr g d r g reg  e g fs g fd sf d gf dg </td></tr>
+                                  <tr><td>{{komentar.tekst}}</td></tr>
                                 </table>
                               </div>
                               <div class="autorDesno">
@@ -122,10 +124,30 @@ Vue.component("prikazrestoran", {
   </div>
 
 `,
-    mounted() {
-       // nekako dobaviti koji restoran smo hteli
-    },
-    methods: {
+  mounted() {
+    // nekako dobaviti koji restoran smo hteli
+    var putanja = window.location.href;
+    var nazivRestorana = putanja.split('/prikazrestoran/')[1];
+    alert('TRAZIS RESTORAN ' + nazivRestorana);
+    axios.get('rest/getRestoranByNaziv', {
+      params: {
+        naziv: nazivRestorana
+      }
+    })
+      .then(response => (this.restoran = response.data));
+
+    axios.get('rest/getKomentariZaRestoran', {
+      params: {
+        naziv: nazivRestorana
+      }
+    })
+      .then(response => (this.komentari = response.data));
+
+
+  },
+  methods: {
+    sortiraj: function () {
 
     }
+  }
 });

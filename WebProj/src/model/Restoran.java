@@ -17,8 +17,7 @@ public class Restoran {
 	private ArrayList<Artikal> artikli;
 	
 	public Restoran() {
-		super();
-
+		artikli = new ArrayList<Artikal>();
 	}
 
 	public Restoran(String naziv, TipRestorana tipRestorana, Status status, Lokacija lokacija, String logo) {

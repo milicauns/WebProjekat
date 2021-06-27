@@ -8,11 +8,14 @@ import com.google.gson.Gson;
 import dao.KomentarDAO;
 import dao.RestoranDAO;
 import enums.Status;
+import enums.TipArtikla;
 import enums.TipRestorana;
 import model.Adresa;
+import model.Artikal;
 import model.Komentar;
 import model.Lokacija;
 import model.Restoran;
+import servis.RestoranServis;
 
 public class TestMain {
 
@@ -46,20 +49,42 @@ public class TestMain {
 //		listaRestorana.add(r3);
 //		listaRestorana.add(r4);
 		
-		Komentar k1 = new Komentar("hjfv","KebaKraba","pera","tekst komentara",5);
-		Komentar k2 = new Komentar("hjfv","Picerija","pera","tekst komentara",4);
+		//Komentar k1 = new Komentar("hjfv","KebaKraba","pera","tekst komentara",5);
+		//Komentar k2 = new Komentar("hjfv","Picerija","pera","tekst komentara",4);
+//		
+//		Komentar k1 = new Komentar("j23das","Caribic","milica","super restoran dobra hrana",5);
+//		Komentar k2 = new Komentar("idkomd34","Caribic","rasti","odlican restoran",4);
+//		Komentar k3 = new Komentar("j23das","Caribic","dule","dobra hrana super zdrava",5);
+//		Komentar k4 = new Komentar("idkomd34","Caribic","mika","doneli mi prigoreno, moze bolje falio i kecap, uzas",3);
+//				
 		
-		KomentarDAO dao = new KomentarDAO();
-		dao.dodajKomentar(k2);
-		dao.dodajKomentar(k1);
+//		KomentarDAO dao = new KomentarDAO();
+//		dao.dodajKomentar(k1);
+//		dao.dodajKomentar(k2);
+//		dao.dodajKomentar(k3);
+//		dao.dodajKomentar(k4);
+//		//restoran.sacuvajRestorane();
+//		for (Restoran res : listaRestorana) {
+//			System.out.println(res.getNaziv());
+//		}
+
+		Artikal art1 = new Artikal("Pica", 170, TipArtikla.JELO, 150.0, "Pizza hrana na testu sa kecapom i salamom", "None", "Caribic");
+		Artikal art2 = new Artikal("Pica", 170, TipArtikla.JELO, 150.0, "Pizza hrana na testu sa kecapom i salamom", "None", "Caribic");
+		Artikal art3 = new Artikal("Pica", 170, TipArtikla.JELO, 150.0, "Pizza hrana na testu sa kecapom i salamom", "None", "Caribic");
+		Artikal art4 = new Artikal("Pica", 170, TipArtikla.JELO, 150.0, "Pizza hrana na testu sa kecapom i salamom", "None", "Caribic");
+		Artikal art5 = new Artikal("Pica", 170, TipArtikla.JELO, 150.0, "Pizza hrana na testu sa kecapom i salamom", "None", "Caribic");
+		Artikal art6 = new Artikal("Pica", 170, TipArtikla.JELO, 150.0, "Pizza hrana na testu sa kecapom i salamom", "None", "Caribic");
 		
-		//restoran.sacuvajRestorane();
-		for (Restoran res : listaRestorana) {
-			System.out.println(res.getNaziv());
-		}
+		RestoranServis restoranServis = new RestoranServis();
+		Restoran restoranCaribic = restoranServis.getRestoranByNaziv("Caribic");
+		restoranCaribic.addArtikal(art1);
+		restoranCaribic.addArtikal(art2);
+		restoranCaribic.addArtikal(art3);
+		restoranCaribic.addArtikal(art4);
+		restoranCaribic.addArtikal(art5);
+		restoranCaribic.addArtikal(art6);
 		
-		
-		
+		restoranServis.sacuvajRestorane();
 		
 	}
 
