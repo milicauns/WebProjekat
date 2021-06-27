@@ -3,7 +3,11 @@ Vue.component("prikazrestoran", {
     return {
       restoran: {},
       komentari: {},
-      sortType: 'cenaRastuce'
+      sortType: 'cenaRastuce',
+      checkBox: {
+        checkHrana: true,
+        checkPice: true
+      }
     }
   },
   template: `
@@ -58,13 +62,13 @@ Vue.component("prikazrestoran", {
         
         <!-- prikaz jednog artikla -->
                   <div id="artikal">
-                      <div class="artikalDiv" name="FOR VUE" v-for="artikal in restoran.artikli">
+                      <div v-if="prikazUZavisnostiFiltera(artikal)" class="artikalDiv" name="FOR VUE" v-for="artikal in restoran.artikli">
                           <div class="row">
                               <div class="leftcolumnArtikal">
-                                <img src="statickeSlike/logoRestorana.png" class="slikaArtikla"> 
+                                <img :src="getSlikaArtikla(artikal)" class="slikaArtikla"> 
                               </div>
                               <div class="sredinacolumn">
-                                <table style="max-width:200px; word-wrap:break-word;">
+                                <table style="max-width:400px; word-wrap:break-word;">
                                   <tr><td><h4>{{artikal.naziv}}</h4></td></tr>
                                   <tr><td>Tip artikla: {{artikal.tip}}</td></tr>
                                   <tr><td>Cena: {{artikal.cena}}</td></tr>
@@ -75,7 +79,7 @@ Vue.component("prikazrestoran", {
                               <div class="cenaiKolicina">
                                   <input type="number">
                                   <br><br>
-                                  <label> Cena: {{cena*kolicina}} </label>
+                                  <label> Cena: cena*kolicina </label>
                               </div>
                           </div>
                       </div>
@@ -88,9 +92,9 @@ Vue.component("prikazrestoran", {
         <h2>
           Filter
         </h2>
-        <input type="checkbox" value="hrana" checked><label> Hrana</label>
+        <input type="checkbox" v-model="checkBox.checkHrana" value="hrana" checked><label> Hrana</label>
         <br>
-        <input type="checkbox" value="pice" checked><label> Pice</label>
+        <input type="checkbox" v-model="checkBox.checkPice" value="pice" checked><label> Pice</label>
       </div>
     </div>
     <div class="leftcolumn">
@@ -128,26 +132,53 @@ Vue.component("prikazrestoran", {
     // nekako dobaviti koji restoran smo hteli
     var putanja = window.location.href;
     var nazivRestorana = putanja.split('/prikazrestoran/')[1];
-    alert('TRAZIS RESTORAN ' + nazivRestorana);
+    var naziv = nazivRestorana.replace('%20', ' ');     // na neku foru umesto razmaka napise taj simbol pa ga replacujemo
     axios.get('rest/getRestoranByNaziv', {
       params: {
-        naziv: nazivRestorana
+        naziv: naziv
       }
     })
       .then(response => (this.restoran = response.data));
 
     axios.get('rest/getKomentariZaRestoran', {
       params: {
-        naziv: nazivRestorana
+        naziv: naziv
       }
     })
       .then(response => (this.komentari = response.data));
 
 
   },
+  computed: {
+
+  },
   methods: {
     sortiraj: function () {
 
+      if (this.sortType == 'cenaRastuce') {
+				this.restoran.artikli.sort((a, b) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
+			} else if (this.sortType == 'cenaOpadajuce') {
+				this.restoran.artikli.sort((b, a) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
+			} else if (this.sortType == 'NazivA-Z') {
+				this.restoran.artikli.sort((a, b) => (a.naziv > b.naziv) ? 1 : ((b.naziv > a.naziv) ? -1 : 0));
+			} else if (this.sortType == 'NazivZ-A') {
+				this.restoran.artikli.sort((b, a) => (a.naziv > b.naziv) ? 1 : ((b.naziv > a.naziv) ? -1 : 0));
+			}
+    },
+    getSlikaArtikla: function (artikal) {
+      if (artikal.slika === 'None') {
+        return 'statickeSlike/food.png';
+      } else {
+        return artikal.slika; 
+      }
+    },
+    prikazUZavisnostiFiltera: function (artikal) {
+      if (artikal.tip == 'PICE') {
+        return this.checkBox.checkPice;
+      } else {
+        // JELO
+        return this.checkBox.checkHrana;
+      }
     }
   }
 });

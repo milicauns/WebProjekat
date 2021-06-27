@@ -65,6 +65,10 @@ public class RestoranServis {
 		}
 		return trazenRestoran;
 	}
+	
+	public void dodajRestoran(Restoran noviRestoran) {
+		restoranDAO.GetRestorani().add(noviRestoran);
+	}
 
 
 }

@@ -19,7 +19,23 @@ public class Restoran {
 	public Restoran() {
 		artikli = new ArrayList<Artikal>();
 	}
+	
+	public Restoran(String naziv, TipRestorana tipRestorana, Status status, Lokacija lokacija, String logo,
+			double prosecnaOcena, ArrayList<Artikal> artikli) {
+		super();
+		this.naziv = naziv;
+		this.tipRestorana = tipRestorana;
+		this.status = status;
+		this.lokacija = lokacija;
+		this.logo = logo;
+		this.prosecnaOcena = prosecnaOcena;
+		this.artikli = artikli;
+	}
 
+
+
+	/*
+	 *  ovaj kostruktor nema sve potrebne stvari
 	public Restoran(String naziv, TipRestorana tipRestorana, Status status, Lokacija lokacija, String logo) {
 		super();
 		this.naziv = naziv;
@@ -29,6 +45,7 @@ public class Restoran {
 		this.logo = logo;
 		this.prosecnaOcena = 0.0;
 	}
+	*/
 
 	public String getNaziv() {
 		return naziv;
