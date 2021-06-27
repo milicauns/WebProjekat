@@ -105,9 +105,28 @@ public class RestoranServis {
 			odgovor = "Restoran je null";
 		}
 		
-		
 		System.out.println("Pokusaj promene artikla u restoranu " + odgovor);
-		if(odgovor.equals("Azuriranje artikla je uspesno obavljeno")) odgovor = "OK";
+		if(odgovor.equals("Azuriranje artikla je uspesno obavljeno")) {
+			sacuvajRestorane();
+			odgovor = "OK";
+		}
+		return odgovor;
+	}
+	
+	public String dodajNoviArtikal(Artikal noviArtikal) {
+		String odgovor = "";
+		Restoran restoran = getRestoranByNaziv(noviArtikal.getNazivRestorana());
+		if(restoran != null) {
+			odgovor = restoran.dodajNoviArtikal(noviArtikal);
+		}else {
+			odgovor = "Restoran je null";
+		}
+		
+		System.out.println("Pokusaj dodavanja novog artikla " + odgovor);
+		if(odgovor.equals("novi Artikal je uspesno dodat")) {
+			sacuvajRestorane();
+			odgovor = "OK";
+		}
 		return odgovor;
 	}
 

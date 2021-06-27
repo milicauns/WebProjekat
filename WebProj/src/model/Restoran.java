@@ -32,21 +32,6 @@ public class Restoran {
 		this.artikli = artikli;
 	}
 
-
-
-	/*
-	 *  ovaj kostruktor nema sve potrebne stvari
-	public Restoran(String naziv, TipRestorana tipRestorana, Status status, Lokacija lokacija, String logo) {
-		super();
-		this.naziv = naziv;
-		this.tipRestorana = tipRestorana;
-		this.status = status;
-		this.lokacija = lokacija;
-		this.logo = logo;
-		this.prosecnaOcena = 0.0;
-	}
-	*/
-
 	public String getNaziv() {
 		return naziv;
 	}
@@ -141,6 +126,23 @@ public class Restoran {
 		return odgovor;
 	}
 	
+	
+	public String dodajNoviArtikal(Artikal noviArtikal) {
+		String odgovor = "";
+		boolean greska = false;
+		for (Artikal artikal : artikli) {
+			if(artikal.getNaziv().equals(noviArtikal.getNaziv())) {
+				odgovor = "Greska: u restoranu postoji artikal sa ovakvim nazivom";
+				greska = true;
+				break;
+			}
+		}
+		if(!greska) {
+			artikli.add(noviArtikal);
+			odgovor = "novi Artikal je uspesno dodat";
+		}
+		return odgovor;
+	}
 	
 
 }

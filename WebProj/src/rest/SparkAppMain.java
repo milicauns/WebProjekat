@@ -239,6 +239,14 @@ public class SparkAppMain {
 			return odgovor;
 		});
 		
+		post("rest/artikli/dodaj", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Artikal noviArtikal = g.fromJson(req.body(), Artikal.class);			
+			String odgovor = restoranServis.dodajNoviArtikal(noviArtikal);
+			return odgovor;
+		});
+		
 
 	}
 }

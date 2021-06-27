@@ -41,7 +41,7 @@ Vue.component("artiklimenazdera", {
       <input type="text" v-model="selektovanArtikal.naziv" v-bind:disabled="mode=='BROWSE'" /> <br />
       <label>Tip artikla:</label>
       <select v-model="selektovanArtikal.tip" v-bind:disabled="mode=='BROWSE'">
-        <option value="HRANA">Hrana</option>
+        <option value="JELO">Jelo</option>
         <option value="PICE">Pice</option>
       </select> <br>
       <label>Cena:</label>
@@ -126,12 +126,16 @@ Vue.component("artiklimenazdera", {
                 .then(response => {
                     if (response.data == 'OK') {
                         alert('Azuriranje je uspelo');
+                        this.mode = 'BROWSE';
+                        this.odustaniAzuriranjeArtikla();
                     } else {
                         alert('Azuriranje nije uspelo');
+                        this.mode = 'BROWSE';
                         this.odustaniAzuriranjeArtikla();
                     }
                 }).catch(response => {
                     alert('Greska sa serverom');
+                    this.mode = 'BROWSE';
                     this.odustaniAzuriranjeArtikla();
                 });
             } else if (this.mode == 'CREATE') {
@@ -140,21 +144,25 @@ Vue.component("artiklimenazdera", {
                 .then(response => {
                     if (response.data == 'OK') {
                         alert('Dodavanje je uspelo');
+                        // dodajmo novi red u tabelu tako sto cemo dodati novi red u 
+                        this.restoran.artikli.push(selektovanArtikal);
+                        this.mode = 'BROWSE';
+                        this.odustaniAzuriranjeArtikla();
                     } else {
                         alert('Dodavanje nije uspelo');
+                        this.mode = 'BROWSE';
                         this.odustaniAzuriranjeArtikla();
                     }
                 }).catch(response => {
                     alert('Greska sa serverom');
+                    this.mode = 'BROWSE';
                     this.odustaniAzuriranjeArtikla();
                 });
             }
 
-
-    		this.mode = 'BROWSE';
     	},
         odustaniAzuriranjeArtikla: function () {
-            if (this.mode == 'EDIT' || this.mode == 'BROWSE') {
+            if (this.mode == 'EDIT') {
                 this.selektovanArtikal.naziv = this.backup[0];
                 this.selektovanArtikal.cena = this.backup[1];
                 this.selektovanArtikal.tip = this.backup[2];
