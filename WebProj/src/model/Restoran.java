@@ -79,6 +79,21 @@ public class Restoran {
 		this.artikli = artikli;
 	}
 
+	public void addArtikal(Artikal noviArtikal) {
+		this.artikli.add(noviArtikal);
+	}
+	
+	public Artikal getArtikalByNaziv(String nazivArtikla) {
+		Artikal trazeniArtikal = null;
+		for (Artikal artikal : artikli) {
+			if(artikal.getNaziv().equals(nazivArtikla)) {
+				trazeniArtikal = artikal;
+				break;
+			}
+		}
+		return trazeniArtikal;
+	}
+	
 	public double getProsecnaOcena() {
 		return prosecnaOcena;
 	}

@@ -52,6 +52,16 @@ public class SparkAppMain {
 			return g.toJson(restoranServis.GetTrazeniRestorani(pretraga));
 		});
 		
+		get("rest/getRestoranByNaziv", (req, res) -> {
+			res.type("application/json");
+			String naziv = req.queryParams("naziv");
+			res.status(200);
+			Restoran trazenRestoran = restoranServis.getRestoranByNaziv(naziv);
+			return g.toJson(trazenRestoran);
+		});
+		
+		
+		
 		get("rest/getTrazeniKorisnici", (req, res) -> {
 			res.type("application/json");
 			// { "ime": this.ime, "prezime": this.prezime, "korisnickoIme": this.korisnickoIme, "uloga": this.uloga, "tipKorisnika": this.tipKorisnika }

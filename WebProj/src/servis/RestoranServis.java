@@ -50,6 +50,17 @@ public class RestoranServis {
 		
 		return ret;
 	}
+	
+	public Restoran getRestoranByNaziv(String nazivRestorana) {
+		Restoran trazenRestoran = null;
+		for (Restoran restoran : restoranDAO.GetRestorani()) {
+			if(restoran.getNaziv().equals(nazivRestorana)) {
+				trazenRestoran = restoran;
+				break;
+			}
+		}
+		return trazenRestoran;
+	}
 
 	public void dodajRestoran(Restoran noviRestoran) {
 		restoranDAO.dodajRestoran(noviRestoran);		
