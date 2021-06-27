@@ -18,7 +18,7 @@ Vue.component("prikazrestoran", {
               <div class="restoranDiv" style="height:200px;">
                   <div class="row">
                       <div class="leftcolumnRestoran">
-                          <img src="statickeSlike/logoRestorana.png" class="logoRestoranaCSS"> 
+                          <img :src="restoran.logo" class="logoRestoranaCSS"> 
                           <div>
                           <p>{{restoran.prosecnaOcena}}&#9733;</p>
                           </div>

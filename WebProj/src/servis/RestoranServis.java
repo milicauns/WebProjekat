@@ -69,6 +69,31 @@ public class RestoranServis {
 	public void dodajRestoran(Restoran noviRestoran) {
 		restoranDAO.dodajRestoran(noviRestoran);		
 	}
+	
+	
+	
+	
+	public String promeniStatusRadaRestorana(PromenaRestoranaByMenazderDTO promena) {
+		Restoran restoran = getRestoranByNaziv(promena.nazivRestorana);
+		String odgovor = "";
+		if(restoran != null) {
+			if(promena.noviStatus.equals("RADI")) {
+				restoran.setStatus(Status.RADI);
+				sacuvajRestorane();
+				odgovor = "OK";
+			}else if(promena.noviStatus.equals("NE_RADI")) {
+				restoran.setStatus(Status.NE_RADI);
+				odgovor = "OK";
+				sacuvajRestorane();
+			}else {
+				odgovor = "GRESKA: pogresna komanda";
+			}
+		}else {
+			odgovor = "GRESKA: trazeni restoran ne postoji";
+		}
+		System.out.println("PROMENA statusa rada restorana " + odgovor);
+		return odgovor;
+	}
 
 
 }

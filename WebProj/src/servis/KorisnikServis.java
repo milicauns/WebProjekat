@@ -104,6 +104,10 @@ public class KorisnikServis {
 		korisniciDAO.izmeniLozinku(korisnik.getKorisnickoIme(),promenaLozinke.novaLozinka);
 		return "OK";
 	}
+	
+	public void dodajKorisnika(Korisnik noviKorisnik) {
+		korisniciDAO.DodajKorisnika(noviKorisnik);
+	}
 
 
 	

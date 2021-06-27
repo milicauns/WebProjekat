@@ -55,6 +55,7 @@ public class SparkAppMain {
 		get("rest/getRestoranByNaziv", (req, res) -> {
 			res.type("application/json");
 			String naziv = req.queryParams("naziv");
+			System.out.println("[rest/getRestoranByNaziv]: NazivRestorana " + naziv);
 			res.status(200);
 			Restoran trazenRestoran = restoranServis.getRestoranByNaziv(naziv);
 			return g.toJson(trazenRestoran);
@@ -211,6 +212,24 @@ public class SparkAppMain {
 			res.status(200);
 			return g.toJson(korisnikServis.GetKorisnici());
 		});		
+		
+		
+		
+		put("rest/izmeniStatusRestorana", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			PromenaRestoranaByMenazderDTO promena = g.fromJson(req.body(), PromenaRestoranaByMenazderDTO.class);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			if(!korisnik.getKorisnickoIme().equals(promena.korisnickoImeMenadzera)) {
+				System.out.println("NEKO POKUSAVA DA MENJA RESTORAN BEZ DOZVOLE");
+				return "NEMATE PRAVO IZMENE STATUSA RESTORANA";
+			}
+			// da li je ovde potrebno proveravati da li smo menadzer?
+			String odgovor = restoranServis.promeniStatusRadaRestorana(promena);
+			return odgovor;
+		});
+		
 
 	}
 }

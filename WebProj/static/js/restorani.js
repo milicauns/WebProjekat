@@ -42,7 +42,7 @@ Vue.component("restorani", {
 			<div v-for="restoran in restorani" class="restoranDiv" v-on:click="detaljanPrikazRestorana(restoran)" style="height:200px;">
 				<div class="row">
 					<div class="leftcolumnRestoran">
-						<img src="statickeSlike/logoRestorana.png" class="logoRestoranaCSS"> 
+						<img :src="putanjaDoSlike(restoran)" class="logoRestoranaCSS"> 
 						<div>
 						<p>{{restoran.prosecnaOcena}}&#9733;</p>
 						</div>
@@ -115,6 +115,13 @@ Vue.component("restorani", {
 			} else if (this.sortType == 'LokacijaZ-A') {
 				this.restorani.sort((a, b) => (a.lokacija.adresa.mesto > b.lokacija.adresa.mesto) ? 1 : ((b.lokacija.adresa.mesto > a.lokacija.adresa.mesto) ? -1 : 0));
 			}
+		},
+		putanjaDoSlike: function (restoran) {
+			if (restoran.logo === 'None') {
+				return 'statickeSlike/logoRestorana.png';
+			} else {
+				return restoran.logo;	
+			}
 		}
-	},
+	}
 });

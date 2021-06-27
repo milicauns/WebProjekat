@@ -7,14 +7,18 @@ import com.google.gson.Gson;
 
 import dao.KomentarDAO;
 import dao.RestoranDAO;
+import enums.Pol;
 import enums.Status;
 import enums.TipArtikla;
 import enums.TipRestorana;
+import enums.Uloga;
 import model.Adresa;
 import model.Artikal;
 import model.Komentar;
+import model.Korisnik;
 import model.Lokacija;
 import model.Restoran;
+import servis.KorisnikServis;
 import servis.RestoranServis;
 
 public class TestMain {
@@ -85,6 +89,11 @@ public class TestMain {
 		
 		restoranServis.sacuvajRestorane();
 		*/
+		
+		Korisnik menadzerKorisnik = new Korisnik("menadzer", "men", "Milos", "Miskov", Pol.MUSKI, "1.1.2000", Uloga.MENADZER);
+		menadzerKorisnik.setNazivRestorana("Caribic");
+		KorisnikServis korisnikServis = new KorisnikServis();
+		korisnikServis.dodajKorisnika(menadzerKorisnik);
 
 		
 	}
