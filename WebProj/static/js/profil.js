@@ -11,7 +11,7 @@ Vue.component("profil", {
 		
 		staraLozinka: "",
 		novaLozinka: "",
-		ponovljenaNovaLozinka: ""							
+		ponovljenNovaLozinka: ""							
 			    }
 	},
 	template:`
@@ -75,7 +75,7 @@ Vue.component("profil", {
 			</tr>
             <tr>
 			<td><label>Ponovite novu lozinku:</label></td>
-			  <td><input type="password" v-model="ponovljenaNovaLozinka"/></td>
+			  <td><input type="password" v-model="ponovljenNovaLozinka"/></td>
 			</tr>
 			
 			<tr>
@@ -104,9 +104,7 @@ Vue.component("profil", {
 	}, 
 	methods : {	
 	        IzmeniKorisnika: function () {
-	        
-	        if(this.tipKorisnika === "KUPAC"){
-        
+	          
             axios.put('rest/izmeniKorisnika/', { "korisnickoIme": this.korisnik.korisnickoIme, "lozinka" : this.korisnik.lozinka,"ime" : this.korisnik.ime,"prezime" : this.korisnik.prezime,"pol": this.korisnik.pol,"datumRodjenja": this.korisnik.datumRodjenja })
                 .then(response => {
 				
@@ -114,14 +112,11 @@ Vue.component("profil", {
 					alert('korisnicko ime je zauzeto');
 				}
 	
-				});
-
-                
-        }
+				});       
 		},
 			IzmeniLozinku: function () {
 				
-	            axios.put('rest/izmeniLozinku/', { "staraLozinka": this.staraLozinka, "novaLozinka" : this.novaLozinka,"ponovljenNovaLozinka" : this.korisnik.ime,"prezime" : this.korisnik.prezime,"pol": this.korisnik.pol,"datumRodjenja": this.korisnik.datumRodjenja })
+	            axios.put('rest/izmeniLozinku/',{ "staraLozinka": this.staraLozinka, "novaLozinka" : this.novaLozinka,"ponovljenaNovaLozinka" : this.ponovljenNovaLozinka})
                 .then(response => {
 				
 				if(response.data == "NETACNA_STARA_LOZINKA"){

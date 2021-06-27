@@ -102,7 +102,7 @@ public class KorisnikDAO {
 
 	public void izmeniLozinku(String korisnickoIme, String novaLozinka) {
 		for(Korisnik k : korisnici) {
-			if(k.getKorisnickoIme().equals(korisnickoIme)){
+			if(k.getKorisnickoIme().equals(korisnickoIme)){	
 				
 				k.setLozinka(novaLozinka);
 				sacuvajKorisnike();

@@ -97,8 +97,10 @@ public class KorisnikServis {
 
 	public String izmeniLozinku(PromenaLozinkeDTO promenaLozinke,Korisnik korisnik) {
 		
+		System.out.println(promenaLozinke.novaLozinka);
+		System.out.println(promenaLozinke.ponovljenaNovaLozinka);
 		if(!promenaLozinke.staraLozinka.equals(korisnik.getLozinka())) return "NETACNA_STARA_LOZINKA";
-		else if(!promenaLozinke.novaLozinka.equals(promenaLozinke.ponovljenaNovaLozinka)) return "PONOVLJENA_LOZINKA_NE_ODGOVARA_NOVOJ";
+		else if(!promenaLozinke.novaLozinka.equals(promenaLozinke.ponovljenaNovaLozinka)) return "NETACNA_PONOVLJENA_LOZINKA";
 		korisniciDAO.izmeniLozinku(korisnik.getKorisnickoIme(),promenaLozinke.novaLozinka);
 		return "OK";
 	}
