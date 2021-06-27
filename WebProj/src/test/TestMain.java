@@ -40,10 +40,10 @@ public class TestMain {
 		
 		// napravimo restorane da imamo JSON fajl
 		RestoranDAO restoran = new RestoranDAO();
-		Restoran r1 = new Restoran("Srecan Restoran", TipRestorana.ROSTILJ , Status.RADI , new Lokacija(10, 10, new Adresa("ulica", "123", "Novi Sad", 21459)), "SLIKA1");
-		Restoran r2 = new Restoran("Caribic", TipRestorana.KINESKI, Status.RADI , new Lokacija(120, 340, new Adresa("mikija", "99", "Beograd", 25323)), "SLIKA2");
-		Restoran r3 = new Restoran("KebaKraba", TipRestorana.ITALIJANSKI, Status.RADI , new Lokacija(234, 7653, new Adresa("U moru", "-100", "tihi okean", 3234)), "SLIKA3");
-		Restoran r4 = new Restoran("Picerija", TipRestorana.ITALIJANSKI, Status.NE_RADI , new Lokacija(554, 634, new Adresa("Dunavska", "15", "Novi Sad", 35235)), "SLIKA4");
+//		Restoran r1 = new Restoran("Srecan Restoran", TipRestorana.ROSTILJ , Status.RADI , new Lokacija(10, 10, new Adresa("ulica", "123", "Novi Sad", 21459)), "SLIKA1");
+//		Restoran r2 = new Restoran("Caribic", TipRestorana.KINESKI, Status.RADI , new Lokacija(120, 340, new Adresa("mikija", "99", "Beograd", 25323)), "SLIKA2");
+//		Restoran r3 = new Restoran("KebaKraba", TipRestorana.ITALIJANSKI, Status.RADI , new Lokacija(234, 7653, new Adresa("U moru", "-100", "tihi okean", 3234)), "SLIKA3");
+//		Restoran r4 = new Restoran("Picerija", TipRestorana.ITALIJANSKI, Status.NE_RADI , new Lokacija(554, 634, new Adresa("Dunavska", "15", "Novi Sad", 35235)), "SLIKA4");
 		
 		ArrayList<Restoran> listaRestorana = restoran.GetRestorani();
 //		listaRestorana.add(r1);
@@ -55,6 +55,10 @@ public class TestMain {
 		for (Restoran res : listaRestorana) {
 			System.out.println(res.getNaziv());
 		}
+		
+		
+		
+		
 	}
 
 }
