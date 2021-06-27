@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 import dao.RestoranDAO;
+import model.Artikal;
 import model.Restoran;
 import dto.*;
 import enums.Status;
@@ -92,6 +93,21 @@ public class RestoranServis {
 			odgovor = "GRESKA: trazeni restoran ne postoji";
 		}
 		System.out.println("PROMENA statusa rada restorana " + odgovor);
+		return odgovor;
+	}
+	
+	public String azurirajArtikal(Artikal izmenaArtikla) {
+		String odgovor = "GRESKA";
+		Restoran restoran = getRestoranByNaziv(izmenaArtikla.getNazivRestorana());
+		if(restoran != null) {
+			odgovor = restoran.azurirajArtikal(izmenaArtikla);
+		}else {
+			odgovor = "Restoran je null";
+		}
+		
+		
+		System.out.println("Pokusaj promene artikla u restoranu " + odgovor);
+		if(odgovor.equals("Azuriranje artikla je uspesno obavljeno")) odgovor = "OK";
 		return odgovor;
 	}
 

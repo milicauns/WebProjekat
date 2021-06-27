@@ -1,7 +1,7 @@
 Vue.component("menadzer", {
   data: function () {
     return {
-      selektovanaKomponenta: 'komp1',
+      selektovanaKomponenta: 'artiklimenazdera',
       korisnik: {},
       restoran: {},
       statusRadaRestorana: 'RADI'
@@ -55,7 +55,7 @@ Vue.component("menadzer", {
   <div class="leftcomponent">
     <div class="card">
       <div class="vertical-menu">
-        <button v-on:click="selektujKomponentu('komp1')">BUTON 1</button>
+        <button v-on:click="selektujKomponentu('artiklimenazdera')">Artikli</button>
         <button v-on:click="selektujKomponentu('komp2')">BUTON 2</button>
         <button v-on:click="selektujKomponentu('komp3')">BUTON 3</button>
         <button v-on:click="selektujKomponentu('komp4')">BUTON 4</button>
@@ -77,7 +77,6 @@ Vue.component("menadzer", {
 			.then(response => {
         if (response.data != 'Err:KorisnikNijeUlogovan') {
           this.korisnik = response.data;
-          alert("sta je ovo " + this.korisnik.ime + this.korisnik + this.korisnik.nazivRestorana);
           axios.get('rest/getRestoranByNaziv', {
             params: {
               naziv: this.korisnik.nazivRestorana

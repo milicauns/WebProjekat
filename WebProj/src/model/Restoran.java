@@ -124,6 +124,23 @@ public class Restoran {
 				+ lokacija + ", logo=" + logo + ", prosecnaOcena=" + prosecnaOcena + ", artikli=" + artikli + "]";
 	}
 	
+	public String azurirajArtikal(Artikal izmenaArtikla) {
+		String odgovor = "";
+		if(naziv.equals(izmenaArtikla.getNazivRestorana())) {
+			odgovor = "Artikal koji ste poslali na izmenu ne postoji u artiklima ovog restorana";
+			for (Artikal artikal : artikli) {
+				if(artikal.getNaziv().equals(izmenaArtikla.getNaziv())) {
+					artikal.azuriraj(izmenaArtikla);
+					odgovor = "Azuriranje artikla je uspesno obavljeno";
+				}
+			}
+		}else {
+			odgovor = "Artikal koji ste poslali na izmenu ne pripada ovom restoranu";
+		}
+		
+		return odgovor;
+	}
+	
 	
 
 }

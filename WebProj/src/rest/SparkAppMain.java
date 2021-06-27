@@ -230,6 +230,15 @@ public class SparkAppMain {
 			return odgovor;
 		});
 		
+		
+		post("rest/artikli/azuriraj", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Artikal izmenaArtikla = g.fromJson(req.body(), Artikal.class);			
+			String odgovor = restoranServis.azurirajArtikal(izmenaArtikla);
+			return odgovor;
+		});
+		
 
 	}
 }

@@ -95,7 +95,15 @@ public class Artikal {
 		this.nazivRestorana = nazivRestorana;
 	}
 	
-	
+	public void azuriraj(Artikal izmeniArtikal) {
+		this.naziv = izmeniArtikal.naziv;
+		this.cena = izmeniArtikal.cena;
+		this.tip = izmeniArtikal.tip;
+		this.kolicina = izmeniArtikal.kolicina;
+		this.opis = izmeniArtikal.opis;
+		this.slika = izmeniArtikal.slika;
+		this.nazivRestorana = izmeniArtikal.nazivRestorana;
+	}
 	
 
 }
