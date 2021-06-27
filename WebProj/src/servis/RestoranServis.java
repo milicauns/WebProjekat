@@ -51,5 +51,9 @@ public class RestoranServis {
 		return ret;
 	}
 
+	public void dodajRestoran(Restoran noviRestoran) {
+		restoranDAO.dodajRestoran(noviRestoran);		
+	}
+
 
 }

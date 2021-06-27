@@ -7,9 +7,9 @@ public class Adresa {
 	private String mesto;
 	private int postanskiBroj;
 	
-	public Adresa(String ulica, String broj, String mesto, int postanskiBroj) {
+	public Adresa(String Ulica, String broj, String mesto, int postanskiBroj) {
 		super();
-		Ulica = ulica;
+		this.Ulica = Ulica;
 		this.broj = broj;
 		this.mesto = mesto;
 		this.postanskiBroj = postanskiBroj;

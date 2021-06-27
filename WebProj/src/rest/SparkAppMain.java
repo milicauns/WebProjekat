@@ -139,6 +139,20 @@ public class SparkAppMain {
 			korisnikServis.RegistrujKupca(kupacInfo);
 		return "uspjeh";
 		});
+
+		post("rest/registracijaRestoran/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			System.out.println("prije parsirana iz json");
+			
+			Restoran noviRestoran = g.fromJson(req.body(),Restoran.class);
+			System.out.println("da li je tu greska?");
+			System.out.println(noviRestoran.getNaziv());
+			System.out.println(noviRestoran.getStatus());
+			
+			restoranServis.dodajRestoran(noviRestoran);
+		return "OK";
+		});
 		
 		post("rest/registracijaMenadzer/", (req, res) -> {
 			res.type("application/json");

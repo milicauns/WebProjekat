@@ -57,4 +57,11 @@ public class RestoranDAO {
 	public ArrayList<Restoran> GetRestorani(){
 		return restorani;
 	}
+
+
+	public void dodajRestoran(Restoran noviRestoran) {
+		restorani.add(noviRestoran);
+		sacuvajRestorane();
+		
+	}
 }

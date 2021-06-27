@@ -1,13 +1,23 @@
 Vue.component("registracijaRestorana", {
 	data: function () {
 		return {
+			placesAutocomplete:null,
 			raspoloziviMenadzeri: null,
 			menadzer: "",
 			naziv: "",
 			tip: "",
 			lokacija: "",
-			logo: "putanja do slike",
-			status: ""
+			logo: "",
+			status: "",
+			
+			 	mesto: '',
+		        postanskiBroj:'',
+		        ulica:'',
+		        ulicaError:'',
+		        ulicaNumber:'',
+		        ulicaNumberError:'',
+		        geografskaDuzina:'',
+		        geografskaSirina:'',
 		}
 	},
 	template: `
@@ -31,11 +41,37 @@ Vue.component("registracijaRestorana", {
 			  </td>
 			</tr>
             <tr>
-			  <td><label>Lokacija:</label></td>
-			  <td> <input type="text" v-model="lokacija"/></td>
+			  <label>Adresa:</label>
+			  <input type="search" id="pretragaAdrese"/>			  
+			</tr>
+			<tr>
+				<label >Broj:</label>
+	    		<input type="number" min="1" v-model="ulicaNumber" name="ulicaNumber" class="form-control"  placeholder="Unesite broj" />
+	    		
+			</tr>
+			<tr>
+				<label for="form-mesto">Ulica:</label>
+		    	<input type="text" class="form-control" disabled="true" id="form-ulica">			
+			</tr>
+			<tr>
+			 	<label for="form-mesto">Grad:</label>
+		    	<input type="text" class="form-control" disabled="true" id="form-mesto">			
+			</tr>
+			<tr>
+				<label for="form-zip">Postanski broj:</label>
+		    	<input type="text" class="form-control" disabled="true" id="form-zip">			
+			</tr>
+			<tr>
+			  	<label for="form-geografskaDuzina">Geografska duzina:</label>
+		    	<input type="text" class="form-control" disabled="true" id="form-geografskaDuzina">		
+			</tr>
+			<tr>
+				<label for="form-geografskaSirina">Geografska sirina</label>
+		    	<input type="text" class="form-control" disabled="true" id="form-geografskaSirina">			
 			</tr>
             <tr>
 			  <td><label>Dodaj logo:</label></td>
+			  <input type="file" @change="onFileChange" />
 			</tr>
            <tr>
 			  <td><label>Dodjeli menadzera:</label></td>
@@ -72,14 +108,63 @@ Vue.component("registracijaRestorana", {
 
 		axios.get('rest/raspoloziviMenadzeri')
 			.then(response => (this.raspoloziviMenadzeri = response.data));
+			
+		this.placesAutocomplete = places({
+		    appId: 'plQ4P1ZY8JUZ',
+		    apiKey: 'bc14d56a6d158cbec4cdf98c18aced26',
+		    container: document.querySelector('#pretragaAdrese'),
+		    templates: {
+		      value: function(suggestion) {
+		        return suggestion.name;
+		      }
+		    }
+		  }).configure({
+		    type: 'address'
+		  });
+		this.placesAutocomplete.on('change', function resultSelected(e) {
+			
+			this.ulica = e.suggestion.value;
+			this.mesto = e.suggestion.city;
+			this.postanskiBroj = e.suggestion.postcode;
+			this.geografskaDuzina =  e.suggestion.latlng.lng;
+			this.geografskaSirina = e.suggestion.latlng.lat;
+		    document.querySelector('#form-ulica').value = e.suggestion.value || '';
+		    document.querySelector('#form-mesto').value = e.suggestion.city || '';
+		    document.querySelector('#form-zip').value = e.suggestion.postcode || '';
+		    document.querySelector('#form-geografskaDuzina').value = e.suggestion.latlng.lng || '';
+			document.querySelector('#form-geografskaSirina').value = e.suggestion.latlng.lat || '';
+		  });
 	},
 	methods: {
 		NoviRestoran: function () {
-
-			axios.post('rest/registracijaRestoran/', {})
+			
+	var restoran = {
+				"naziv": this.naziv,
+				"tipRestorana": this.tip,
+				"status": this.status,
+				"lokacija":{
+						"geografskaSirina": this.geografskaSirina,
+						"geografskaDuzina": this.geografskaDuzina,
+						"adresa":{
+									"Ulica": this.ulica,
+									"broj": this.broj,
+									"mesto": this.mesto,
+									"postanskiBroj": this.postanskiBroj
+								 }
+	  					},
+				"logo": this.logo,
+				"prosecnaOcena": 0.00};	
+				
+									
+			axios.post('rest/registracijaRestoran/', restoran)
 				.then(response => { alert('uspesno ' + response.data.naziv) })
 				.catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI') });
-		}
+		},
+		
+		onFileChange(e) {
+            const file = e.target.files[0];
+            this.logo=URL.createObjectURL(file);
+        }
 
 	}
 });
