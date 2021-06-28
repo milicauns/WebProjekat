@@ -231,6 +231,10 @@ public class Korisnik {
 	}
 	
 	
+	public void isprazniKorpu() {
+		korpa.isprazniKorpu();
+	}
+	
 	
 	
 	

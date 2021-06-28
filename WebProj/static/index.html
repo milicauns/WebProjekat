@@ -17,6 +17,7 @@
 	  <a v-if="status=='neUlogovan'" href="#/registracija" style="float:right">Registracija</a>
 	  <a v-if="status=='neUlogovan'" href="#/login" style="float:right">Login</a>
 	  <a v-if="status=='ulogovan'" href="#/" v-on:click="logout" style="float:right">LogOut</a>
+	  <a v-if="status=='ulogovan'" href="#/korpa" style="float:right">Korpa</a>
 	  <a v-if="status=='ulogovan'" href="#/profil" style="float:right">{{ulogovaniKorisnik.korisnickoIme}}</a>
 	</div>	
 	
@@ -40,6 +41,7 @@
 <script src="skripte/axios.js"></script>
 <script src="skripte/jquery.min.js"></script>
 <script src="skripte/toast.js"></script>
+
 <!-- Nase skripte -->
 <script src="js/komentari.js"></script>
 <script src="js/profil.js"></script>
@@ -47,6 +49,7 @@
 <script src="js/login.js"></script>
 <script src="kupac/prikazRestorana.js"></script>
 <script src="js/registracija.js"></script>
+<script src="kupac/korpa.js"></script>
 <script src="js/app.js"></script>
 <script src="administrator/korisnici.js"></script>
 <script src="administrator/registracijaRestorana.js"></script>

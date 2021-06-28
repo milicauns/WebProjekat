@@ -6,8 +6,7 @@ public class StavkaKorpe {
 	private int kolicina;
 	
 	public StavkaKorpe(Artikal artikal, int kolicina) {
-		super();
-		this.artikal = artikal;
+		this.artikal = new Artikal(artikal);
 		this.kolicina = kolicina;
 	}
 
@@ -27,8 +26,8 @@ public class StavkaKorpe {
 		this.kolicina = kolicina;
 	}
 	
-	public void povecajKolicinu() {
-		this.kolicina ++;
+	public void promeniKolicinu(int novaKolican) {
+		this.kolicina = novaKolican;
 	}
 	
 	

@@ -3,12 +3,17 @@ package servis;
 import java.util.ArrayList;
 
 import dao.KorisnikDAO;
+import dto.ParametriDodajArtikalUKorpuDTO;
 import dto.ParametriLoginKorisnikDTO;
 import dto.ParametriRegistracijeDTO;
 import dto.PretragaKorisnikaDTO;
 import dto.PromenaLozinkeDTO;
 import enums.Uloga;
+import model.Artikal;
 import model.Korisnik;
+import model.Korpa;
+import model.Restoran;
+import model.StavkaKorpe;
 
 public class KorisnikServis {
 	
@@ -117,6 +122,41 @@ public class KorisnikServis {
 		korisniciDAO.setujKolicinuZaStavkuKorpe(korisnickoIme,nazivArtikla,kolicina);
 	}
 
+	public Korisnik getkorisnikByKorisnickoIme(String korisnickoIme){
+		Korisnik trazeniKorisnik = null;
+		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
+			if(korisnik.getKorisnickoIme().equals(korisnickoIme)){
+				trazeniKorisnik = korisnik;
+				break;
+			}
+		}
+		return trazeniKorisnik;
+	}
+	
+	public void sacuvajPodatke() {
+		korisniciDAO.sacuvajKorisnike();
+	}
+	
+	public String azurirajKorpu(Korisnik korisnik, ParametriDodajArtikalUKorpuDTO parametriDodajUKorpuDTO){
+		String odgovor = "";
+		Korpa korpa = korisnik.getKorpa();
+		RestoranServis restoranServis = new RestoranServis();
+		Restoran restoran = restoranServis.getRestoranByNaziv(parametriDodajUKorpuDTO.nazivRestorana);
+		Artikal artiakl = null;
+		if(restoran != null) {
+			artiakl = restoran.getArtikalByNaziv(parametriDodajUKorpuDTO.nazivArtikla);
+		}else {
+			odgovor = "Ne postoji restoran";
+		}
+		
+		if(artiakl != null) {
+			odgovor = korpa.dodajArtikal(artiakl, parametriDodajUKorpuDTO.kolicina);
+		}else {
+			odgovor = "artikal ne postoji u restoranu";
+		}
+		
+		return odgovor;
+	}
 
 	
 }

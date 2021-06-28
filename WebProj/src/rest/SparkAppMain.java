@@ -213,6 +213,11 @@ public class SparkAppMain {
 			
 			Session ss = req.session(true);
 			Korisnik korisnik = ss.attribute("korisnik");
+			if(korisnik != null) {
+				korisnik.isprazniKorpu();
+				korisnikServis.sacuvajPodatke();
+				System.out.println("israznili smo mu i korpu");
+			}
 			System.out.println("Korisnik " + korisnik.getKorisnickoIme() + " se uspesno udlogovao");
 			ss.invalidate();
 			
@@ -242,7 +247,6 @@ public class SparkAppMain {
 			return odgovor;
 		});
 		
-		
 		post("rest/artikli/azuriraj", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
@@ -256,6 +260,34 @@ public class SparkAppMain {
 			res.status(200);
 			Artikal noviArtikal = g.fromJson(req.body(), Artikal.class);			
 			String odgovor = restoranServis.dodajNoviArtikal(noviArtikal);
+			return odgovor;
+		});
+		
+		
+		post("rest/korpa/dodaj", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			ParametriDodajArtikalUKorpuDTO parametriDodajUKorpuDTO = g.fromJson(req.body(), ParametriDodajArtikalUKorpuDTO.class);			
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			String odgovor = "";
+			if(korisnik != null) {
+				if(korisnik.getUloga() != Uloga.KUPAC) {
+					odgovor = "Morate biti kupac da bi ste kupovali";
+				}else {
+					odgovor = korisnikServis.azurirajKorpu(korisnik, parametriDodajUKorpuDTO);
+				}
+			}else {
+				odgovor = "Nije pronadjen korisnik morate bit kupac i ulogovani";
+			}
+			
+			System.out.println(odgovor);
+			if(odgovor.startsWith("OK:")) {
+				korisnikServis.sacuvajPodatke();
+				odgovor = "OK";
+			}
 			return odgovor;
 		});
 		

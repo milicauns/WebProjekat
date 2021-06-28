@@ -24,6 +24,16 @@ public class Artikal {
 		this.slika = slika;
 		this.nazivRestorana = nazivRestorana;
 	}
+	
+	public Artikal(Artikal copyArtikal) {
+		this.naziv = copyArtikal.naziv;
+		this.cena = copyArtikal.cena;
+		this.tip = copyArtikal.tip;
+		this.kolicina = copyArtikal.kolicina;
+		this.opis = copyArtikal.opis;
+		this.slika = copyArtikal.slika;
+		this.nazivRestorana = copyArtikal.nazivRestorana;
+	}
 
 
 	public String getNaziv() {

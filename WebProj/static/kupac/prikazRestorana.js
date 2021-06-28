@@ -1,6 +1,7 @@
 Vue.component("prikazrestoran", {
   data: function () {
     return {
+      korisnik: {},
       restoran: {},
       komentari: {},
       sortType: 'cenaRastuce',
@@ -76,8 +77,9 @@ Vue.component("prikazrestoran", {
                                   <tr><td>Opis: {{artikal.opis}}</td></tr>
                                 </table>
                               </div>
-                              <div class="cenaiKolicina">
-                                  <input type="number">
+                              <div class="cenaiKolicina" v-if="korisnik.uloga == 'KUPAC'">
+                                  <input type="number" v-bind:id=artikal.naziv>
+                                  <button v-on:click="dodajUKorpu(artikal)">Dodaj</button>
                                   <br><br>
                                   <label> Cena: cena*kolicina </label>
                               </div>
@@ -130,6 +132,12 @@ Vue.component("prikazrestoran", {
 `,
   mounted() {
     // nekako dobaviti koji restoran smo hteli
+   
+    axios.get('rest/testlogin').then(response => {
+      this.korisnik = response.data;
+    });
+   
+   
     var putanja = window.location.href;
     var nazivRestorana = putanja.split('/prikazrestoran/')[1];
     var naziv = nazivRestorana.replace('%20', ' ');     // na neku foru umesto razmaka napise taj simbol pa ga replacujemo
@@ -179,6 +187,25 @@ Vue.component("prikazrestoran", {
         // JELO
         return this.checkBox.checkHrana;
       }
+    },
+    dodajUKorpu: function (artikal) {
+      var inputPolje = document.getElementById(artikal.naziv);
+      var kolicinaInput = inputPolje.value;
+      
+      axios.post('rest/korpa/dodaj', {
+        nazivRestorana: this.restoran.naziv,
+        nazivArtikla: artikal.naziv,
+        kolicina: kolicinaInput
+      }).then(response => {
+        if (response.data == 'OK') {
+          alert('USPOESNO STE DODALI ARTIKAL U KORPU');
+          //inputPolje.value = 0;
+        } else {
+          alert(response.data);
+        }
+      }).catch(error => {
+        alert('Greska sa serverom');
+      });
     }
   }
 });

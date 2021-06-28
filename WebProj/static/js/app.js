@@ -5,6 +5,7 @@ const menadzer = { template: '<menadzer></menadzer>' }
 const administrator = { template: '<administrator></administrator>' }
 const profil = { template: '<profil></profil>' }
 const prikazrestoran = { template: '<prikazrestoran></prikazrestoran>' }
+const korpa = { template: '<korpa></korpa>' }
 
 const router = new VueRouter({
 	mode: 'hash',
@@ -15,7 +16,8 @@ const router = new VueRouter({
 		{ path: '/menadzer', component: menadzer },
 		{ path: '/administrator', component: administrator},
 		{ path: '/profil', component: profil },
-		{ path: '/prikazrestoran/:naziv', component: prikazrestoran}
+		{ path: '/prikazrestoran/:naziv', component: prikazrestoran },
+		{ path: '/korpa', component: korpa }
 	]
 });
 
