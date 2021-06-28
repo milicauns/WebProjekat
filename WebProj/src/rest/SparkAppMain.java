@@ -214,9 +214,9 @@ public class SparkAppMain {
 			Session ss = req.session(true);
 			Korisnik korisnik = ss.attribute("korisnik");
 			if(korisnik != null) {
-				korisnik.isprazniKorpu();
-				korisnikServis.sacuvajPodatke();
-				System.out.println("israznili smo mu i korpu");
+				// korisnik.isprazniKorpu(); // ovo cemo otkomentarisati kad zavrsimo sa radim korpi, da nam se ne isprazni korpa slucajno 
+				//korisnikServis.sacuvajPodatke();
+				//System.out.println("israznili smo mu i korpu");
 			}
 			System.out.println("Korisnik " + korisnik.getKorisnickoIme() + " se uspesno udlogovao");
 			ss.invalidate();
