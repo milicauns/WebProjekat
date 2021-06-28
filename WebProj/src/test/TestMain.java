@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import dao.KomentarDAO;
+import dao.KorisnikDAO;
 import dao.RestoranDAO;
 import enums.Pol;
 import enums.Status;
@@ -124,7 +125,14 @@ public class TestMain {
 		dule.setKorpa(korpa);
 		korservis.sacuvajPodatke();
 		*/
-		
+	
+		/*
+		KorisnikDAO korisnici = new KorisnikDAO();
+		for (Korisnik korisnik : korisnici.getKorisnici()) {
+			korisnik.napraviKorpu();
+		}
+		korisnici.sacuvajKorisnike();
+		*/
 	}
 
 }

@@ -52,7 +52,9 @@ public class Korisnik {
 			
 	}
 
-
+	public void napraviKorpu() {
+		this.korpa = new Korpa(this.korisnickoIme);
+	}
 
 	public String getKorisnickoIme() {
 		return korisnickoIme;

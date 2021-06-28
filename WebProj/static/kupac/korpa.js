@@ -1,8 +1,16 @@
 Vue.component("korpa", {
 	data: function () {
 		return {
-			stavkeKorpe: {},
-			ulogovaniKorisnik: {}
+			korisnik: {},
+			korpa: {},
+			restorani: {},
+
+
+
+			ukupna: {},
+			artikal: {},
+			restoran: {},
+			kupaccc: {}
 		}
 	},
 	template: `
@@ -13,7 +21,7 @@ Vue.component("korpa", {
 			
 			
 			
-			 <div name="VUE FOR lista lista artikla u smislu restorani">
+			 <div v-for="RK in restorani" name="VUE FOR lista lista artikla u smislu restorani">
 			   
 				<div class="zagavljeRestoranaUKorpi">
 				   <div class="row">
@@ -54,8 +62,8 @@ Vue.component("korpa", {
 							   </table>
 							</div>
 							<div class="cenaiKolicinaUKorpi" v-if="korisnik.uloga == 'KUPAC'">
-							   <input type="number" v-bind:id=artikal.naziv>
-							   <button v-on:click="dodajUKorpu(artikal)">Izmeni</button>
+							   <input style="width: 80px;" type="number" v-bind:id=artikal.naziv>
+							   <button v-on:click="izmeniKorpu(artikal)">Izmeni</button>
 							   <br><br>
 							   <label> Cena: cena*kolicina </label>
 							</div>
@@ -77,8 +85,8 @@ Vue.component("korpa", {
 			 </tr>
 			 <tr>
 				<td>Popust: </td>
-				<td>{{popust}}</td>
-				<td>{{tipKupca}}</td>
+				<td>{{kupaccc.popust}}</td>
+				<td>{{kupaccc.tipKupca}}</td>
 			 </tr>
 			 <tr>
 				<td>Ukupna cena sa popustom:</td>
@@ -105,10 +113,16 @@ Vue.component("korpa", {
 		axios.get('rest/testlogin')
 			.then(response => {
 				if (response.data != 'Err:KorisnikNijeUlogovan') {
-					this.ulogovaniKorisnik = response.data;
-					this.stavkeKorpe = ulogovani.ulogovaniKorisnik.korpa.stavkeKorpe;
+					this.korisnik = response.data;
+					this.korpa = korisnik.korpa;
+					this.setapujPodatke();
+				} else {
+					alert('GRESKA: ' + response.data);
 				}
-			});
+			}).catch(function (error) {
+				alert('SERVER GRESKA');
+			  }
+			  );
 
 	},
 	methods: {
@@ -120,6 +134,21 @@ Vue.component("korpa", {
 				}
 			})     	
 		},
+		setapujPodatke: function () {
+			this.restorani = []; 		// restorani je lista 
+			//this.korpa.stavkeKorpe
+			alert(this.korpa.stavkeKorpe)
+			
 
+		},
+		getSlikaArtikla: function (artikal) {
+			
+		},
+		putanjaDoSlike: function (restoran) {
+			
+		},
+		izmeniKorpu: function (artikal) {
+			
+		}
 	}
 });

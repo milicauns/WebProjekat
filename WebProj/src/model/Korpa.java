@@ -8,13 +8,13 @@ public class Korpa {
 	
 	private String korisnik;
 	private double cena;
-	private HashMap<String, ArrayList<StavkaKorpe>> stavkeKorpe = new HashMap<String, ArrayList<StavkaKorpe>>();
+	//private HashMap<String, ArrayList<StavkaKorpe>> stavkeKorpe = new HashMap<String, ArrayList<StavkaKorpe>>();
+	private ArrayList<StavkaKorpe> stavkeKorpe;
 	
 	public Korpa(String korisnik) {
-		super();
 		this.korisnik = korisnik;
-		this.cena=0.00;
-		this.stavkeKorpe=new HashMap<>();
+		this.cena = 0.0;
+		this.stavkeKorpe = new ArrayList<StavkaKorpe>();
 	}
 
 	public String getKorisnik() {
@@ -33,14 +33,16 @@ public class Korpa {
 		this.cena = cena;
 	}
 
-	public HashMap<String, ArrayList<StavkaKorpe>> getStavkeKorpe() {
+	
+	
+	public ArrayList<StavkaKorpe> getStavkeKorpe() {
 		return stavkeKorpe;
 	}
 
-	public void setStavkeKorpe(HashMap<String, ArrayList<StavkaKorpe>> stavkaKorpe) {
-		this.stavkeKorpe = stavkaKorpe;
+	public void setStavkeKorpe(ArrayList<StavkaKorpe> stavkeKorpe) {
+		this.stavkeKorpe = stavkeKorpe;
 	}
-	
+
 	public void isprazniKorpu() {
 		
 		this.stavkeKorpe.clear();
@@ -48,20 +50,48 @@ public class Korpa {
 	}
 	
 	public StavkaKorpe getStavkaKorpePoNazivuArtikla(String nazivArtikla) {
-		
-		for (Entry<String, ArrayList<StavkaKorpe>> entry : stavkeKorpe.entrySet()) { 
-			for (StavkaKorpe s : entry.getValue()) {
-				if(s.getArtikal().getNaziv().equals(nazivArtikla))
-					return s;
+		StavkaKorpe trazenaStavkaKorpe = null;
+		for (StavkaKorpe stavkaKorpe : stavkeKorpe) {
+			if(stavkaKorpe.getArtikal().getNaziv().equals(nazivArtikla)) {
+				trazenaStavkaKorpe = stavkaKorpe;
+				break;
 			}
-			
 		}
-		return null;
+		return trazenaStavkaKorpe;
 	}
 	
 	/*
 	 *  
 	 */
+	public String dodajArtikal(Artikal artikal, int kolicina) {
+		String odgovor = "";
+		boolean izvrseno = false;
+		
+		// kroz sve postojece artikle u korpi
+		for (StavkaKorpe stavkaKorpe : stavkeKorpe) {
+			// ako postoji artikal sa istim imenom i nalazi se u istom restoranu onda je to on
+			if(stavkaKorpe.getArtikal().getNaziv().equals(artikal.getNaziv()) && 
+			   stavkaKorpe.getArtikal().getNazivRestorana().equals(artikal.getNazivRestorana())) 
+			{
+				stavkaKorpe.getArtikal().setKolicina(kolicina);
+				odgovor = "OK: Promenjena kolicina u postojecem artiklu";
+				izvrseno = true;
+				break;
+			}
+		}
+		
+		if(!izvrseno) {
+			// treba ga dodati jer ne postoji i bice novi
+			stavkeKorpe.add(new StavkaKorpe(artikal, kolicina));
+			odgovor = "OK: Dodat novi artikal u korpu";
+		}
+		
+		return odgovor;
+	}
+	
+	
+	/*
+	// stara metoda koja je radila sa mapama
 	public String dodajArtikal(Artikal artikal, int kolicina) {
 		String odgovor = "";
 		// ako imamo vec taj restoan
@@ -86,4 +116,31 @@ public class Korpa {
 		return odgovor;
 	}
 	
+	
+	
+	
+	public HashMap<String, ArrayList<StavkaKorpe>> getStavkeKorpe() {
+		return stavkeKorpe;
+	}
+
+	public void setStavkeKorpe(HashMap<String, ArrayList<StavkaKorpe>> stavkaKorpe) {
+		this.stavkeKorpe = stavkaKorpe;
+	}
+	
+	
+	
+	public StavkaKorpe getStavkaKorpePoNazivuArtikla(String nazivArtikla) {
+		
+		for (Entry<String, ArrayList<StavkaKorpe>> entry : stavkeKorpe.entrySet()) { 
+			for (StavkaKorpe s : entry.getValue()) {
+				if(s.getArtikal().getNaziv().equals(nazivArtikla))
+					return s;
+			}
+			
+		}
+		return null;
+	}
+	
+	
+	*/
 }
