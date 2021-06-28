@@ -110,6 +110,29 @@ public class KorisnikDAO {
 		}
 		
 	}
+
+
+	public void isprazniKorpu(String korisnickoIme) {
+		for(Korisnik k : korisnici) {
+			if(k.getKorisnickoIme().equals(korisnickoIme)){	
+				
+				k.getKorpa().isprazniKorpu();
+				sacuvajKorisnike();
+			}
+		}
+	}
+
+
+	public void setujKolicinuZaStavkuKorpe(String korisnickoIme, String nazivArtikla, int kolicina) {
+		for(Korisnik k : korisnici) {
+			if(k.getKorisnickoIme().equals(korisnickoIme)){	
+				
+				k.getKorpa().getStavkaKorpePoNazivuArtikla(nazivArtikla).setKolicina(kolicina);
+				sacuvajKorisnike();
+			}
+		}		
+		
+	}
 	
 	
 

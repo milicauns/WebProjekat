@@ -105,8 +105,16 @@ public class KorisnikServis {
 		return "OK";
 	}
 	
+	public void isprazniKorpu(String korisnickoIme) {
+		korisniciDAO.isprazniKorpu(korisnickoIme);
+	}
+	
 	public void dodajKorisnika(Korisnik noviKorisnik) {
 		korisniciDAO.DodajKorisnika(noviKorisnik);
+	}
+
+	public void setujKolicinuZaStavkuKorpe(String korisnickoIme, String nazivArtikla,int kolicina) {		
+		korisniciDAO.setujKolicinuZaStavkuKorpe(korisnickoIme,nazivArtikla,kolicina);
 	}
 
 

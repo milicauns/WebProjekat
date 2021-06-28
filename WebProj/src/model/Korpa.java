@@ -11,7 +11,7 @@ public class Korpa {
 	public Korpa(String korisnik) {
 		super();
 		this.korisnik = korisnik;
-		this.cena=0;
+		this.cena=0.00;
 		this.stavkeKorpe=new ArrayList<>();
 	}
 
@@ -39,8 +39,19 @@ public class Korpa {
 		this.stavkeKorpe = stavkaKorpe;
 	}
 	
+	public void isprazniKorpu() {
+		
+		this.stavkeKorpe.removeAll(stavkeKorpe);
+		this.cena=0.00;
+	}
 	
+	public StavkaKorpe getStavkaKorpePoNazivuArtikla(String nazivArtikla) {
+		
+		for (StavkaKorpe s : stavkeKorpe) {
+			if(s.getArtikal().getNaziv().equals(nazivArtikla))
+				return s;
+		}
+		return null;
+	}
 	
-	
-
 }

@@ -133,6 +133,18 @@ public class SparkAppMain {
 		return "OK";
 		});
 		
+		put("setujKolicinuZaStavku", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			String naziv = req.queryParams("nazivArtikla");
+			String kolicina = req.queryParams("kolicina");			
+			
+			korisnikServis.setujKolicinuZaStavkuKorpe(korisnik.getKorisnickoIme(),naziv,Integer. valueOf(kolicina));
+		return "OK";
+		});
+		
 		put("rest/izmeniLozinku/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
