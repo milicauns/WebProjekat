@@ -129,6 +129,15 @@ public class RestoranServis {
 		}
 		return odgovor;
 	}
+	
+	
+	public ArrayList<RestoranBezArtikalaDTO> GetRestoraniBezArtikalaDTO(){
+		ArrayList<RestoranBezArtikalaDTO> retVal = new ArrayList<RestoranBezArtikalaDTO>();
+		for (Restoran restoran : restoranDAO.GetRestorani()) {
+			retVal.add(new RestoranBezArtikalaDTO(restoran.getNaziv(), restoran.getTipRestorana(), restoran.getStatus(), restoran.getLokacija(), restoran.getLogo(), restoran.getProsecnaOcena()));
+		}
+		return retVal;
+	}
 
 
 }

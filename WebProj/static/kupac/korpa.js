@@ -4,13 +4,8 @@ Vue.component("korpa", {
 			korisnik: {},
 			korpa: {},
 			restorani: [],
-
-
-
-			ukupna: {},
-			artikal: {},
-			restoran: {},
-			kupaccc: {}
+			ukupnaCena: 0,
+			cenaSaPopustom: 0,
 		}
 	},
 	template: `
@@ -62,8 +57,8 @@ Vue.component("korpa", {
 							   </table>
 							</div>
 							<div class="cenaiKolicinaUKorpi" v-if="korisnik.uloga == 'KUPAC'">
-							   <input style="width: 80px;" v-model="stavka.kolicina" type="number" v-bind:id=artikal.naziv>
-							   <button v-on:click="izmeniKorpu(stavka)">Izmeni</button>
+							   <input style="width: 80px;" v-on:change="promenaSadrzaja(stavka)" v-model="stavka.kolicina" onkeydown="return false" min="1" type="number" v-bind:id=stavka.artikal.naziv>
+							   <button v-on:click="ukloniArtikal(stavka)">Ukloni</button>
 							   <br><br>
 							   <label> Cena: {{ stavka.kolicina * stavka.artikal.cena }} </label>
 							</div>
@@ -81,22 +76,22 @@ Vue.component("korpa", {
 		  <table>
 			 <tr>
 				<td>Ukupna cena: </td>
-				<td>{{ukupna.cena}}</td>
+				<td>{{ukupnaCena}}</td>
 			 </tr>
 			 <tr>
 				<td>Popust: </td>
-				<td>{{kupaccc.popust}}</td>
-				<td>{{kupaccc.tipKupca}}</td>
+				<td>{{korisnik.tipKupca.popust}}</td>
+				<td>{{korisnik.tipKupca.ImeTipa}}</td>
 			 </tr>
 			 <tr>
 				<td>Ukupna cena sa popustom:</td>
-				<td>{{ukupna.cenaSaPopustom}}</td>
+				<td>{{cenaSaPopustom}}</td>
 			 </tr>
 		  </table>
 		  <br>
-		  <button class="potvrdanButton">Poruci</button><br>
-		  <button>Nastavi Kupovinu</button><br>
-		  <button class="oprezanButton">Isprazni Korpu</button><br>
+		  <button class="potvrdanButton" v-on:click="potvrdiKupovinu">Poruci</button>
+		  <button class="standardanButton" v-on:click="nastaviSaKupovinom">Nastavi Kupovinu</button>
+		  <button class="oprezanButton" v-on:click="isprazniKorpu">Isprazni Korpu</button><br>
 	   </div>
 	</div>
 	<div class="rightcolumn">
@@ -109,8 +104,6 @@ Vue.component("korpa", {
  </div>
 `,
 	mounted() {
-
-
 		axios.get('rest/testlogin')
 		.then(response => {
 			if (response.data != 'Err:KorisnikNijeUlogovan') {
@@ -193,6 +186,7 @@ Vue.component("korpa", {
 			*/
 
 
+
 			for (var naziv of this.naziviRestorana) {
 				// SKDR je skracenica od stavkeKorpeDatogRestorana
 				//alert('RESTORAN :' + naziv);
@@ -222,7 +216,7 @@ Vue.component("korpa", {
 			alert('JEEEEEEEEEEEEEEEj');
 			*/
 			this.azurirajCenuUSvimRestoranima();
-			alert('KRAJ ucitavanja sve ok');
+			//alert('KRAJ ucitavanja sve ok');
 
 
 		},
@@ -232,18 +226,58 @@ Vue.component("korpa", {
 		putanjaDoSlike: function (restoran) {
 			return 'statickeSlike/logoRestorana.png'; // ovde treba da bude prava putanja :)
 		},
+		ukloniArtikal: function (stavka) {
+
+			var trazeniRestoran = null;
+			for (var restoran of this.restorani) {
+				if (restoran.nazivRestorana == stavka.artikal.nazivRestorana) {
+					trazeniRestoran = restoran;
+					break;
+				}
+			}
+			
+			if (trazeniRestoran != null) {
+				const indexStavke = trazeniRestoran.SKDR.indexOf(stavka);
+				trazeniRestoran.SKDR.splice(indexStavke, 1);
+
+				if (trazeniRestoran.SKDR.length == 0) {
+					const indexRestorana = this.restorani.indexOf(trazeniRestoran);
+					this.restorani.splice(indexRestorana, 1);
+				}
+			}
+
+			this.azurirajCenuUSvimRestoranima();
+		},
 		izmeniKorpu: function (stavka) {
 			this.azurirajCenuUSvimRestoranima();
 
 		},
 		azurirajCenuUSvimRestoranima: function () {
+			var ukupnoUKUPNO = 0;
 			for (var restoran of this.restorani) {
 				var novoUkupno = 0;
 				for (var stavka of restoran.SKDR) {
 					novoUkupno += stavka.kolicina * stavka.artikal.cena;
 				}
+				ukupnoUKUPNO += novoUkupno;
 				restoran.ukupnaCena = novoUkupno;
-			}			
+			}
+			this.ukupnaCena = ukupnoUKUPNO;
+			this.cenaSaPopustom = this.ukupnaCena * (1 - this.korisnik.tipKupca.popust - 0.3);
+		},
+		promenaSadrzaja: function (stavka) {
+			this.azurirajCenuUSvimRestoranima();
+			// axios poziv
+		},
+		potvrdiKupovinu: function () {
+			// to do
+		},
+		isprazniKorpu: function () {
+			this.ukupnaCena = 0;
+			this.restorani = [];
+		},
+		nastaviSaKupovinom: function () {
+			window.location.href = "/";
 		}
 	}
 });
