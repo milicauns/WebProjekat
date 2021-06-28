@@ -43,6 +43,7 @@ public class Korisnik {
 			this.porudzbine = new ArrayList<>();
 			this.brojSakupljenihBodova = 0;
 			this.tipKupca = new TipKupca();
+			this.korpa = new Korpa(this.korisnickoIme);
 			this.porudzbineZaDostavu = new ArrayList<>();
 			this.nazivRestorana = "None";
 		
