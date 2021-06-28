@@ -27,5 +27,9 @@ public class StavkaKorpe {
 		this.kolicina = kolicina;
 	}
 	
+	public void povecajKolicinu() {
+		this.kolicina ++;
+	}
+	
 	
 }
