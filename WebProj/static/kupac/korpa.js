@@ -3,6 +3,7 @@ Vue.component("korpa", {
 		return {
 			korisnik: {},
 			korpa: {},
+			restoraniDTO: [],
 			restorani: [],
 			ukupnaCena: 0,
 			cenaSaPopustom: 0,
@@ -21,7 +22,7 @@ Vue.component("korpa", {
 				<div class="zagavljeRestoranaUKorpi">
 				   <div class="row">
 					  <div class="leftcolumnRestoranUKorpi">
-						 <img :src="putanjaDoSlike(RK.nazivRestorana)" class="logoRestoranaUkorpiCSS"> 
+						 <img :src="putanjaDoSlike(RK)" class="logoRestoranaUkorpiCSS"> 
 					  </div>
 					  <div class="rightcolumnRestoran">
 						 <label style="font-size: 20px;">{{RK.nazivRestorana}}</label><br><br>
@@ -58,7 +59,7 @@ Vue.component("korpa", {
 							</div>
 							<div class="cenaiKolicinaUKorpi" v-if="korisnik.uloga == 'KUPAC'">
 							   <input style="width: 80px;" v-on:change="promenaSadrzaja(stavka)" v-model="stavka.kolicina" onkeydown="return false" min="1" type="number" v-bind:id=stavka.artikal.naziv>
-							   <button v-on:click="ukloniArtikal(stavka)">Ukloni</button>
+							   <button v-on:click="ukloniArtikalBackend(stavka)">Ukloni</button>
 							   <br><br>
 							   <label> Cena: {{ stavka.kolicina * stavka.artikal.cena }} </label>
 							</div>
@@ -108,7 +109,7 @@ Vue.component("korpa", {
 		.then(response => {
 			if (response.data != 'Err:KorisnikNijeUlogovan') {
 				this.korisnik = response.data;
-				this.setapujPodatke();
+				this.setapujPodatke1();
 			}else{				
 				alert(response.data);
 			}
@@ -123,7 +124,7 @@ Vue.component("korpa", {
 		povecajKolicinu: function (nazivArtikla) {
 					
 		},
-		setapujPodatke: function () {
+		setapujPodatke1: function () {
 			//alert('setup');
 			this.stavkeKorpe = this.korisnik.korpa.stavkeKorpe;
 
@@ -143,10 +144,29 @@ Vue.component("korpa", {
 			}
 			//alert('restorani ' + this.naziviRestorana);
 
+			// nrapvimo axios poziv za restorane
+
+
+			axios.get('rest/restoraniBezArtikala')
+			.then(response => {
+				if (response.data != 'Err:KorisnikNijeUlogovan') {
+					this.restoraniDTO = response.data;
+					this.setapujPodatke2();
+				}else{				
+					alert(response.data);
+				}
+
+			}).catch(function (error) {
+				alert('GRESKA SA SERVEROM');
+			});
+
+		},
+		setapujPodatke2: function () {
 			/*
 				sada napravimo custom listu koja ima strukturu
 				[
 					{
+						restoran: {},
 						nazivRestorana: '',
 						ukupnaCena: 0,
 						stavkeKorpeDatogRestorana: [
@@ -165,6 +185,7 @@ Vue.component("korpa", {
 						]
 					},
 					{
+						restoran: {},
 						nazivRestorana: '',
 						ukupnaCena: 0,
 						stavkeKorpeDatogRestorana: [
@@ -185,48 +206,52 @@ Vue.component("korpa", {
 				]
 			*/
 
-
-
 			for (var naziv of this.naziviRestorana) {
 				// SKDR je skracenica od stavkeKorpeDatogRestorana
-				//alert('RESTORAN :' + naziv);
 				var SKDR = [];
 				for (var stavka of this.stavkeKorpe) {
 					if (stavka.artikal.nazivRestorana == naziv) {
 						SKDR.push(stavka);
-						//alert('pushovali smo ' + stavka.artikal.naziv);
 					}
 				}
-				//alert('STATUS 1');
-				var rest = { nazivRestorana: naziv, ukupnaCena: 0, SKDR: SKDR };
-				//alert('STATUS 2');
+
+				var trazeniRestoran = null;
+				for (var restoran of this.restoraniDTO) {
+					if (naziv == restoran.naziv){
+						trazeniRestoran = restoran;
+					}
+				}
+
+				var rest = { restoran: trazeniRestoran, nazivRestorana: naziv, ukupnaCena: 0, SKDR: SKDR };
 				this.restorani.push(rest);
-				//alert('STATUS 3');
 			}
-			//alert('ZAVRSILI SMO SVE');
-			// sada imamo strukturu
-			
-			/*
-			razni printeri da vidimo dal radi
-			for (var sadrzaj of this.restorani) {
-				//alert('nazivRestorana ' + sadrzaj.nazivRestorana + '  artikal:' + sadrzaj.SKDR.artikal.naziv + ' kolicina:' + sadrzaj.SKDR.kolicina);
-				alert('nazivRestorana ' + sadrzaj.nazivRestorana);
-				alert('  artikal:' + sadrzaj.SKDR[0].artikal.naziv);
-			}
-			alert('JEEEEEEEEEEEEEEEj');
-			*/
+
 			this.azurirajCenuUSvimRestoranima();
 			//alert('KRAJ ucitavanja sve ok');
-
-
 		},
 		getSlikaArtikla: function (stavka) {
 			return stavka.artikal.slika;
 		},
-		putanjaDoSlike: function (restoran) {
-			return 'statickeSlike/logoRestorana.png'; // ovde treba da bude prava putanja :)
+		putanjaDoSlike: function (RK) {
+			return RK.restoran.logo;
 		},
-		ukloniArtikal: function (stavka) {
+		ukloniArtikalBackend: function (stavka) {
+			axios.post('rest/korpa/izmeni', {
+				nazivRestorana: stavka.artikal.nazivRestorana,
+				nazivArtikla: stavka.artikal.naziv,
+				kolicina: 0
+			  }).then(response => {
+				if (response.data == 'OK') {
+					this.ukloniArtikalFronted(stavka);
+					alert('Uspesno ste izmenili korpu');
+				} else {
+				  alert(response.data);
+				}
+			  }).catch(error => {
+				alert('Greska sa serverom');
+			  });
+		},
+		ukloniArtikalFronted: function (stavka) {
 
 			var trazeniRestoran = null;
 			for (var restoran of this.restorani) {
@@ -248,10 +273,6 @@ Vue.component("korpa", {
 
 			this.azurirajCenuUSvimRestoranima();
 		},
-		izmeniKorpu: function (stavka) {
-			this.azurirajCenuUSvimRestoranima();
-
-		},
 		azurirajCenuUSvimRestoranima: function () {
 			var ukupnoUKUPNO = 0;
 			for (var restoran of this.restorani) {
@@ -266,8 +287,22 @@ Vue.component("korpa", {
 			this.cenaSaPopustom = this.ukupnaCena * (1 - this.korisnik.tipKupca.popust - 0.3);
 		},
 		promenaSadrzaja: function (stavka) {
-			this.azurirajCenuUSvimRestoranima();
 			// axios poziv
+			axios.post('rest/korpa/izmeni', {
+				nazivRestorana: stavka.artikal.nazivRestorana,
+				nazivArtikla: stavka.artikal.naziv,
+				kolicina: stavka.kolicina
+			  }).then(response => {
+				if (response.data == 'OK') {
+					this.azurirajCenuUSvimRestoranima();
+					alert('Uspesno ste izmenili korpu');
+				} else {
+				  alert(response.data);
+				}
+			  }).catch(error => {
+				alert('Greska sa serverom');
+			  });
+
 		},
 		potvrdiKupovinu: function () {
 			// to do

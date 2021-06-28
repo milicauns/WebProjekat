@@ -192,7 +192,7 @@ Vue.component("prikazrestoran", {
       var inputPolje = document.getElementById(artikal.naziv);
       var kolicinaInput = inputPolje.value;
       
-      axios.post('rest/korpa/dodaj', {
+      axios.post('rest/korpa/izmeni', {
         nazivRestorana: this.restoran.naziv,
         nazivArtikla: artikal.naziv,
         kolicina: kolicinaInput

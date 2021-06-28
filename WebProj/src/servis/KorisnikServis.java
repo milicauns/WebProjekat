@@ -137,9 +137,21 @@ public class KorisnikServis {
 		korisniciDAO.sacuvajKorisnike();
 	}
 	
+	public Korisnik getKorisnikByKorisnickoIme(String korisnickoIme){
+		Korisnik trazeniKorisnik = null;
+		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
+			if(korisnik.getKorisnickoIme().equals(korisnickoIme)) {
+				trazeniKorisnik = korisnik;
+				break;
+			}
+		}
+		return trazeniKorisnik;
+	}
+	
 	public String azurirajKorpu(Korisnik korisnik, ParametriDodajArtikalUKorpuDTO parametriDodajUKorpuDTO){
 		String odgovor = "";
-		Korpa korpa = korisnik.getKorpa();
+		Korisnik kor = getKorisnikByKorisnickoIme(korisnik.getKorisnickoIme());
+		Korpa korpa = kor.getKorpa();
 		RestoranServis restoranServis = new RestoranServis();
 		Restoran restoran = restoranServis.getRestoranByNaziv(parametriDodajUKorpuDTO.nazivRestorana);
 		Artikal artiakl = null;

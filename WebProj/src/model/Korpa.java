@@ -73,8 +73,14 @@ public class Korpa {
 			if(stavkaKorpe.getArtikal().getNaziv().equals(artikal.getNaziv()) && 
 			   stavkaKorpe.getArtikal().getNazivRestorana().equals(artikal.getNazivRestorana())) 
 			{
-				stavkaKorpe.getArtikal().setKolicina(kolicina);
-				odgovor = "OK: Promenjena kolicina u postojecem artiklu";
+				if(kolicina < 1) {
+					stavkeKorpe.remove(stavkaKorpe);
+					odgovor = "OK: Artikal je uklonjen iz korpe";
+				}else {
+					stavkaKorpe.setKolicina(kolicina);
+					odgovor = "OK: Promenjena kolicina u postojecem artiklu";
+				}
+				
 				izvrseno = true;
 				break;
 			}
@@ -82,8 +88,10 @@ public class Korpa {
 		
 		if(!izvrseno) {
 			// treba ga dodati jer ne postoji i bice novi
-			stavkeKorpe.add(new StavkaKorpe(artikal, kolicina));
-			odgovor = "OK: Dodat novi artikal u korpu";
+			if(kolicina > 0) {
+				stavkeKorpe.add(new StavkaKorpe(artikal, kolicina));
+				odgovor = "OK: Dodat novi artikal u korpu";
+			}
 		}
 		
 		return odgovor;

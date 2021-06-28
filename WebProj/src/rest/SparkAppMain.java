@@ -271,10 +271,12 @@ public class SparkAppMain {
 		});
 		
 		
-		post("rest/korpa/dodaj", (req, res) -> {
+		post("rest/korpa/izmeni", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
 			ParametriDodajArtikalUKorpuDTO parametriDodajUKorpuDTO = g.fromJson(req.body(), ParametriDodajArtikalUKorpuDTO.class);			
+			
+			System.out.println(parametriDodajUKorpuDTO.kolicina + " " + parametriDodajUKorpuDTO.nazivArtikla);
 			
 			Session ss = req.session(true);
 			Korisnik korisnik = ss.attribute("korisnik");
@@ -297,6 +299,7 @@ public class SparkAppMain {
 			}
 			return odgovor;
 		});
+		
 		
 
 	}
