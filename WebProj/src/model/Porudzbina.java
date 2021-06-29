@@ -7,7 +7,7 @@ import enums.StatusPorudzbine;
 public class Porudzbina {
 	
 	private String id;
-	private ArrayList<Artikal> artikli;
+	private ArrayList<StavkaKorpe> artikli;
 	private String datum;
 	private String vreme;
 	private String nazivRestorana;
@@ -31,9 +31,10 @@ public class Porudzbina {
 		this.cena = 0.00;
 	}
 	
-	public void dodajArtikalPorudzbini(Artikal a) {
-		this.artikli.add(a);
+	public void dodajStavkePorudzbine(ArrayList<StavkaKorpe> stavke) {
+		artikli.addAll(stavke);
 	}
+	
 	
 	public String getId() {
 		return id;
@@ -41,10 +42,10 @@ public class Porudzbina {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public ArrayList<Artikal> getArtikli() {
+	public ArrayList<StavkaKorpe> getArtikli() {
 		return artikli;
 	}
-	public void setArtikli(ArrayList<Artikal> artikli) {
+	public void setArtikli(ArrayList<StavkaKorpe> artikli) {
 		this.artikli = artikli;
 	}
 	public String getDatum() {

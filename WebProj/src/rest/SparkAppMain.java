@@ -31,6 +31,7 @@ public class SparkAppMain {
 		KorisnikServis korisnikServis = new KorisnikServis();
 		RestoranServis restoranServis = new RestoranServis();
 		KomentarServis komentarServis = new KomentarServis();
+		PorudzbinaServis porudzbinaServis = new PorudzbinaServis();
 		
 		get("rest/restorani", (req, res) -> {
 			res.type("application/json");
@@ -169,6 +170,33 @@ public class SparkAppMain {
 			korisnikServis.RegistrujKupca(kupacInfo);
 		return "uspjeh";
 		});
+		
+		post("rest/kreirajPorudzbinu/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			PorudzbinaZaRestoranDTO stavke = g.fromJson(req.body(),PorudzbinaZaRestoranDTO.class);
+			
+			for(StavkaKorpe s : stavke.stavkeZaRestoran)
+				System.out.println(s.getArtikal().getNaziv());
+			
+			porudzbinaServis.kreirajPorudzbinuZaRestoran(stavke,korisnik.getKorisnickoIme());
+		return "uspjeh";
+		});
+		
+		put("rest/izmeniPorudzbinu/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			String idPorudzbine = req.queryParams("id");
+			String statusString = req.queryParams("status");
+			StatusPorudzbine status = StatusPorudzbine.valueOf(statusString);		
+			porudzbinaServis.promeniStatusPorudzbine(status, idPorudzbine);
+		return "uspjeh";
+		});
+		
 
 		post("rest/registracijaRestoran/", (req, res) -> {
 			res.type("application/json");

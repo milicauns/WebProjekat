@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import enums.StatusPorudzbine;
 import model.Porudzbina;
 
 public class PorudzbinaDAO {
@@ -56,4 +57,20 @@ public class PorudzbinaDAO {
 	public ArrayList<Porudzbina> getPorudzbine(){
 		return porudzbine;
 	}
+	
+	public void sacuvajPorudzbinu(Porudzbina novaPorudzbina) {
+		porudzbine.add(novaPorudzbina);
+		sacuvajPorudzbine();		
+	}
+
+
+	public void promeniStatusPorudzbine(StatusPorudzbine status, String idPorudzbine) {
+		for(Porudzbina p : porudzbine) {
+			if(p.getId().equals(idPorudzbine)) {
+				p.setStatus(status);
+				sacuvajPorudzbine();
+			}
+		}		
+	}
+	
 }

@@ -305,7 +305,14 @@ Vue.component("korpa", {
 
 		},
 		potvrdiKupovinu: function () {
-			// to do
+			
+			for(p in this.restorani){
+				
+				alert(p.SKDR);
+				
+			axios.post('rest/kreirajPorudzbinu/', { "stavkeZaRestoran": p.SKDR });
+							
+			}
 		},
 		isprazniKorpu: function () {
 			this.ukupnaCena = 0;
