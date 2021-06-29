@@ -58,7 +58,7 @@ public class PorudzbinaServis {
 		 DateTimeFormatter formaterDatum = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		 LocalDateTime datum = LocalDateTime.now();  
 		 
-		 DateTimeFormatter formaterVreme = DateTimeFormatter.ofPattern("HH:mm:ss");
+		 DateTimeFormatter formaterVreme = DateTimeFormatter.ofPattern("HH:mm");
 		 LocalDateTime vreme = LocalDateTime.now();
 		
 		String id = generisiNoviId();		 

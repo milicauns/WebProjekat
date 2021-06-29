@@ -40,6 +40,28 @@ public class SparkAppMain {
 			ArrayList<Restoran> restorani = restoranServis.GetRestorani();
 			return g.toJson(restorani);
 		});
+
+		get("rest/porudzbineZaRestoran", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			return g.toJson(porudzbinaServis.getPorudzbineRestorana(korisnik.getNazivRestorana()));
+		});
+		
+		get("rest/porudzbineKupca", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			return g.toJson(porudzbinaServis.getPorudzbineKupca(korisnik.getKorisnickoIme()));
+		});
+		
+		get("rest/porudzbineKojeCekajuDostavljaca", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			return g.toJson(porudzbinaServis.getPorudzbineZaStatus(StatusPorudzbine.CEKA_DOSTAVLJACA));
+		});
 		
 		get("rest/restoraniBezArtikala", (req, res) -> {
 			res.type("application/json");
