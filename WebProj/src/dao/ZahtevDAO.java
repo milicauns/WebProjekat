@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import enums.StatusZahteva;
 import model.Restoran;
 import model.ZahtevDostavljaca;
 
@@ -60,14 +61,21 @@ public class ZahtevDAO {
 
 
 	public void dodajZahtev(ZahtevDostavljaca noviZahtev) {
+		System.out.println(noviZahtev.toString());
 		zahtevi.add(noviZahtev);
 		sacuvajZahteve();		
 	}
 	
 	public void obrisiZahtev(String idPorudzbine,String korisnickoIme) { //nisam sig moze li ovo isk
+
+	}
+
+	public void promeniStatusZahteva(String idPorudzbine, String dostavljac, StatusZahteva status) {
 		for(ZahtevDostavljaca z : zahtevi) {
-			if(z.getIdNarudzbine().equals(idPorudzbine) && z.getDostavljac().equals(korisnickoIme))
-				zahtevi.remove(z);
+			if(z.getIdNarudzbine().equals(idPorudzbine) && z.getDostavljac().equals(dostavljac)) {
+				z.setStatus(status);
+				sacuvajZahteve();
+			}
 			return;
 		}
 	}

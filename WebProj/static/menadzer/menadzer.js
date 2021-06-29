@@ -56,8 +56,8 @@ Vue.component("menadzer", {
     <div class="card">
       <div class="vertical-menu">
         <button v-on:click="selektujKomponentu('artiklimenazdera')">Artikli</button>
-        <button v-on:click="selektujKomponentu('komp2')">BUTON 2</button>
-        <button v-on:click="selektujKomponentu('komp3')">BUTON 3</button>
+        <button v-on:click="selektujKomponentu('porudzbineMenadzer')">Porudzbine restorana</button>
+        <button v-on:click="selektujKomponentu('zahteviDostavljaca')">Zahtevi dostavljaca</button>
         <button v-on:click="selektujKomponentu('komp4')">BUTON 4</button>
       </div>
     </div>

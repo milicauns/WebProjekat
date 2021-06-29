@@ -238,20 +238,25 @@ public class SparkAppMain {
 			Session ss = req.session(true);
 			Korisnik korisnik = ss.attribute("korisnik");
 			
-			String idPorudzbine = g.fromJson(req.body(),String.class);
-			zahtevDostavljacaServis.dodajZahtev(idPorudzbine, korisnik.getNazivRestorana(),korisnik.getKorisnickoIme());
+			String idPorudzbine = req.queryParams("idPorudzbine");
+			String nazivRestorana = req.queryParams("nazivRestorana");
+			
+			System.out.println(idPorudzbine);
+			
+			zahtevDostavljacaServis.dodajZahtev(idPorudzbine,nazivRestorana,korisnik.getKorisnickoIme());
 		return "uspjeh";
 		});
 		
-		put("rest/obrisiZahtev/", (req, res) -> {
+		put("rest/promeniStatusZahteva/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
+		
+			String idPorudzbine = req.queryParams("idPorudzbine");
+			String dostavljac = req.queryParams("dostavljac");
+			String statusString= req.queryParams("status");
+			StatusZahteva status = StatusZahteva.valueOf(statusString);
 			
-			Session ss = req.session(true);
-			Korisnik korisnik = ss.attribute("korisnik");
-			
-			String idPorudzbine = g.fromJson(req.body(),String.class);
-			zahtevDostavljacaServis.obrisiZahtev(idPorudzbine,korisnik.getKorisnickoIme());
+			zahtevDostavljacaServis.promeniStatusZahteva(idPorudzbine,dostavljac,status);
 		return "uspjeh";
 		});
 		

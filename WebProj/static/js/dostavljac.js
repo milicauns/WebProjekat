@@ -23,7 +23,7 @@ Vue.component("dostavljac", {
 		  
 
 		<div id="restoraniID">
-			<div v-for="p in porudzbine" class="restoranDiv" v-on:click="detaljanPrikazRestorana(restoran)" style="height:200px;">
+			<div v-for="p in porudzbine" class="restoranDiv" style="height:200px;">
 				<div class="row">
 					<div class="rightcolumnRestoran">
 						<table>
@@ -33,7 +33,7 @@ Vue.component("dostavljac", {
 							<tr><td>Cena: {{p.cena}}</td></tr>
                           	<tr><td>Kupac: {{p.kupac}}: {{p.imePrezimeKupca}}</td></tr>
 							<tr><td>Status: {{p.status}}</td></tr>
-							<tr v-if="p.status =='CEKA_DOSTAVLJACA'" ><td><button v-on:click="posaljiZahtjev(p.id)">Posalji zahtjev</button></td></tr>
+							<tr v-if="p.status =='CEKA_DOSTAVLJACA'" ><td><button v-on:click="posaljiZahtjev(p.id,p.nazivRestorana)">Posalji zahtjev</button></td></tr>
 							<tr v-if="p.status =='U_TRANSPORTU'" ><td><button v-on:click="porudzbinaDostavljena(p.id)">Porudzbina Dostavljena</button></td></tr>
 						</table>
 					</div>
@@ -121,10 +121,16 @@ Vue.component("dostavljac", {
 			
 			
 		},
-		posaljiZahtjev: function(idPorudzbine){
-			
-
+		posaljiZahtjev: function(idPorudzbine,nazivRestorana){
 		
+		alert(idPorudzbine);
+		axios.post('rest/dodajZahtev/',{
+			params: {
+			idPorudzbine: idPorudzbine,
+			nazivRestorana: nazivRestorana
+		}
+		});
+	
 		},
 		porudzbinaDostavljena: function(idPorudzbine){
 			

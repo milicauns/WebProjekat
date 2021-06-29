@@ -1,10 +1,13 @@
 package model;
 
+import enums.StatusZahteva;
+
 public class ZahtevDostavljaca {
 	
 	private String nazivRestorana;
 	private String idNarudzbine;
 	private String dostavljac;
+	private StatusZahteva status;
 	
 	
 	
@@ -13,6 +16,7 @@ public class ZahtevDostavljaca {
 		this.nazivRestorana = nazivRestorana;
 		this.idNarudzbine = idNarudzbine;
 		this.dostavljac = dostavljac;
+		this.status = StatusZahteva.CEKA;
 	}
 	
 	public String getNazivRestorana() {
@@ -33,6 +37,21 @@ public class ZahtevDostavljaca {
 	public void setDostavljac(String dostavljac) {
 		this.dostavljac = dostavljac;
 	}
+
+	public StatusZahteva getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusZahteva status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "ZahtevDostavljaca [nazivRestorana=" + nazivRestorana + ", idNarudzbine=" + idNarudzbine
+				+ ", dostavljac=" + dostavljac + ", status=" + status + "]";
+	}
+	
 	
 	
 
