@@ -1,16 +1,17 @@
-Vue.component("porudzbineKupac", {
+Vue.component("porudzbineDostavljac", {
 	data: function () {
 		return {
 		
 		porudzbine: null,
-		kupac: null,
+		porudzbineDostavljaca: null,
+		dostavljac: null,
 		datumOd: '',
 		datumDo:'',
 		cenaOd: '',
 		cenaDo: '',
 		tipRestorana: '',
 		nazivRestorana: '',
-		nedostavljene : true
+		preuzete : false
 		}
 	},
 	template: `
@@ -32,7 +33,8 @@ Vue.component("porudzbineKupac", {
 							<tr><td>Cena: {{restoran.lokacija.adresa.mesto}}</td></tr>
                           	<tr><td>Kupac: {{p.kupac}}: {{p.imePrezimeKupca}}</td></tr>
 							<tr><td>Status: {{restoran.status}}</td></tr>
-                          	<tr v-if="p.status =='OBRADA'" ><td><button v-on:click="otkaziPorudzbinu(p.id)">Otkazi porudbinu</button></td></tr>
+							<tr v-if="p.status =='CEKA_DOSTAVLJACA'" ><td><button v-on:click="posaljiZahtjev(p.id)">Posalji zahtjev</button></td></tr>
+							<tr v-if="p.status =='U_TRANSPORTU'" ><td><button v-on:click="porudzbinaDostavljena(p.id)">Porudzbina Dostavljena</button></td></tr>
 						</table>
 					</div>
 				</div>
@@ -46,7 +48,7 @@ Vue.component("porudzbineKupac", {
 		  <h2>Pretraga</h2>
 			<table>
             <tr><td>
-             <input type="checkbox" checked="true" value="Nedostavljene" v-model="nedostavljene"> NEDOSTAVLJENE PORUDZBINE</td></tr>
+             <input type="checkbox" checked="false" value="Preuzete" v-model="preuzete"> PREUZETE PORUDZBINE </td></tr>
              <tr>
                <td><label>Status porudzbine:</label></td>
                <td><select v_model="status">
@@ -99,7 +101,8 @@ Vue.component("porudzbineKupac", {
 		axios.get('rest/testlogin')
 		.then(response => {
 			if (response.data != 'Err:KorisnikNijeUlogovan') {
-				this.kupac = response.data;
+				this.dostavljac = response.data;
+				this.porudzbineDostavljaca = this.dostavljac.porudzbineZaDostavu;
 			}else{				
 				alert(response.data);
 			}
@@ -108,7 +111,7 @@ Vue.component("porudzbineKupac", {
 			alert('GRESKA SA SERVEROM');
 		});
 		
-		axios.get('rest/porudzbineKupca')
+		axios.get('rest/porudzbineKojeCekajuDostavljaca')
 			.then(response => (this.porudzbine = response.data));
 	},
 	methods: {
@@ -116,15 +119,21 @@ Vue.component("porudzbineKupac", {
 			
 			
 		},
-		otkaziPorudzbinu: function(idPorudzbine){
+		posaljiZahtjev: function(idPorudzbine){
+			
+
+		
+		},
+		porudzbinaDostavljena: function(idPorudzbine){
 			
 		axios.put('rest/izmeniPorudzbinu/', {
        		params: {
           	id: idPorudzbine,
-          	status: 'OTKAZANA'
+          	status: 'DOSTAVLJENA'
         	}
-     	 });
-		
+     	 });	
+			
+			
 		}
 	}
 });
