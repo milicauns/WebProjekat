@@ -250,6 +250,9 @@ public class SparkAppMain {
 			StatusZahteva status = StatusZahteva.valueOf(zahtevInfo.status);
 			System.out.println(status);
 			
+			if(status == StatusZahteva.ODOBREN)
+				porudzbinaServis.promeniStatusPorudzbine(StatusPorudzbine.U_TRANSPORTU,zahtevInfo.idPorudzbine);
+			
 			zahtevDostavljacaServis.promeniStatusZahteva(zahtevInfo.idPorudzbine,zahtevInfo.dostavljac,status);
 		return "uspjeh";
 		});
