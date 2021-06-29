@@ -33,6 +33,7 @@ public class SparkAppMain {
 		RestoranServis restoranServis = new RestoranServis();
 		KomentarServis komentarServis = new KomentarServis();
 		PorudzbinaServis porudzbinaServis = new PorudzbinaServis();
+		ZahtevDostavljacaServis zahtevDostavljacaServis = new ZahtevDostavljacaServis();
 		
 		get("rest/restorani", (req, res) -> {
 			res.type("application/json");
@@ -228,6 +229,39 @@ public class SparkAppMain {
 			StatusPorudzbine status = StatusPorudzbine.valueOf(statusString);		
 			porudzbinaServis.promeniStatusPorudzbine(status, idPorudzbine);
 		return "uspjeh";
+		});
+		
+		post("rest/dodajZahtev/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			String idPorudzbine = g.fromJson(req.body(),String.class);
+			zahtevDostavljacaServis.dodajZahtev(idPorudzbine, korisnik.getNazivRestorana(),korisnik.getKorisnickoIme());
+		return "uspjeh";
+		});
+		
+		put("rest/obrisiZahtev/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			String idPorudzbine = g.fromJson(req.body(),String.class);
+			zahtevDostavljacaServis.obrisiZahtev(idPorudzbine,korisnik.getKorisnickoIme());
+		return "uspjeh";
+		});
+		
+		get("rest/getZahteviZaRestoran/", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			return zahtevDostavljacaServis.getZahteviZaRestoran(korisnik.getNazivRestorana());
 		});
 		
 

@@ -14,6 +14,7 @@
 	  <a href="#/">Pomoc</a>
 	  <a v-if="ulogovaniKorisnik.uloga=='ADMINISTRATOR'" href="#/administrator">Admin</a>
 	  <a v-if="ulogovaniKorisnik.uloga=='MENADZER'" href="#/menadzer">Menadzer</a>
+	  <a v-if="ulogovaniKorisnik.uloga=='DOSTAVLJAC'" href="#/dostavljac">Dostavljac</a>
 	  <a v-if="status=='neUlogovan'" href="#/registracija" style="float:right">Registracija</a>
 	  <a v-if="status=='neUlogovan'" href="#/login" style="float:right">Login</a>
 	  <a v-if="status=='ulogovan'" href="#/" v-on:click="logout" style="float:right">LogOut</a>
@@ -43,6 +44,7 @@
 <script src="skripte/toast.js"></script>
 
 <!-- Nase skripte -->
+<script src="js/dostavljac.js"></script>
 <script src="js/komentari.js"></script>
 <script src="js/profil.js"></script>
 <script src="js/restorani.js"></script>

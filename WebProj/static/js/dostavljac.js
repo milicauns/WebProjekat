@@ -1,4 +1,4 @@
-Vue.component("porudzbineDostavljac", {
+Vue.component("dostavljac", {
 	data: function () {
 		return {
 		
@@ -30,9 +30,9 @@ Vue.component("porudzbineDostavljac", {
 
 							<tr><td><h4>{{p.id}}</h4></td></tr>
 							<tr><td>Datum i vreme: {{p.datum}} {{p.vreme}}</td></tr>
-							<tr><td>Cena: {{restoran.lokacija.adresa.mesto}}</td></tr>
+							<tr><td>Cena: {{p.cena}}</td></tr>
                           	<tr><td>Kupac: {{p.kupac}}: {{p.imePrezimeKupca}}</td></tr>
-							<tr><td>Status: {{restoran.status}}</td></tr>
+							<tr><td>Status: {{p.status}}</td></tr>
 							<tr v-if="p.status =='CEKA_DOSTAVLJACA'" ><td><button v-on:click="posaljiZahtjev(p.id)">Posalji zahtjev</button></td></tr>
 							<tr v-if="p.status =='U_TRANSPORTU'" ><td><button v-on:click="porudzbinaDostavljena(p.id)">Porudzbina Dostavljena</button></td></tr>
 						</table>
@@ -47,8 +47,10 @@ Vue.component("porudzbineDostavljac", {
 		<div class="card">
 		  <h2>Pretraga</h2>
 			<table>
-            <tr><td>
-             <input type="checkbox" checked="false" value="Preuzete" v-model="preuzete"> PREUZETE PORUDZBINE </td></tr>
+            <tr>
+			<td><label>PREUZETE PORUDZBINE</label></td>
+			<td>
+             <input type="checkbox" checked="false" value="Preuzete" v-model="preuzete"></td></tr>
              <tr>
                <td><label>Status porudzbine:</label></td>
                <td><select v_model="status">
@@ -75,17 +77,17 @@ Vue.component("porudzbineDostavljac", {
                <td>
                  <label>Naziv restorana:</label>
                </td>
-                <td><input type="text" placeholder="..." v-model="nazivRestorana">
+                <td><input type="text" placeholder="..." v-model="nazivRestorana"></td>
               </tr>
 			  <tr>
               <td><label>Opseg datuma:</label></td>
-              <td><input type="date" placeholder="Naziv Restorana" v-model="datumOd">
+              <td><input type="date" placeholder="Naziv Restorana" v-model="datumOd"></td>
 			  <td><input type="date" placeholder="Lokacija Restorana" v-model="datumDo"></td>
               </tr>
               
               <tr>
               <td><label>Opseg cene:</label></td>
-              <td><input type="text" placeholder="Od" v-model="cenaOd">
+              <td><input type="text" placeholder="Od" v-model="cenaOd"></td>
 			  <td><input type="text" placeholder="Do" v-model="cenaDo"></td>
               </tr>
               
