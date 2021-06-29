@@ -236,14 +236,10 @@ public class SparkAppMain {
 			res.status(200);
 			
 			Session ss = req.session(true);
-			Korisnik korisnik = ss.attribute("korisnik");
-			
-			String idPorudzbine = req.queryParams("idPorudzbine");
-			String nazivRestorana = req.queryParams("nazivRestorana");
-			
-			System.out.println(idPorudzbine);
-			
-			zahtevDostavljacaServis.dodajZahtev(idPorudzbine,nazivRestorana,korisnik.getKorisnickoIme());
+			Korisnik korisnik = ss.attribute("korisnik");			
+			ParametriZahtevaDTO zahtevInfo = g.fromJson(req.body(),ParametriZahtevaDTO.class);	
+				
+			zahtevDostavljacaServis.dodajZahtev(zahtevInfo.idPorudzbine,zahtevInfo.nazivRestorana,korisnik.getKorisnickoIme());
 		return "uspjeh";
 		});
 		
@@ -260,13 +256,14 @@ public class SparkAppMain {
 		return "uspjeh";
 		});
 		
-		get("rest/getZahteviZaRestoran/", (req, res) -> {
+		get("rest/getZahteviZaRestoran", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
 			
 			Session ss = req.session(true);
 			Korisnik korisnik = ss.attribute("korisnik");
-			return zahtevDostavljacaServis.getZahteviZaRestoran(korisnik.getNazivRestorana());
+			
+			return g.toJson(zahtevDostavljacaServis.getZahteviZaRestoran(korisnik.getNazivRestorana()));
 		});
 		
 

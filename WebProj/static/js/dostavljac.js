@@ -124,12 +124,7 @@ Vue.component("dostavljac", {
 		posaljiZahtjev: function(idPorudzbine,nazivRestorana){
 		
 		alert(idPorudzbine);
-		axios.post('rest/dodajZahtev/',{
-			params: {
-			idPorudzbine: idPorudzbine,
-			nazivRestorana: nazivRestorana
-		}
-		});
+		axios.post('rest/dodajZahtev/',{idPorudzbine: idPorudzbine, nazivRestorana: nazivRestorana});
 	
 		},
 		porudzbinaDostavljena: function(idPorudzbine){

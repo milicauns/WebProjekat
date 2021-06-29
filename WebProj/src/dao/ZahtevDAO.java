@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import enums.StatusZahteva;
-import model.Restoran;
 import model.ZahtevDostavljaca;
 
 public class ZahtevDAO {
@@ -45,7 +44,7 @@ public class ZahtevDAO {
 		    String json = reader.readLine();
 		    reader.close();
 		    
-			java.lang.reflect.Type zahteviLista = new TypeToken<ArrayList<Restoran>>(){}.getType();
+			java.lang.reflect.Type zahteviLista = new TypeToken<ArrayList<ZahtevDostavljaca>>(){}.getType();
 			Gson gson = new Gson();
 				
 			zahtevi = gson.fromJson(json,zahteviLista);
