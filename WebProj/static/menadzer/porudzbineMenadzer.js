@@ -23,6 +23,7 @@ Vue.component("porudzbineMenadzer", {
 				<div class="row">
 					<div class="rightcolumnRestoran">
 						<table>
+
 							<tr><td><h4>{{p.id}}</h4></td></tr>
 							<tr><td>Datum i vreme: {{p.datum}} {{p.vreme}}</td></tr>
 							<tr><td>Cena: {{restoran.lokacija.adresa.mesto}}</td></tr>
@@ -41,6 +42,18 @@ Vue.component("porudzbineMenadzer", {
 		<div class="card">
 		  <h2>Pretraga</h2>
 			<table>
+             <tr>
+               <td><label>Status porudzbine:</label></td>
+               <td><select v_model="status">
+                  <option value = "SVE"> SVE</option>
+               	  <option value = "OBRADA"> OBRADA</option>
+				  <option value = "U_PRIPREMI"> U_PRIPREMI</option>
+				  <option value = "CEKA_DOSTAVLJACA"> CEKA_DOSTAVLJACA</option>
+				  <option value = "U_TRANSPORTU"> U_TRANSPORTU</option>
+				  <option value = "DOSTAVLJENA"> DOSTAVLJENA</option>
+				  <option value = "OTKAZANA"> OTKAZANA</option>               
+              </select></td>
+              </tr>
 			  <tr>
               <td><label>Opseg datuma:</label></td>
               <td><input type="date" placeholder="Naziv Restorana" v-model="datumOd">
@@ -57,8 +70,8 @@ Vue.component("porudzbineMenadzer", {
 			</table>
 		</div>
 	  </div>
-</div>	
-		`
+</div>
+	`
 	,
 	mounted() {
 		
