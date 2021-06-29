@@ -65,11 +65,14 @@ Vue.component("korpa", {
 							</div>
 						 </div>
 					  </div>
+					
+
 				   </div>
 				  
 				  
 				</div>
 				<br><br>
+				<button class="potvrdanButton" v-on:click="potvrdiKupovinuZaRestoran(RK.SKDR)">Poruci iz restorana</button>
 			 </div>
 		  </div>
 	   </div>
@@ -320,6 +323,11 @@ Vue.component("korpa", {
 		},
 		nastaviSaKupovinom: function () {
 			window.location.href = "/";
+		},
+		potvrdiKupovinuZaRestoran: function(stavke){
+			
+			alert(stavke);
+			axios.post('rest/kreirajPorudzbinu/', { "stavkeZaRestoran": stavke });
 		}
 	}
 });

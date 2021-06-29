@@ -90,6 +90,13 @@ public class Porudzbina {
 	public void setImePrezimeKupca(String imePrezimeKupca) {
 		this.imePrezimeKupca = imePrezimeKupca;
 	}
+
+	@Override
+	public String toString() {
+		return "Porudzbina [id=" + id + ", artikli=" + artikli + ", datum=" + datum + ", vreme=" + vreme
+				+ ", nazivRestorana=" + nazivRestorana + ", cena=" + cena + ", kupac=" + kupac + ", imePrezimeKupca="
+				+ imePrezimeKupca + ", status=" + status + "]";
+	}
 	
 	
 	

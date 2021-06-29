@@ -63,7 +63,7 @@ public class PorudzbinaServis {
 		
 		String id = generisiNoviId();		 
 		Porudzbina novaPorudzbina = new Porudzbina(id,formaterDatum.format(datum),formaterVreme.format(vreme),
-				   stavke.stavkeZaRestoran.get(1).getArtikal().getNazivRestorana(),korisnickoImeKupca,getImePrezime(korisnickoImeKupca));
+				   stavke.stavkeZaRestoran.get(0).getArtikal().getNazivRestorana(),korisnickoImeKupca,getImePrezime(korisnickoImeKupca));
 		
 		novaPorudzbina.dodajStavkePorudzbine(stavke.stavkeZaRestoran);
 		porudzbinaDAO.sacuvajPorudzbinu(novaPorudzbina);

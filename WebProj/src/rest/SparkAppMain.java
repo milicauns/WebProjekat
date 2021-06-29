@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import enums.*;
 import model.*;
@@ -174,15 +175,25 @@ public class SparkAppMain {
 		post("rest/kreirajPorudzbinu/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
+			
 			Session ss = req.session(true);
 			Korisnik korisnik = ss.attribute("korisnik");
+
+			//java.lang.reflect.Type stavkeLista = new TypeToken<ArrayList<StavkaKorpe>>(){}.getType();
+			//ArrayList<StavkaKorpe> stavke = new ArrayList<>();
 			
-			PorudzbinaZaRestoranDTO stavke = g.fromJson(req.body(),PorudzbinaZaRestoranDTO.class);
+			PorudzbinaZaRestoranDTO stavke = new PorudzbinaZaRestoranDTO();
+			
+			stavke = g.fromJson(req.body(),PorudzbinaZaRestoranDTO.class);
+			
+			
+			//ArrayList<StavkaKorpe> stavke = g.fromJson(req.body(),ArrayList<StavkaKorpe>.class);
 			
 			for(StavkaKorpe s : stavke.stavkeZaRestoran)
 				System.out.println(s.getArtikal().getNaziv());
 			
 			porudzbinaServis.kreirajPorudzbinuZaRestoran(stavke,korisnik.getKorisnickoIme());
+			
 		return "uspjeh";
 		});
 		
