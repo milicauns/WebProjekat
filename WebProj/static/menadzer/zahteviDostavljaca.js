@@ -12,10 +12,10 @@ Vue.component("zahteviDostavljaca", {
 					<div class="rightcolumnRestoran">
 						<table>
 
-							<tr><td><h2>{{p.idPorudzbine}}</h2></td></tr>
+							<tr><td><h2>{{p.idNarudzbine}}</h2></td></tr>
 							<tr><td><h3>Dostavljac: {{p.dostavljac}}</h3></td></tr>
-							<tr><td><button class="potvrdanButton" v-on:click="prihvatiZahtev(p.idPorudzbine,p.dostavljac)">PRIHVATI</button></td></tr>
-							<tr><td><button class="oprezanButton" v-on:click="odbijenZahtev(p.idPorudzbine,p.dostavljac)">ODBIJ</button></td></tr>
+							<tr><td><button class="potvrdanButton" v-on:click="prihvatiZahtev(p)">PRIHVATI</button>
+							<button class="oprezanButton" v-on:click="odbijenZahtev(p)">ODBIJ</button></td></tr>
 						</table>
 					</div>
 				</div>
@@ -42,27 +42,31 @@ Vue.component("zahteviDostavljaca", {
 	},
 	methods: {
 
-		odbijenZahtev: function(idPorudzbine,dostavljac){
+		odbijenZahtev: function(zahtev){
 			
 		axios.put('rest/promeniStatusZahteva/', {
-       		params: {
-			idPorudzbine: idPorudzbine,
-          	dostavljac: dostavljac,
+			idPorudzbine: zahtev.idNarudzbine,
+          	dostavljac: zahtev.dostavljac,
           	status: 'ODBIJEN'
         	}
-     	 });
+     	 ).then(response => {
+			const indexZahteva = this.zahtevi.indexOf(zahtev);
+			this.zahtevi.splice(indexZahteva, 1);
+		  });
 
 		
 		},
-		prihvatiZahtev: function(idPorudzbine,dostavljac){
+		prihvatiZahtev: function(zahtev){
 			
 		axios.put('rest/promeniStatusZahteva/', {
-       		params: {
-			idPorudzbine: idPorudzbine,
-          	dostavljac: dostavljac,
+			idPorudzbine: zahtev.idNarudzbine,
+          	dostavljac: zahtev.dostavljac,
           	status: 'ODOBREN'
         	}
-     	 });	
+     	 ).then(response => {
+			const indexZahteva = this.zahtevi.indexOf(zahtev);
+			this.zahtevi.splice(indexZahteva, 1);
+		  });
 			
 			
 		}

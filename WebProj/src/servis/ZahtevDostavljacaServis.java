@@ -28,7 +28,7 @@ public class ZahtevDostavljacaServis {
 		zahtevDAO.dodajZahtev(new ZahtevDostavljaca(nazivRestorana,idPorudzbine,dostavljac));
 	}
 
-	public void promeniStatusZahteva(String idPorudzbine, String dostavljac, StatusZahteva status) {
+	public void promeniStatusZahteva(String idPorudzbine, String dostavljac, StatusZahteva status) {	
 		zahtevDAO.promeniStatusZahteva(idPorudzbine,dostavljac,status);		
 	}
 	

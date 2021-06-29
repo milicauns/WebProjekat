@@ -224,10 +224,9 @@ public class SparkAppMain {
 			res.type("application/json");
 			res.status(200);
 			
-			String idPorudzbine = req.queryParams("id");
-			String statusString = req.queryParams("status");
-			StatusPorudzbine status = StatusPorudzbine.valueOf(statusString);		
-			porudzbinaServis.promeniStatusPorudzbine(status, idPorudzbine);
+			IzmenaPorudzbineDTO porudzbinaInfo = g.fromJson(req.body(),IzmenaPorudzbineDTO.class);			
+			StatusPorudzbine status = StatusPorudzbine.valueOf(porudzbinaInfo.status);		
+			porudzbinaServis.promeniStatusPorudzbine(status, porudzbinaInfo.id);
 		return "uspjeh";
 		});
 		
@@ -246,13 +245,12 @@ public class SparkAppMain {
 		put("rest/promeniStatusZahteva/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
-		
-			String idPorudzbine = req.queryParams("idPorudzbine");
-			String dostavljac = req.queryParams("dostavljac");
-			String statusString= req.queryParams("status");
-			StatusZahteva status = StatusZahteva.valueOf(statusString);
+
+			ParametriIzmeneZahtevaDTO zahtevInfo = g.fromJson(req.body(),ParametriIzmeneZahtevaDTO.class);
+			StatusZahteva status = StatusZahteva.valueOf(zahtevInfo.status);
+			System.out.println(status);
 			
-			zahtevDostavljacaServis.promeniStatusZahteva(idPorudzbine,dostavljac,status);
+			zahtevDostavljacaServis.promeniStatusZahteva(zahtevInfo.idPorudzbine,zahtevInfo.dostavljac,status);
 		return "uspjeh";
 		});
 		

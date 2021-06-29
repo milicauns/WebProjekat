@@ -19,17 +19,18 @@ Vue.component("porudzbineMenadzer", {
 		  
 
 		<div id="restoraniID">
-			<div v-for="p in porudzbine" class="restoranDiv" v-on:click="detaljanPrikazRestorana(restoran)" style="height:200px;">
+			<div v-for="p in porudzbine" class="restoranDiv" style="height:200px;">
 				<div class="row">
 					<div class="rightcolumnRestoran">
 						<table>
 
 							<tr><td><h4>{{p.id}}</h4></td></tr>
 							<tr><td>Datum i vreme: {{p.datum}} {{p.vreme}}</td></tr>
-							<tr><td>Cena: {{restoran.lokacija.adresa.mesto}}</td></tr>
+							<tr><td>Cena: {{p.cena}}</td></tr>
                           	<tr><td>Kupac: {{p.kupac}}: {{p.imePrezimeKupca}}</td></tr>
-							<tr><td>Status: {{restoran.status}}</td></tr>
-                          	<tr v-if="p.status =='U_PRIPREMI'" ><td><button v-on:click="promeniStatusPorudzbine(p.id)">Promeni status u CEKA DOSTAVLJACA</button></td></tr>
+							<tr><td>Status: {{p.status}}</td></tr>
+							<tr v-if="p.status =='OBRADA'" ><td><button v-on:click="promeniStatusPorudzbineUPripremu(p)">Promeni status u U PRIPREMI</button></td></tr>
+                          	<tr v-if="p.status =='U_PRIPREMI'" ><td><button v-on:click="promeniStatusPorudzbineUCekaDostavljaca(p)">Promeni status u CEKA DOSTAVLJACA</button></td></tr>
 						</table>
 					</div>
 				</div>
@@ -56,13 +57,13 @@ Vue.component("porudzbineMenadzer", {
               </tr>
 			  <tr>
               <td><label>Opseg datuma:</label></td>
-              <td><input type="date" placeholder="Naziv Restorana" v-model="datumOd">
+              <td><input type="date" placeholder="Naziv Restorana" v-model="datumOd"></td>
 			  <td><input type="date" placeholder="Lokacija Restorana" v-model="datumDo"></td>
               </tr>
               
               <tr>
               <td><label>Opseg cene:</label></td>
-              <td><input type="text" placeholder="Od" v-model="cenaOd">
+              <td><input type="text" placeholder="Od" v-model="cenaOd"></td>
 			  <td><input type="text" placeholder="Do" v-model="cenaDo"></td>
               </tr>
               
@@ -95,15 +96,19 @@ Vue.component("porudzbineMenadzer", {
 			
 			
 		},
-		promeniStatusPorudzbine: function(idPorudzbine){
+		promeniStatusPorudzbineUCekaDostavljaca: function(porudzbina){
 			
-		axios.put('rest/izmeniPorudzbinu/', {
-       		params: {
-          	id: idPorudzbine,
-          	status: 'CEKA_DOSTAVLJACA'
-        	}
-     	 });
-		
+			axios.put('rest/izmeniPorudzbinu/', {id: porudzbina.id,status: 'CEKA_DOSTAVLJACA'})
+			.then(response => {
+				porudzbina.status="CEKA_DOSTAVLJACA";
+			});	
+		},
+		promeniStatusPorudzbineUPripremu: function(porudzbina){
+
+			axios.put('rest/izmeniPorudzbinu/', {id: porudzbina.id,status: 'U_PRIPREMI'})
+			.then(response => {
+				porudzbina.status="U_PRIPREMI";
+			});
 		}
 	}
 });

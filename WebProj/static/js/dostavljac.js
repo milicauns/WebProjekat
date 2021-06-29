@@ -129,12 +129,7 @@ Vue.component("dostavljac", {
 		},
 		porudzbinaDostavljena: function(idPorudzbine){
 			
-		axios.put('rest/izmeniPorudzbinu/', {
-       		params: {
-          	id: idPorudzbine,
-          	status: 'DOSTAVLJENA'
-        	}
-     	 });	
+		axios.put('rest/izmeniPorudzbinu/', {id: idPorudzbine,status: 'DOSTAVLJENA'});
 			
 			
 		}
