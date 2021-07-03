@@ -35,8 +35,8 @@ Vue.component("registracijaRestorana", {
 			  <td><label>Tip restorana: </label></td>
 			  <td>
 				<select v-model="tip" >
-				  <option value = "rostilj"> Rostilj</option>
-				  <option value = "italijanski"> Italijanski</option>
+				  <option value = "ROSTILJ"> ROSTILJ</option>
+				  <option value = "ITALIJANSKI"> ITALIJANSKI</option>
 				</select>
 			  </td>
 			</tr>
@@ -87,8 +87,8 @@ Vue.component("registracijaRestorana", {
 			  <td><label>Status: </label></td>
 			  <td>
 				<select v-model="status" >
-				  <option value = "radi"> RADI</option>
-				  <option value = "ne_radi"> NE RADI</option>
+				  <option value = "RADI"> RADI</option>
+				  <option value = "NE_RADI"> NE RADI</option>
 				</select>
 			  </td>
 			</tr>
@@ -123,9 +123,9 @@ Vue.component("registracijaRestorana", {
 		  });
 		this.placesAutocomplete.on('change', function resultSelected(e) {
 			
-			this.ulica = e.suggestion.value;
-			this.mesto = e.suggestion.city;
-			this.postanskiBroj = e.suggestion.postcode;
+			this.ulica = String(e.suggestion.value);
+			this.mesto = String(e.suggestion.city);
+			this.postanskiBroj = String(e.suggestion.postcode);
 			this.geografskaDuzina =  e.suggestion.latlng.lng;
 			this.geografskaSirina = e.suggestion.latlng.lat;
 		    document.querySelector('#form-ulica').value = e.suggestion.value || '';
@@ -137,26 +137,21 @@ Vue.component("registracijaRestorana", {
 	},
 	methods: {
 		NoviRestoran: function () {
-			
-	var restoran = {
-				"naziv": this.naziv,
-				"tipRestorana": this.tip,
-				"status": this.status,
-				"lokacija":{
-						"geografskaSirina": this.geografskaSirina,
-						"geografskaDuzina": this.geografskaDuzina,
-						"adresa":{
-									"Ulica": this.ulica,
-									"broj": this.broj,
-									"mesto": this.mesto,
-									"postanskiBroj": this.postanskiBroj
-								 }
-	  					},
-				"logo": this.logo,
-				"prosecnaOcena": 0.00};	
-				
-									
-			axios.post('rest/registracijaRestoran/', restoran)
+
+			alert($('#form-mesto').val());
+										
+			axios.post('rest/registracijaRestoran/', {
+			"naziv": this.naziv,
+			"tipRestorana": this.tip,
+			"status": this.status,
+			"geografskaSirina": $('#form-geografskaSirina').val(),
+			"geografskaDuzina": $('#form-geografskaDuzina').val(),
+			"ulica": $('#form-ulica').val(),
+			"broj": this.broj,
+			"mesto": $('#form-mesto').val(),
+			"postanskiBroj": $('#form-zip').val(),
+			"logo": this.logo
+		})
 				.then(response => { alert('uspesno ' + response.data.naziv) })
 				.catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI') });
 		},

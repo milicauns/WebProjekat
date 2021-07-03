@@ -271,13 +271,9 @@ public class SparkAppMain {
 		post("rest/registracijaRestoran/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
-			System.out.println("prije parsirana iz json");
+			System.out.println(req.body());
 			
-			Restoran noviRestoran = g.fromJson(req.body(),Restoran.class);
-			System.out.println("da li je tu greska?");
-			System.out.println(noviRestoran.getNaziv());
-			System.out.println(noviRestoran.getStatus());
-			
+			RegistracijaRestoranaDTO noviRestoran = g.fromJson(req.body(),RegistracijaRestoranaDTO.class);
 			restoranServis.dodajRestoran(noviRestoran);
 		return "OK";
 		});

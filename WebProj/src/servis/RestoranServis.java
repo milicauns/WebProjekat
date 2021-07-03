@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 
 import dao.RestoranDAO;
+import model.Adresa;
 import model.Artikal;
+import model.Lokacija;
 import model.Restoran;
 import dto.*;
 import enums.Status;
+import enums.TipRestorana;
 
 public class RestoranServis {
 	
@@ -67,7 +70,14 @@ public class RestoranServis {
 		return trazenRestoran;
 	}
 
-	public void dodajRestoran(Restoran noviRestoran) {
+	public void dodajRestoran(RegistracijaRestoranaDTO novi) {
+
+		Adresa adresa = new Adresa(novi.ulica,novi.broj,novi.mesto,Integer.valueOf(novi.postanskiBroj));
+		
+		Lokacija lokacija = new Lokacija(Float. valueOf(novi.geografskaSirina),Float.valueOf(novi.geografskaDuzina),adresa);
+		Restoran noviRestoran=new Restoran(novi.naziv,TipRestorana.ITALIJANSKI/*TipRestorana.valueOf(novi.tip)*/,Status.valueOf(novi.status),
+				lokacija,novi.logo,0.00, new ArrayList<>());
+		
 		restoranDAO.dodajRestoran(noviRestoran);		
 	}
 	
