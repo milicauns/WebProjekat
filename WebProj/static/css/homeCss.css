@@ -147,38 +147,6 @@ body {
 
 
 
-
-
-/* DODATO ZA MENI */
-.vertical-menu {
-	width: 100%;
-  }
-  
-  .vertical-menu button {
-	background-color: #333;
-	color: white;
-	border: 0px;
-	padding: 12px;
-	text-decoration: none;
-	display: block;
-	width: 100%;
-  }
-  
-  
-  .vertical-menu button:hover {
-	background-color: #ccc;
-  }
-  
-  .vertical-menu button.active {
-	background-color: rgb(150,150,150);
-	color: white;
-  }
-
-
-
-
-
-
 /* css kod prikaza jednog restorana kod kupca */
 .sredinacolumn {
 	float: left;
@@ -422,6 +390,31 @@ body {
 
 
   /*  sredjivanje komponente menija */
+
+
+  /* DODATO ZA MENI */
+.vertical-menu {
+	width: 100%;
+  }
+  
+  .vertical-menu button {
+	background-color: #333;
+	color: white;
+	border: 0px;
+	padding: 12px;
+	text-decoration: none;
+	display: block;
+	width: 100%;
+  }
+  
+  
+  .vertical-menu button.active {
+	background-color: rgb(150,150,150);
+	color: white;
+  }
+
+
+
   .Meni {   
 	float: left;
 	width: 15%;
@@ -453,3 +446,41 @@ body {
 	background-color: #ddd;
 	color: black;
   }
+
+
+
+
+
+
+
+
+
+  
+
+/* deo potreban za porudbine kod kupca */
+.porudbineDiv {
+	background-color: rgb(235, 235, 235);
+	border-radius: 12px;
+	width: 100%;
+	padding: 20px;
+	margin: 0px 0px 20px 0px;
+}
+
+.minijaturanTabela {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.minijaturanTabela td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.minijaturanTabela tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+
+

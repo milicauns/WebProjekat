@@ -15,11 +15,11 @@ Vue.component("profil", {
 			    }
 	},
 	template:`
-	
+	<div>
 	<div class="row">
-	<div class="leftcolumn">
+	<div>
 	  <div class="card">
-		<div id="registracijaKupac">
+		<div>
 		<h1>Profil</h1>
 		  <table>
             <tr>
@@ -88,6 +88,17 @@ Vue.component("profil", {
 	  </div>
 	</div>
   </div>	
+
+
+
+
+	
+	<div id="porudzbine" v-if="korisnik.uloga == 'KUPAC'">
+		<porudzbineKupac></porudzbineKupac>
+	</div>
+	
+</div>
+
 
 		
 `

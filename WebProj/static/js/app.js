@@ -30,6 +30,7 @@ var app = new Vue({
 	el: '#initialDiv',
 	data: {
 		status: 'neUlogovan',
+		tipKorisnika: 'anonimni',
 		ulogovaniKorisnik: {}
 	},
 	mounted() {
@@ -39,6 +40,7 @@ var app = new Vue({
 				if (response.data != 'Err:KorisnikNijeUlogovan') {
 					this.ulogovaniKorisnik = response.data;
 					this.status = 'ulogovan';
+					this.tipKorisnika = this.ulogovaniKorisnik.uloga;
 				}
 
 			})

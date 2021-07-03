@@ -14,26 +14,50 @@ Vue.component("porudzbineKupac", {
 		}
 	},
 	template: `
-<div class="row">
+
+
+	<div class="row">
 	  <div class="leftcolumn">
 		<div class="card">
-		  <h1>Vase porudzbine: </h1>
-	
+		  <h1>Vase porudzbine</h1>
 		  
 
-		<div id="restoraniID">
-			<div v-for="p in porudzbine" class="restoranDiv" v-on:click="detaljanPrikazRestorana(restoran)" style="height:200px;">
+		<div id="porudzbinaID">
+			<div v-for="poruc in porudzbine" class="porudbineDiv">
 				<div class="row">
-					<div class="rightcolumnRestoran">
-						<table>
-
-							<tr><td><h4>{{p.id}}</h4></td></tr>
-							<tr><td>Datum i vreme: {{p.datum}} {{p.vreme}}</td></tr>
-							<tr><td>Cena: {{restoran.lokacija.adresa.mesto}}</td></tr>
-                          	<tr><td>Kupac: {{p.kupac}}: {{p.imePrezimeKupca}}</td></tr>
-							<tr><td>Status: {{restoran.status}}</td></tr>
-                          	<tr v-if="p.status =='OBRADA'" ><td><button v-on:click="otkaziPorudzbinu(p.id)">Otkazi porudbinu</button></td></tr>
+					<div>
+                      <h4>{{poruc.nazivRestorana}} ID:{{poruc.id}}</h4>
+                      <table>
+							<tr>
+                              <td>Datum i vreme:</td>
+                              <td>{{poruc.datum}} {{poruc.vreme}}</td>
+                            </tr>
+                            <tr>
+                              <td>Cena:</td>
+                              <td>{{poruc.cena}}</td>
+                            </tr>
 						</table>
+                        <br>
+                        <table class="minijaturanTabela">
+                        <tr bgcolor="white">
+                            <th>Artikal</th>
+                            <th>cena (1x)</th>
+                            <th>Kolicina</th>
+                            <th>Cena</th>
+                        </tr>
+
+                        <tr v-for="stavkaKorpe in poruc.artikli">
+                            <td>{{stavkaKorpe.artikal.naziv }}</td>
+                            <td>{{stavkaKorpe.artikal.cena }}</td>
+                            <td>{{stavkaKorpe.kolicina}}</td>
+                            <td>{{stavkaKorpe.artikal.cena * stavkaKorpe.kolicina}}</td>
+ 
+                        </tr>
+                        </table>
+                      
+                      
+                        <br><br>
+                        <button v-if="poruc.status =='OBRADA'" class="oprezanButtonMali" v-on:click="otkaziPorudzbinu(poruc)">Otkazi porudzbinu</button>
 					</div>
 				</div>
 			</div>
@@ -92,8 +116,11 @@ Vue.component("porudzbineKupac", {
 		</div>
 	  </div>
 </div>
-	`
-	,
+
+
+
+`
+,
 	mounted() {
 		
 		axios.get('rest/testlogin')

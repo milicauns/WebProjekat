@@ -6,8 +6,8 @@ Vue.component("porudzbineMenadzer", {
 		menadzer: null,
 		datumOd: '',
 		datumDo:'',
-		cenaOd: '',
-		cenaDo: ''
+		cenaOd: 0,
+		cenaDo: 0
 		}
 	},
 	template: `

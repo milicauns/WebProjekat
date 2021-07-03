@@ -18,7 +18,7 @@
 	  <a v-if="status=='neUlogovan'" href="#/registracija" style="float:right">Registracija</a>
 	  <a v-if="status=='neUlogovan'" href="#/login" style="float:right">Login</a>
 	  <a v-if="status=='ulogovan'" href="#/" v-on:click="logout" style="float:right">LogOut</a>
-	  <a v-if="status=='ulogovan'" href="#/korpa" style="float:right">Korpa</a>
+	  <a v-if="status=='ulogovan' && tipKorisnika=='KUPAC'" href="#/korpa" style="float:right">Korpa</a>
 	  <a v-if="status=='ulogovan'" href="#/profil" style="float:right">{{ulogovaniKorisnik.korisnickoIme}}</a>
 	</div>	
 	
