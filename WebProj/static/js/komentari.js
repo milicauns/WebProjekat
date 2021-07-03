@@ -8,56 +8,69 @@ Vue.component("komentari", {
 		}
 	},
 	template: `
+<div>
+<div class="leftcolumn">
+	<div  id="komentarilista" class="card">
 
-	<div class="row">
-	<div class="leftcolumn">
+		<div v-if="odabraniRestoran.naziv!=undefined" class="komentarlDiv" name="FOR VUE" v-for="komentar in komentariOdabranogRestorana">
+			<div class="row">
+				<div class="leftcolumnkomentar">
+		  			<label>{{komentar.ocena}}</label>
+				</div>
+				<div class="sredinacolumn">
+		  			<table style="max-width:600px; word-wrap:break-word;">
+					  	<tr v-if="komentar.odobren == false">
+						  <td><label>NIJE ODOBREN!</lebel></td>
+						</tr>
+						<tr><td>{{komentar.tekst}}</td></tr>
+						
+						<tr v-if="ulogovaniKorisnik.uloga=='MENADZER'"><td><button class="potvrdanButton" v-on:click="odobriKomentar(komentar)">ODOBRI</button>
+						<button class="oprezanButton" v-on:click="odbijKomentar(komentar)">ODBIJ</button></td></tr>
+						
+		  			</table>
+				</div>
+				<div class="autorDesno">
+		   			{{komentar.korisnik}}
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<div v-if="ulogovaniKorisnik.uloga=='ADMINISTRATOR'" class="row">
+	<div class="rightcolumn">
 	   <div class="card">
 		  <table class="korisnici">
 			 <tr bgcolor="lightgrey">
-				<th>Ime restorana</th>
+				<th>Restorani:</th>
 			 </tr>
 			 <tr v-for="s in restorani" v-on:click="odabranRestoran(s)" v-bind:class="{selected : odabraniRestoran.naziv===s.naziv}">
 				<td>{{s.naziv }}</td>
 			 </tr>
 		  </table>
-		  <div id="komentari"  v-if="odabraniRestoran.naziv!=undefined" >
-			 <div v-for="k in komentariOdabranogRestorana" class="komentarDiv" style="height:200px;">
-				<table>
-				   <tr>
-					  <td>Tekst: {{k.tekst}}</td>
-				   </tr>
-				   <tr>
-					  <td>Ocena: {{k.ocena}}</td>
-				   </tr>
-				   <tr>
-					  <td>Korisnik: {{k.korisnik}}</td>
-				   </tr>
-				   <tr>
-					  <td>Odobren: {{k.odobren}}</td>
-				   </tr>
-				   <tr v-if="ulogovaniKorisnik.nazivRestorana==odabraniRestoran.naziv">
-					  <td><button v-on:click="odobriKomentar(k.narudzbina)">Odobri komentar</button><br /></td>
-				   </tr>
-				</table>
-			 </div>
-		  </div>
 	   </div>
 	</div>
  </div>
-	
+</div>	
 	
 	`
 	,
 	mounted() {
+
 		axios.get('rest/restorani')
-			.then(response => (this.restorani = response.data));
-			
+		.then(response => (this.restorani = response.data));
+	
 		axios.get('rest/testlogin')
 			.then(response => {
 				if (response.data != 'Err:KorisnikNijeUlogovan') {
 					this.ulogovaniKorisnik = response.data;
+					
+					if(ulogovaniKorisnik.uloga == MENADZER){
+						odabranRestoran(ulogovaniKorisnik.nazivRestorana);
+					}
 				}
 			});
+		
 
 	},
 	methods: {
@@ -71,8 +84,11 @@ Vue.component("komentari", {
       		})
         	.then(response => (this.komentariOdabranogRestorana = response.data));       	
 		},
-		odobriKomentar: function (id) {
+		odobriKomentar: function (komentar) {
 		},
+		odbijKomentar: function(komentar){
+
+		}
 
 	}
 });
