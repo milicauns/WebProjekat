@@ -4,11 +4,11 @@ Vue.component("korisnici", {
 			prikazaniKorisnici: null,
 			odabraniKorisnik: {},
 
-			uloga: "",
-			tipKorisnika: "",
-			ime: "",
-			prezime: "",
-			korisnickoIme: ""
+			uloga: "KUPAC",
+			tipKorisnika: "BRONZANI",
+			ime: '',
+			prezime: '',
+			korisnickoIme: ''
 
 		}
 	},
@@ -59,7 +59,6 @@ Vue.component("korisnici", {
    <div class="rightcolumn">
       <div class="card">
          <h2>Pretraga</h2>
-         <form>
             <table>
                <tr>
                   <td><input type="text" placeholder="Ime" v-model="ime"></td>
@@ -74,8 +73,7 @@ Vue.component("korisnici", {
                   <td>
                      <label>Uloga:</label>
                      <select v-model="uloga">
-                        <option value="SVI">SVI</option>
-                        <option value="KUPAC">KUPAC</option>
+                        <option value="KUPAC" selected>KUPAC</option>
                         <option value="MENADZER">MENADZER</option>
                         <option value="DOSTAVLJAC">DOSTAVLJAC</option>
                      </select>
@@ -87,7 +85,7 @@ Vue.component("korisnici", {
                      <select v-model="tipKorisnika">
                         <option value="ZLATNI">Zlatni</option>
                         <option value="SREBRNI">Srebrni</option>
-                        <option value="BRONZANI">Bronzani</option>
+                        <option value="BRONZANI" selected>Bronzani</option>
                      </select>
                   </td>
                </tr>
@@ -95,7 +93,6 @@ Vue.component("korisnici", {
                   <td><button v-on:click="pretraziKorisnike">Pretrazi</button></td>
                </tr>
             </table>
-         </form>
       </div>
    </div>
 </div>

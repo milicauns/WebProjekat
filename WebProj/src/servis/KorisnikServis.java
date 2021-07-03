@@ -56,7 +56,8 @@ public class KorisnikServis {
 	public ArrayList<Korisnik> GetKorisnici(){		
 		ArrayList<Korisnik> ret = new ArrayList<>();		
 		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
-			if(!korisnik.isObrisan()) ret.add(korisnik);
+			if(!korisnik.isObrisan() && korisnik.getUloga()!=Uloga.ADMINISTRATOR)
+				ret.add(korisnik);
 		}
 		return ret;
 	}
@@ -85,14 +86,18 @@ public class KorisnikServis {
 		for (Korisnik korisnik : GetKorisnici(Uloga.valueOf(pretraga.uloga))) {
 			
 			if(korisnik.getIme().contains(pretraga.ime)
-					&& korisnik.getPrezime().contains(pretraga.prezime)
-					&& korisnik.getKorisnickoIme().contains(pretraga.korisnickoIme)) {
+			&& korisnik.getPrezime().contains(pretraga.prezime)
+			&& korisnik.getKorisnickoIme().contains(pretraga.korisnickoIme)) {
 				
-				if(pretraga.uloga.equals("KUPAC") && korisnik.getTipKupca().getImeTipa().toString().equals(pretraga.tipKorisnika)) {
-					ret.add(korisnik);
-				}				
+				if(korisnik.getUloga() == Uloga.KUPAC && korisnik.getTipKupca().toString().equals(pretraga.tipKorisnika)) {
+				ret.add(korisnik);
+				break;
+				}
+				ret.add(korisnik);
 			}
+
 		}
+		
 		return ret;
 	}
 

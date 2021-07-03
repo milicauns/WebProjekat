@@ -108,7 +108,7 @@ public class SparkAppMain {
 			System.out.println(pretraga);
 			
 			res.status(200);		
-			return korisnikServis.GetTrazeniKorisnici(pretraga);
+			return g.toJson(korisnikServis.GetTrazeniKorisnici(pretraga));
 		});
 		
 		get("rest/raspoloziviMenadzeri", (req, res) -> {
