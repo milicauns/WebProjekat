@@ -9,7 +9,7 @@ Vue.component("artiklimenazdera", {
     },
     template: `
   
-    <div>
+    <div class="card">
 <div class="nasaTabela">
 	
 	<table class="artikliTabela">

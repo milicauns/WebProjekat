@@ -42,33 +42,41 @@ Vue.component("porudzbineMenadzer", {
 	  <div class="rightcolumn">
 		<div class="card">
 		  <h2>Pretraga</h2>
-			<table>
-             <tr>
-               <td><label>Status porudzbine:</label></td>
-               <td><select v_model="status">
-                  <option value = "SVE"> SVE</option>
-               	  <option value = "OBRADA"> OBRADA</option>
-				  <option value = "U_PRIPREMI"> U_PRIPREMI</option>
-				  <option value = "CEKA_DOSTAVLJACA"> CEKA_DOSTAVLJACA</option>
-				  <option value = "U_TRANSPORTU"> U_TRANSPORTU</option>
-				  <option value = "DOSTAVLJENA"> DOSTAVLJENA</option>
-				  <option value = "OTKAZANA"> OTKAZANA</option>               
-              </select></td>
-              </tr>
-			  <tr>
-              <td><label>Opseg datuma:</label></td>
-              <td><input type="date" placeholder="Naziv Restorana" v-model="datumOd"></td>
-			  <td><input type="date" placeholder="Lokacija Restorana" v-model="datumDo"></td>
-              </tr>
-              
-              <tr>
-              <td><label>Opseg cene:</label></td>
-              <td><input type="text" placeholder="Od" v-model="cenaOd"></td>
-			  <td><input type="text" placeholder="Do" v-model="cenaDo"></td>
-              </tr>
-              
-             <tr><td><button v-on:click="pretragaPorudzbina">Pretrazi</button></td></tr>
-			</table>
+		  <table>
+		  <tr>
+			<td><label>Status porudzbine:</label></td>
+			<td><select style="width: 100%;" v_model="status">
+			   <option value = "SVE"> SVE</option>
+				  <option value = "OBRADA"> OBRADA</option>
+			   <option value = "U_PRIPREMI"> U_PRIPREMI</option>
+			   <option value = "CEKA_DOSTAVLJACA"> CEKA_DOSTAVLJACA</option>
+			   <option value = "U_TRANSPORTU"> U_TRANSPORTU</option>
+			   <option value = "DOSTAVLJENA"> DOSTAVLJENA</option>
+			   <option value = "OTKAZANA"> OTKAZANA</option>               
+		   </select></td>
+		   </tr>
+		   <tr>
+		   <td><label>Datum od:</label></td>
+		   <td><input style="width: 100%;" type="date" placeholder="Naziv Restorana" v-model="datumOd"></td>
+		   
+		   </tr>
+		   <tr>
+		   <td><label>Datum do:</label></td>
+		   <td><input style="width: 100%;" type="date" placeholder="Lokacija Restorana" v-model="datumDo"></td>
+		   </tr>
+		   
+		   <tr>
+		   <td><label>Cena od:</label></td>
+		   <td><input type="number" style="width: 100%;" min=0 placeholder="Od" v-model="cenaOd"></td>
+		   </tr>
+
+		   <tr>
+			 <td><label>Cena do:</label></td>
+			 <td><input type="number" style="width: 100%;" min=0 placeholder="Do" v-model="cenaDo"></td>
+		   </tr>
+		   
+		  <tr><td><button v-on:click="pretragaPorudzbina">Pretrazi</button></td></tr>
+		 </table>
 		</div>
 	  </div>
 </div>

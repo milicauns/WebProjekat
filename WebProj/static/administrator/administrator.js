@@ -4,10 +4,11 @@ Vue.component("administrator", {
             selektovanaKomponenta: 'korisnici'
         }
     },
-    template: `
+  template: `
+    
 <div class="row">
-  <div class="leftcomponent">
-    <div class="card">
+  <div class="Meni">
+    <div class="cardMenu">
       <div class="vertical-menu">
         <button v-on:click="selektujKomponentu('korisnici')">KORISNICI</button>
         <button v-on:click="selektujKomponentu('registracija')">REGISTRACIJA KORISNIKA</button>
@@ -18,7 +19,7 @@ Vue.component("administrator", {
   </div>
     
   <div class="rightcomponent">
-    <div class="card">
+    <div>
       <component v-bind:is="selektovanaKomponentaComputed"></component>
     </div>
   </div>

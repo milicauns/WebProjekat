@@ -5,7 +5,7 @@ Vue.component("zahteviDostavljaca", {
 		}
 	},
 	template: `
-	
+	<div class="card">
 		<div id="zahteviID">
 			<div v-for="p in zahtevi" class="restoranDiv" style="height:200px;">
 				<div class="row">
@@ -21,7 +21,7 @@ Vue.component("zahteviDostavljaca", {
 				</div>
 			</div>
 		</div>
-		  
+	</div>
 		
 	`
 	,

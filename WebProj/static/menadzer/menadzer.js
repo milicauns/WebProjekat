@@ -52,19 +52,19 @@ Vue.component("menadzer", {
 
 
 
-  <div class="leftcomponent">
-    <div class="card">
+  <div class="Meni">
+    <div class="cardMenu">
       <div class="vertical-menu">
-        <button v-on:click="selektujKomponentu('artiklimenazdera')">Artikli</button>
-        <button v-on:click="selektujKomponentu('porudzbineMenadzer')">Porudzbine restorana</button>
-        <button v-on:click="selektujKomponentu('zahteviDostavljaca')">Zahtevi dostavljaca</button>
-        <button v-on:click="selektujKomponentu('komp4')">BUTON 4</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('artiklimenazdera')">Artikli</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('porudzbineMenadzer')">Porudzbine restorana</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('zahteviDostavljaca')">Zahtevi dostavljaca</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('komp4')">BUTON 4</button>
       </div>
     </div>
   </div>
     
   <div class="rightcomponent">
-    <div class="card">
+    <div>
       <component v-bind:is="selektovanaKomponentaComputed"></component>
     </div>
   </div>

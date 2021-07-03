@@ -5,7 +5,7 @@
 body {
 	font-family: Arial;
 	padding: 10px;
-	background: #f1f1f1;
+	background: #f1f1f1;  /* ili #f0f2f5 */  
 }
 
 /* Header/Blog Title */
@@ -33,6 +33,8 @@ body {
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
+	transition-duration: 0.4s;
+	cursor: pointer;
 }
 
 /* Change color on hover */
@@ -65,7 +67,7 @@ body {
 /* mesto za componente*/
 .rightcomponent {
 	float: left;
-	width: 80%;
+	width: 85%;
 	background-color: #f1f1f1;
 	padding-left: 20px;
 }
@@ -105,6 +107,8 @@ body {
 	background-color: white;
 	padding: 20px;
 	margin-top: 20px;
+	border-radius: 10px;
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 /* Clear floats after the columns */
@@ -147,12 +151,12 @@ body {
 
 /* DODATO ZA MENI */
 .vertical-menu {
-	width: 200px;
+	width: 100%;
   }
   
   .vertical-menu button {
-	background-color: #eee;
-	color: black;
+	background-color: #333;
+	color: white;
 	border: 0px;
 	padding: 12px;
 	text-decoration: none;
@@ -353,6 +357,25 @@ body {
 	color: white;
   }
 
+  .oprezanButtonMali{
+	background-color: white;
+  border: 2px solid red;
+  color: black;
+  padding: 1px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.oprezanButtonMali:hover {
+  background-color: red;
+  color: white;
+}
+
   .standardanButton {
 	background-color: white; /* Green */
 	border: 2px solid #0044c2;
@@ -371,4 +394,62 @@ body {
   .standardanButton:hover {
 	background-color: #0044c2;
 	color: white;
+  }
+
+
+
+
+  button {
+	background-color: white; /* Green */
+	border: 2px solid #0044c2;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	margin: 4px 2px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	border-radius: 3px;
+  }
+
+  button:hover {
+	background-color: #0044c2;
+	color: white;
+  }
+
+
+
+
+  /*  sredjivanje komponente menija */
+  .Meni {   
+	float: left;
+	width: 15%;
+}
+
+.cardMenu {
+	background-color: white;
+	padding: 8px;
+	margin-top: 20px;
+	border-radius: 10px;
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.buttonUMeniju {
+	background-color: white; /* Green */
+	border: 2px solid #0044c2;
+	color: black;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 14px;
+	margin: 4px 2px 4px 0px;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	border-radius: 3px;
+  }
+
+  .buttonUMeniju:hover {
+	background-color: #ddd;
+	color: black;
   }

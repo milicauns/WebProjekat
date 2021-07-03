@@ -59,7 +59,7 @@ Vue.component("korpa", {
 							</div>
 							<div class="cenaiKolicinaUKorpi" v-if="korisnik.uloga == 'KUPAC'">
 							   <input style="width: 80px;" v-on:change="promenaSadrzaja(stavka)" v-model="stavka.kolicina" onkeydown="return false" min="1" type="number" v-bind:id=stavka.artikal.naziv>
-							   <button v-on:click="ukloniArtikalBackend(stavka)">Ukloni</button>
+							   <button class="oprezanButtonMali" v-on:click="ukloniArtikalBackend(stavka)">Ukloni</button>
 							   <br><br>
 							   <label> Cena: {{ stavka.kolicina * stavka.artikal.cena }} </label>
 							</div>

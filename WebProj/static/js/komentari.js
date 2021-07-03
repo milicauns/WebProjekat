@@ -8,33 +8,43 @@ Vue.component("komentari", {
 		}
 	},
 	template: `
-<div class="row">
-  <div class="leftcolumn">
-	<table class="korisnici">
-	<tr bgcolor="lightgrey">
-		<th>Ime restorana</th>
-	</tr>
-	
-	<tr v-for="s in restorani" v-on:click="odabranRestoran(s)" v-bind:class="{selected : odabraniRestoran.naziv===s.naziv}">
-		<td>{{s.naziv }}</td>
-	</tr>
-	</table>
-	
 
-    <div id="komentari"  v-if="odabraniRestoran.naziv!=undefined" >
-						<div v-for="k in komentariOdabranogRestorana" class="komentarDiv" style="height:200px;">
-                          <table>
-							<tr><td>Tekst: {{k.tekst}}</td></tr>
-                            <tr><td>Ocena: {{k.ocena}}</td></tr>
-							<tr><td>Korisnik: {{k.korisnik}}</td></tr>
-							<tr><td>Odobren: {{k.odobren}}</td></tr>
-                    	    <tr v-if="ulogovaniKorisnik.nazivRestorana==odabraniRestoran.naziv"><td><button v-on:click="odobriKomentar(k.narudzbina)">Odobri komentar</button><br /></td></tr>
-                          </table>
-						</div>
-    </div>	
-
-  </div>	  
-</div>
+	<div class="row">
+	<div class="leftcolumn">
+	   <div class="card">
+		  <table class="korisnici">
+			 <tr bgcolor="lightgrey">
+				<th>Ime restorana</th>
+			 </tr>
+			 <tr v-for="s in restorani" v-on:click="odabranRestoran(s)" v-bind:class="{selected : odabraniRestoran.naziv===s.naziv}">
+				<td>{{s.naziv }}</td>
+			 </tr>
+		  </table>
+		  <div id="komentari"  v-if="odabraniRestoran.naziv!=undefined" >
+			 <div v-for="k in komentariOdabranogRestorana" class="komentarDiv" style="height:200px;">
+				<table>
+				   <tr>
+					  <td>Tekst: {{k.tekst}}</td>
+				   </tr>
+				   <tr>
+					  <td>Ocena: {{k.ocena}}</td>
+				   </tr>
+				   <tr>
+					  <td>Korisnik: {{k.korisnik}}</td>
+				   </tr>
+				   <tr>
+					  <td>Odobren: {{k.odobren}}</td>
+				   </tr>
+				   <tr v-if="ulogovaniKorisnik.nazivRestorana==odabraniRestoran.naziv">
+					  <td><button v-on:click="odobriKomentar(k.narudzbina)">Odobri komentar</button><br /></td>
+				   </tr>
+				</table>
+			 </div>
+		  </div>
+	   </div>
+	</div>
+ </div>
+	
 	
 	`
 	,

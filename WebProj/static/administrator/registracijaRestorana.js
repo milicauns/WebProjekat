@@ -101,7 +101,7 @@ Vue.component("registracijaRestorana", {
 		</div>
 	  </div>
 	</div>
-  </div>			
+  </div>		
 `
 	,
 	mounted() {
