@@ -9,11 +9,13 @@ Vue.component("porudzbineKupac", {
 				cenaDo: 0,
 				tipRestorana: '',
 				nazivRestorana: '',
-				nedostavljene : true
+				nedostavljene: true,
+				status: ''
 			},
 		
 			porudzbine: null,
-			kupac: null
+			kupac: null,
+			sortType: 'DatumOpadajuce'
 		
 		}
 	},
@@ -54,11 +56,11 @@ Vue.component("porudzbineKupac", {
 					 <div name="STATUS_VIZUAL" style="float: left; width: 70%; padding: 0px;">
 					   <div class="container">
 						 <ul class="progressbar">
-						   <li class="active">OBRADA</li>
-						   <li class="active">U PRIPREMI</li>
-						   <li class="active">CEKA DOSTAVLJACA</li>
-						   <li class="active">U TRANSPORTU</li>
-						   <li class="active">DOSTAVLJENA</li>
+						   <li v-bind:class="{ active: setujStatusBar(poruc, 1)}">OBRADA</li>
+						   <li v-bind:class="{ active: setujStatusBar(poruc, 2)}">U PRIPREMI</li>
+						   <li v-bind:class="{ active: setujStatusBar(poruc, 3)}">CEKA DOSTAVLJACA</li>
+						   <li v-bind:class="{ active: setujStatusBar(poruc, 4)}">U TRANSPORTU</li>
+						   <li v-bind:class="{ active: setujStatusBar(poruc, 5)}">DOSTAVLJENA</li>
 						 </ul>
 					   </div>
 					 </div>
@@ -91,7 +93,7 @@ Vue.component("porudzbineKupac", {
 						</select>
 						<br> <br>
 						<textarea class="komentarInput"></textarea>
-						<button style="float: right; margin: 5px 0px 0px 10px">Postavi</button>
+						<button style="float: right; margin: 5px 0px 0px 10px" v-on:click="posaljiKomentar(poruc)">Postavi</button>
 					 </div>
 				  
 				  </div>
@@ -109,13 +111,13 @@ Vue.component("porudzbineKupac", {
 				 Ne dostavljene
 			   </td>
 				<td>
-				   <input type="checkbox" checked="true" value="Nedostavljene" v-model="nedostavljene">
+				   <input type="checkbox" checked="true" value="Nedostavljene" v-model="pretraga.nedostavljene">
 				</td>
 			 </tr>
 			 <tr>
 				<td><label>Tip restorana:</label></td>
 				<td>
-				   <select v_model="status" style="width: 100%">
+				   <select v-model="pretraga.tipRestorana" style="width: 100%">
 					  <option value = "SVE"> SVE</option>
 					  <option value = "ITALIJANSKI">ITALIJANSKI</option>
 					  <option value = "KINESKI">KINESKI</option>
@@ -127,7 +129,7 @@ Vue.component("porudzbineKupac", {
 			 <tr>
 				<td><label>Status:</label></td>
 				<td>
-				   <select v_model="tipRestorana" style="width: 100%">
+				   <select v-model="pretraga.status" style="width: 100%">
 					  <option value = "SVE"> SVE</option>
 					  <option value = "OBRADA"> OBRADA</option>
 					  <option value = "U_PRIPREMI"> U_PRIPREMI</option>
@@ -142,32 +144,45 @@ Vue.component("porudzbineKupac", {
 				<td>
 				   <label>Naziv restorana:</label>
 				</td>
-				<td><input type="text" v-model="nazivRestorana" style="width: 100%">
+				<td><input type="text" v-model="pretraga.nazivRestorana" style="width: 100%"></td>
 			 </tr>
 			 <tr>
 				<td><label>Datum od:</label></td>
-			   <td><input type="date" placeholder="Naziv Restorana" v-model="datumOd" style="width: 100%"></td>
+			   <td><input type="date" v-model="pretraga.datumOd" style="width: 100%"></td>
 			 </tr>
 			<tr>
 			  <td><label>Datum do:</label></td>
 			  <td>
-				<input type="date" placeholder="Lokacija Restorana" v-model="datumDo" style="width: 100%">
+				<input type="date" v-model="pretraga.datumDo" style="width: 100%">
 			  </td>
 			</tr>
 			 <tr>
 				<td><label>Cena od:</label></td>
-			   <td><input type="number" min=0 v-model="cenaOd" style="width: 100%"></td>
+			   <td><input type="number" min=0 v-model="pretraga.cenaOd" style="width: 100%"></td>
 			 </tr>
 			<tr>
 			  <td><label>Cena do:</label></td>
 			  <td>
-				<input type="number" min=0 v-model="cenaDo" style="width: 100%">
+				<input type="number" min=0 v-model="pretraga.cenaDo" style="width: 100%">
 			  </td>
 			</tr>
 			 <tr><td></td>
 				<td><button v-on:click="pretragaPorudzbina">Pretrazi</button></td>
 			 </tr>
 		  </table>
+	   </div>
+	   <div class="card">
+	   <h2>Sortiranje</h2>
+	   <select name="sort" v-on:change="sortiraj" v-model="sortType">
+			<option value="StatusRastuce">Status rastuce</option>
+			<option value="StatusOpadajuce">Status opadajuce</option>
+			<option value="NazivRestoranaA-Z">Naziv restorana A-Z</option>
+			<option value="NazivRestoranaZ-A">Naziv restorana Z-A</option>
+			<option value="DatumRastuce">Prvo noviji</option>
+			<option value="DatumOpadajuce">Prvo stariji</option>
+			<option value="CenaRastuca">Ceni rastuce</option>
+			<option value="CenaOpadajuce">Ceni opadajuce</option>
+		  </select>
 	   </div>
 	</div>
  </div>
@@ -193,18 +208,99 @@ Vue.component("porudzbineKupac", {
 			.then(response => (this.porudzbine = response.data));
 	},
 	methods: {
-		pretragaPorudzbina: function(){
+		setujStatusBar: function (poruc, id) {
+			if (poruc.status == 'OBRADA' && id == 1) return true;
+			else if (poruc.status == 'U_PRIPREMI' && (id == 1 || id == 2)) return true;
+			else if (poruc.status == 'CEKA_DOSTAVLJACA' && (id == 1 || id == 2 || id == 3)) return true;
+			else if (poruc.status == 'U_TRANSPORTU' && (id == 1 || id == 2 || id == 3 || id == 4)) return true;
+			else if (poruc.status == 'DOSTAVLJENA' && (id == 1 || id == 2 || id == 3 || id == 4 || id == 5)) return true;
+			else if (poruc.status == 'OTKAZANA') return false;
 			
+			return false;
+		},
+		posaljiKomentar: function (porudzbina) {
+			// todo	
+		},
+		pretragaPorudzbina: function(){
+			if (this.pretraga.nedostavljene) {
+				
+			}
+
 			
 		},
-		otkaziPorudzbinu: function(idPorudzbine){
+		sortiraj: function () {
+			if (this.sortType == 'StatusRastuce') {
+				//this.porudzbine.sort((b, a) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
+				this.porudzbine.sort(function (a, b) {
+					
+					let A = 0;
+					let B = 0;
+
+					if (a.status === 'OTKAZANA') A = 1;
+					if (a.status === 'OBRADA') A = 2;
+					if (a.status === 'U_PRIPREMI') A = 3;
+					if (a.status === 'CEKA_DOSTAVLJACA') A = 4;
+					if (a.status === 'U_TRANSPORTU') A = 5;
+					if (a.status === 'DOSTAVLJENA') A = 6;
+
+					if (b.status === 'OTKAZANA') B = 1;
+					if (b.status === 'OBRADA') B = 2;
+					if (b.status === 'U_PRIPREMI') B = 3;
+					if (b.status === 'CEKA_DOSTAVLJACA') B = 4;
+					if (b.status === 'U_TRANSPORTU') B = 5;
+					if (b.status === 'DOSTAVLJENA') B = 6;
+					
+					return (A > B) ? 1 : ((B > A) ? -1 : 0)
+					
+				});
+			} else if (this.sortType == 'StatusOpadajuce') {
+				//this.porudzbine.sort((a, b) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
+				this.porudzbine.sort(function (b, a) {
+					
+					let A = 0;
+					let B = 0;
+
+					if (a.status === 'OTKAZANA') A = 1;
+					if (a.status === 'OBRADA') A = 2;
+					if (a.status === 'U_PRIPREMI') A = 3;
+					if (a.status === 'CEKA_DOSTAVLJACA') A = 4;
+					if (a.status === 'U_TRANSPORTU') A = 5;
+					if (a.status === 'DOSTAVLJENA') A = 6;
+
+					if (b.status === 'OTKAZANA') B = 1;
+					if (b.status === 'OBRADA') B = 2;
+					if (b.status === 'U_PRIPREMI') B = 3;
+					if (b.status === 'CEKA_DOSTAVLJACA') B = 4;
+					if (b.status === 'U_TRANSPORTU') B = 5;
+					if (b.status === 'DOSTAVLJENA') B = 6;
+					
+					return (A > B) ? 1 : ((B > A) ? -1 : 0)
+					
+				});
+			} else if (this.sortType == 'NazivRestoranaA-Z') {
+				this.porudzbine.sort((b, a) => (a.nazivRestorana > b.nazivRestorana) ? 1 : ((b.nazivRestorana > a.nazivRestorana) ? -1 : 0));
+			} else if (this.sortType == 'NazivRestoranaZ-A') {
+				this.porudzbine.sort((a, b) => (a.nazivRestorana > b.nazivRestorana) ? 1 : ((b.nazivRestorana > a.nazivRestorana) ? -1 : 0));
+			} else if (this.sortType == 'DatumRastuce') {
+				this.porudzbine.sort((a, b) => (a.datum > b.datum) ? 1 : ((b.datum > a.datum) ? -1 : 0));
+			} else if (this.sortType == 'DatumOpadajuce') {
+				this.porudzbine.sort((b, a) => (a.datum > b.datum) ? 1 : ((b.datum > a.datum) ? -1 : 0));
+			} else if (this.sortType == 'CenaRastuca') {
+				this.porudzbine.sort((b, a) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
+			} else if (this.sortType == 'CenaOpadajuce') {
+				this.porudzbine.sort((a, b) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
+			}
+		},
+		otkaziPorudzbinu: function(porudzbina){
 			
-		axios.put('rest/izmeniPorudzbinu/', {
-       		params: {
-          	id: idPorudzbine,
-          	status: 'OTKAZANA'
-        	}
-     	 });
+			axios.put('rest/izmeniPorudzbinu/', {
+				params: {
+					id: porudzbina.id,
+					status: 'OTKAZANA'
+				}
+			}).then(response => {
+				porudzbina.status = 'OTKAZANA';
+			});
 		
 		}
 	}
