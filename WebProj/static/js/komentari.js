@@ -85,8 +85,18 @@ Vue.component("komentari", {
         	.then(response => (this.komentariOdabranogRestorana = response.data));       	
 		},
 		odobriKomentar: function (komentar) {
+			axios.put('rest/odobriKomentar',komentar.id)
+			.then(response => {
+				komentar.odobren = true;
+			});
+
 		},
 		odbijKomentar: function(komentar){
+			axios.put('rest/obrisiKomentar',komentar.id)
+			.then(response => {
+				const indexKomentara = this.komentariOdabranogRestorana.indexOf(komentar);
+				this.komentariOdabranogRestorana.splice(indexKomentara, 1);
+			  });
 
 		},prikaziRestoranMenadzera: function(nazivRestorana){
 			for(var restoran of this.restorani){

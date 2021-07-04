@@ -37,8 +37,13 @@ public class KomentarServis {
 		return ret;
 	}
 	
-	public void OdobriKomentar(String idNarudzbine) {
+	public void odobriKomentar(String idNarudzbine) {
 		komentariDAO.odobriKomentar(idNarudzbine);
+	}
+
+	public void obrisiKomentar(String id) {
+		komentariDAO.obrisiKomentar(id);
+		
 	}
 	
 	

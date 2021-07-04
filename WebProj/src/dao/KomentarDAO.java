@@ -76,4 +76,16 @@ public class KomentarDAO {
 		}		
 	}
 
+
+	public void obrisiKomentar(String id) {
+		for(Komentar k : komentari) {
+			if(k.getPorudzbina().equals(id)) {
+				komentari.remove(k);
+				sacuvajKomentare();
+				return;
+			}
+		}	
+		
+	}
+
 }

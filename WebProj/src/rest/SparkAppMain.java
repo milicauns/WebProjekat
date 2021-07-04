@@ -124,8 +124,21 @@ public class SparkAppMain {
 			return g.toJson(komentarServis.getSviKomentariZaRestoran(nazivRestorana));
 		});
 		
+		put("rest/odobriKomentar", (req, res) ->{
 		
+		System.out.println(req.body());
+		String id = g.fromJson(req.body(),String.class);			
+		komentarServis.odobriKomentar(id);
+		return "OK";
+		});
 		
+		put("rest/obrisiKomentar", (req, res) ->{
+			
+		String id = g.fromJson(req.body(),String.class);			
+		komentarServis.obrisiKomentar(id);
+		return "OK";
+		});
+				
 		get("rest/login", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
