@@ -8,4 +8,5 @@ public enum StatusPorudzbine {
 	U_TRANSPORTU,
 	DOSTAVLJENA,
 	OTKAZANA
+	
 }

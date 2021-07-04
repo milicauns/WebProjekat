@@ -30,9 +30,9 @@ public class SparkAppMain {
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 	
 		KorisnikServis korisnikServis = new KorisnikServis();
-		RestoranServis restoranServis = new RestoranServis();
+		RestoranServis restoranServis = new RestoranServis(); 
 		KomentarServis komentarServis = new KomentarServis();
-		PorudzbinaServis porudzbinaServis = new PorudzbinaServis();
+		PorudzbinaServis porudzbinaServis = new PorudzbinaServis(restoranServis);
 		ZahtevDostavljacaServis zahtevDostavljacaServis = new ZahtevDostavljacaServis();
 		
 		get("rest/restorani", (req, res) -> {
@@ -50,12 +50,34 @@ public class SparkAppMain {
 			return g.toJson(porudzbinaServis.getPorudzbineRestorana(korisnik.getNazivRestorana()));
 		});
 		
+		
 		get("rest/porudzbineKupca", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
 			Session ss = req.session(true);
 			Korisnik korisnik = ss.attribute("korisnik");
 			return g.toJson(porudzbinaServis.getPorudzbineKupca(korisnik.getKorisnickoIme()));
+		});
+		
+		get("rest/porudzbineKupcaPretraga", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			PretragaPorudbinaDTO pretragaPorudbinaDTO = new PretragaPorudbinaDTO();
+			pretragaPorudbinaDTO.datumOd = req.queryParams("datumOd");
+			pretragaPorudbinaDTO.datumDo = req.queryParams("datumDo");
+			pretragaPorudbinaDTO.cenaOd =  Double.parseDouble(req.queryParams("cenaOd"));
+			pretragaPorudbinaDTO.cenaDo = Double.parseDouble(req.queryParams("cenaDo"));
+			pretragaPorudbinaDTO.tipRestorana = req.queryParams("tipRestorana");
+			pretragaPorudbinaDTO.nazivRestorana = req.queryParams("nazivRestorana");
+			pretragaPorudbinaDTO.nedostavljene = Boolean.parseBoolean(req.queryParams("nedostavljene"));
+			pretragaPorudbinaDTO.status = req.queryParams("status");
+			pretragaPorudbinaDTO.podesiParametre();
+			System.out.println(pretragaPorudbinaDTO);
+			
+			return g.toJson(porudzbinaServis.getPorudzbineKupcaPretraga(korisnik.getKorisnickoIme(), pretragaPorudbinaDTO));
 		});
 		
 		get("rest/porudzbineKojeCekajuDostavljaca", (req, res) -> {
@@ -175,6 +197,8 @@ public class SparkAppMain {
 		
 		
 		
+		
+		
 		get("rest/login", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
@@ -278,6 +302,9 @@ public class SparkAppMain {
 			porudzbinaServis.promeniStatusPorudzbine(status, porudzbinaInfo.id);
 		return "uspjeh";
 		});
+		
+		
+		
 		
 		post("rest/dodajZahtev/", (req, res) -> {
 			res.type("application/json");

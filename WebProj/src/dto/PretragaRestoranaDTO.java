@@ -23,7 +23,7 @@ public class PretragaRestoranaDTO {
 		if(tip.equals("KINESKI")) this.tip = TipRestorana.KINESKI;
 		else if (tip.equals("ITALIJANSKI")) this.tip = TipRestorana.KINESKI;
 		else if (tip.equals("ROSTILJ")) this.tip = TipRestorana.ROSTILJ;
-		else if (tip.equals("SVE")) {
+		else if (tip.equals("SVE") || tip.isBlank()) {
 			this.tip = TipRestorana.ROSTILJ;
 			this.sviTipoviRestorana = true;
 		}

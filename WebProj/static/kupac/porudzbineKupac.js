@@ -247,7 +247,11 @@ Vue.component("porudzbineKupac", {
 			}
 		},
 		pretragaPorudzbina: function () {
-			
+			axios.get('rest/porudzbineKupcaPretraga', {
+				params: this.pretraga
+			}).then(response => {
+				this.porudzbine = response.data;
+			});
 		},
 		sortiraj: function () {
 			if (this.sortType == 'StatusRastuce') {

@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import enums.StatusPorudzbine;
+import enums.TipRestorana;
 
 public class Porudzbina {
 	
@@ -97,8 +98,7 @@ public class Porudzbina {
 				+ ", nazivRestorana=" + nazivRestorana + ", cena=" + cena + ", kupac=" + kupac + ", imePrezimeKupca="
 				+ imePrezimeKupca + ", status=" + status + "]";
 	}
-	
-	
+
 	
 	
 
