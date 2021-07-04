@@ -138,7 +138,43 @@ public class SparkAppMain {
 		komentarServis.obrisiKomentar(id);
 		return "OK";
 		});
-				
+		
+		post("rest/postaviKomentar", (req, res) ->{
+			String odgovor = "";
+			KomentarDTO komentar = g.fromJson(req.body(), KomentarDTO.class);
+			System.out.println(komentar);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");	
+			if(korisnik != null && korisnik.getUloga() == Uloga.KUPAC) {
+				Porudzbina porucbina = porudzbinaServis.getPorudzbinaByID(komentar.porudzbina);
+				if(porucbina != null && porucbina.getNazivRestorana().equals(komentar.nazivRestorana)) {
+					if(porucbina.getStatus() == StatusPorudzbine.DOSTAVLJENA) {
+						if(komentar.ocena >= 1 && komentar.ocena <= 5) {
+							komentarServis.dodajKomentar(komentar);
+							odgovor = "OK: Komentar za poruzbinu " + porucbina.getId() + " ocena: " + komentar.ocena + " od kupca: " + korisnik.getKorisnickoIme() + " za restoran: " + komentar.nazivRestorana +  " je uspesno postavljen";
+						}else {
+							odgovor = "Greska: ocena komentara nije u ispravnom opsegu";
+						}
+					}else {
+						odgovor = "Greska: ne mozete ostaviti komentar porudbni koja nije u statusu DOSTAVLJENA";
+					}
+				}else {
+					odgovor = "Greska: porudbina nije pronadjena";
+				}
+			}else {
+				odgovor = "Greska: Korisnik nije kupac";
+			}
+			
+			System.out.println(odgovor);
+			if(odgovor.startsWith("OK:")) {
+				odgovor = "OK";
+			}
+			
+			return odgovor;
+		});
+		
+		
+		
 		get("rest/login", (req, res) -> {
 			res.type("application/json");
 			res.status(200);

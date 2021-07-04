@@ -57,18 +57,24 @@ Vue.component("komentari", {
 	,
 	mounted() {
 
-		axios.get('rest/restorani')
-		.then(response => (this.restorani = response.data));
+		
 	
 		axios.get('rest/testlogin')
 			.then(response => {
-				if (response.data != 'Err:KorisnikNijeUlogovan') {
+
+				if (response.data != 'Err:KorisnikNijeUlogovan') 
 					this.ulogovaniKorisnik = response.data;
-					
-					if(this.ulogovaniKorisnik.uloga == 'MENADZER'){
-						this.prikaziRestoranMenadzera(this.ulogovaniKorisnik.nazivRestorana);
-					}
-				}
+
+				axios.get('rest/restorani')
+					.then(response => {
+						this.restorani = response.data
+						
+							if(this.ulogovaniKorisnik.uloga == 'MENADZER'){
+								this.prikaziRestoranMenadzera(this.ulogovaniKorisnik.nazivRestorana);
+							}
+						
+
+					});
 			});
 		
 

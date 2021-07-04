@@ -3,6 +3,7 @@ package servis;
 import java.util.ArrayList;
 
 import dao.KomentarDAO;
+import dto.KomentarDTO;
 import model.Komentar;
 
 public class KomentarServis {
@@ -15,6 +16,11 @@ public class KomentarServis {
 	
 	public void dodajKomentar(Komentar k) {
 		komentariDAO.dodajKomentar(k);
+	}
+	
+	public void dodajKomentar(KomentarDTO k) {
+		Komentar kom = new Komentar(k.porudzbina, k.nazivRestorana, k.korisnik, k.tekst, k.ocena);
+		komentariDAO.dodajKomentar(kom);
 	}
 	
 	public ArrayList<Komentar> getOdobreniKomentariZaRestoran(String nazivRestorana){

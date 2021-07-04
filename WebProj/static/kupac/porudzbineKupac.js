@@ -84,7 +84,7 @@ Vue.component("porudzbineKupac", {
 					 
 					  <div v-if="poruc.status =='DOSTAVLJENA'" name="komentar">
 						<label>Ocena: </label>
-						<select >
+						<select v-bind:id="poruc.id+'S'">
 						  <option value = "1">1 - lose</option>
 						  <option value = "2">2 - dovoljno</option>
 						  <option value = "3">3 - dobro</option>
@@ -92,7 +92,7 @@ Vue.component("porudzbineKupac", {
 						  <option value = "5">5 - odlicno</option>
 						</select>
 						<br> <br>
-						<textarea class="komentarInput"></textarea>
+						<textarea v-bind:id="poruc.id+'TA'" class="komentarInput" ></textarea>
 						<button style="float: right; margin: 5px 0px 0px 10px" v-on:click="posaljiKomentar(poruc)">Postavi</button>
 					 </div>
 				  
@@ -219,13 +219,34 @@ Vue.component("porudzbineKupac", {
 			return false;
 		},
 		posaljiKomentar: function (porudzbina) {
-			// todo	
-		},
-		pretragaPorudzbina: function(){
-			if (this.pretraga.nedostavljene) {
-				
-			}
 
+			let komentarInput = document.getElementById(porudzbina.id+'TA');
+			let ocenaInput = document.getElementById(porudzbina.id+'S');
+
+			let ocena = -1;
+			if (ocenaInput.value == '1') ocena = 1;
+			else if (ocenaInput.value == '2') ocena = 2;
+			else if (ocenaInput.value == '3') ocena = 3;
+			else if (ocenaInput.value == '4') ocena = 4;
+			else if (ocenaInput.value == '5') ocena = 5;
+
+			const komentarDTO = {
+				porudzbina: porudzbina.id,
+				nazivRestorana: porudzbina.nazivRestorana,
+				korisnik: porudzbina.kupac,
+				tekst: komentarInput.value,
+				ocena: ocena
+			};
+
+			if (porudzbina.status == 'DOSTAVLJENA') {
+				axios.post('rest/postaviKomentar', komentarDTO).then(response => {
+					if (response.data == 'OK') {
+						alert('Uspesno ste postavili komentar');
+					}
+				});
+			}
+		},
+		pretragaPorudzbina: function () {
 			
 		},
 		sortiraj: function () {

@@ -92,6 +92,17 @@ public class PorudzbinaServis {
 	    }
 	    return null;
 	}
+	
+	public Porudzbina getPorudzbinaByID(String idPoruzbine) {
+		Porudzbina trazenaPorudbina = null;
+		for (Porudzbina porudzbina : porudzbinaDAO.getPorudzbine()) {
+			if(porudzbina.getId().equals(idPoruzbine)) {
+				trazenaPorudbina = porudzbina;
+				break;
+			}
+		}
+		return trazenaPorudbina;
+	}
 
 
 }
