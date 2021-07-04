@@ -112,7 +112,7 @@ public class PorudzbinaServis {
 		porudzbinaDAO.promeniStatusPorudzbine(status,idPorudzbine);
 	}
 
-	public void kreirajPorudzbinuZaRestoran(PorudzbinaZaRestoranDTO stavke,String korisnickoImeKupca) {
+	public void kreirajPorudzbinuZaRestoran(PorudzbinaZaRestoranDTO stavke,Korisnik korisnik) {
 		
 		 DateTimeFormatter formaterDatum = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		 LocalDateTime datum = LocalDateTime.now();  
@@ -122,10 +122,13 @@ public class PorudzbinaServis {
 		
 		String id = generisiNoviId();		 
 		Porudzbina novaPorudzbina = new Porudzbina(id,formaterDatum.format(datum),formaterVreme.format(vreme),
-				   stavke.stavkeZaRestoran.get(0).getArtikal().getNazivRestorana(),korisnickoImeKupca,getImePrezime(korisnickoImeKupca));
+				   stavke.stavkeZaRestoran.get(0).getArtikal().getNazivRestorana(), korisnik.getKorisnickoIme(), korisnik.getIme() + " " + korisnik.getPrezime() );
 		
 		novaPorudzbina.dodajStavkePorudzbine(stavke.stavkeZaRestoran);
 		porudzbinaDAO.sacuvajPorudzbinu(novaPorudzbina);
+		
+		// sada treba i isprazniti korpu kod korisnika za dati restoran
+		korisnik.getKorpa().ukloniSadrzajKorpeZbogKreiranePorudbine(novaPorudzbina);
 	}
 	
 	public String generisiNoviId() {
@@ -143,14 +146,6 @@ public class PorudzbinaServis {
 	    return generatedString;
 	}
 	
-	public String getImePrezime(String korisnickoIme) {
-	    KorisnikServis servis = new KorisnikServis();
-	    for (Korisnik k : servis.GetKorisnici()) {
-	    	if(k.getKorisnickoIme().equals(korisnickoIme))
-	    	return k.getIme() + " " + k.getPrezime();
-	    }
-	    return null;
-	}
 	
 	public Porudzbina getPorudzbinaByID(String idPoruzbine) {
 		Porudzbina trazenaPorudbina = null;

@@ -72,7 +72,7 @@ Vue.component("korpa", {
 				  
 				</div>
 				<br><br>
-				<button class="potvrdanButton" v-on:click="potvrdiKupovinuZaRestoran(RK.SKDR)">Poruci iz restorana</button>
+				<button class="potvrdanButton" v-on:click="potvrdiKupovinuZaRestoran(RK)">Poruci iz restorana</button>
 			 </div>
 		  </div>
 	   </div>
@@ -308,23 +308,33 @@ Vue.component("korpa", {
 
 		},
 		potvrdiKupovinu: function () {
-			
-			for(var p of this.restorani){
-								
-				axios.post('rest/kreirajPorudzbinu/', { "stavkeZaRestoran": p.SKDR });						
+			for(var restoran of this.restorani){
+				this.potvrdiKupovinuZaRestoran(restoran)
 			}
 		},
 		isprazniKorpu: function () {
-			this.ukupnaCena = 0;
-			this.restorani = [];
+			axios.post('rest/ispraznikorpu').then(response => {
+				if (response.data = 'OK') {
+					this.restorani = [];
+					this.azurirajCenuUSvimRestoranima();	
+				}
+			});
+			
+			
 		},
 		nastaviSaKupovinom: function () {
 			window.location.href = "/";
 		},
-		potvrdiKupovinuZaRestoran: function(stavke){
-			
-			alert(stavke);
-			axios.post('rest/kreirajPorudzbinu/', { "stavkeZaRestoran": stavke });
+		potvrdiKupovinuZaRestoran: function(restoran){
+			axios.post('rest/kreirajPorudzbinu/', { "stavkeZaRestoran": restoran.SKDR }).then(response => {
+				if (response.data == 'OK') {
+					alert('Uspesno ste izvrsili kreiranje porudbine za restoran ' + restoran.naziv);
+					const indexRestorana = this.restorani.indexOf(restoran);
+					this.restorani.splice(indexRestorana, 1);
+
+					this.azurirajCenuUSvimRestoranima();
+				}
+			});
 		}
 	}
 });

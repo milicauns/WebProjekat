@@ -93,62 +93,29 @@ public class Korpa {
 				odgovor = "OK: Dodat novi artikal u korpu";
 			}
 		}
-		
+		azurirajCenuKorpe();
 		return odgovor;
 	}
 	
-	
-	/*
-	// stara metoda koja je radila sa mapama
-	public String dodajArtikal(Artikal artikal, int kolicina) {
-		String odgovor = "";
-		// ako imamo vec taj restoan
-		if(stavkeKorpe.containsKey(artikal.getNazivRestorana())) {
-
-			// ako ne postoji taj artikla 
-			if(getStavkaKorpePoNazivuArtikla(artikal.getNaziv()) == null) {
-				stavkeKorpe.get(artikal.getNazivRestorana()).add(new StavkaKorpe(artikal,kolicina));
-				odgovor = "OK: Dodat novi artikal u korpu";
-			}else {
-				//ako postoji taj artikal vec menjamo samo kolicinu
-				getStavkaKorpePoNazivuArtikla(artikal.getNaziv()).promeniKolicinu(kolicina);
-				odgovor = "OK: Promenjena kolicina u postojecem artiklu";
+	public void ukloniSadrzajKorpeZbogKreiranePorudbine(Porudzbina novaPorudzbina) {
+		boolean next = true;
+		while(next) {
+			next = false;
+			for (StavkaKorpe stavkaKorpe : stavkeKorpe) {
+				if(novaPorudzbina.sadrziOvajArtikal(stavkaKorpe.getArtikal())) {
+					stavkeKorpe.remove(stavkaKorpe);
+					next = true;
+					break;
+				}
 			}
-		}else {
-			//nemamo restoran nemamo ni artikal
-			ArrayList<StavkaKorpe> listaStavkiZaRestoran = new ArrayList<>() ;
-			listaStavkiZaRestoran.add(new StavkaKorpe(artikal,kolicina));
-			stavkeKorpe.put(artikal.getNazivRestorana(),listaStavkiZaRestoran);
-			odgovor = "OK: Dodat restoran u mapu i dodat artikal";
+		}	
+	}
+	
+	public void azurirajCenuKorpe() {
+		double novaCena = 0;
+		for (StavkaKorpe stavkaKorpe : stavkeKorpe) {
+			novaCena += stavkaKorpe.getKolicina() * stavkaKorpe.getArtikal().getCena();
 		}
-		return odgovor;
+		this.cena = novaCena;
 	}
-	
-	
-	
-	
-	public HashMap<String, ArrayList<StavkaKorpe>> getStavkeKorpe() {
-		return stavkeKorpe;
-	}
-
-	public void setStavkeKorpe(HashMap<String, ArrayList<StavkaKorpe>> stavkaKorpe) {
-		this.stavkeKorpe = stavkaKorpe;
-	}
-	
-	
-	
-	public StavkaKorpe getStavkaKorpePoNazivuArtikla(String nazivArtikla) {
-		
-		for (Entry<String, ArrayList<StavkaKorpe>> entry : stavkeKorpe.entrySet()) { 
-			for (StavkaKorpe s : entry.getValue()) {
-				if(s.getArtikal().getNaziv().equals(nazivArtikla))
-					return s;
-			}
-			
-		}
-		return null;
-	}
-	
-	
-	*/
 }

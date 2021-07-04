@@ -34,6 +34,7 @@ public class Porudzbina {
 	
 	public void dodajStavkePorudzbine(ArrayList<StavkaKorpe> stavke) {
 		artikli.addAll(stavke);
+		racunajCenuPorudbine();
 	}
 	
 	
@@ -48,6 +49,7 @@ public class Porudzbina {
 	}
 	public void setArtikli(ArrayList<StavkaKorpe> artikli) {
 		this.artikli = artikli;
+		racunajCenuPorudbine();
 	}
 	public String getDatum() {
 		return datum;
@@ -100,7 +102,25 @@ public class Porudzbina {
 	}
 
 	
+	public void racunajCenuPorudbine() {
+		double ukupnaCena = 0;
+		for (StavkaKorpe stavkaKorpe : artikli) {
+			ukupnaCena += stavkaKorpe.getKolicina() * stavkaKorpe.getArtikal().getCena();
+		}
+		this.cena = ukupnaCena;
+	}
 	
+	public boolean sadrziOvajArtikal(Artikal artikal) {
+		boolean sadrziArtikal = false;
+		for (StavkaKorpe stavkaKorpe : artikli) {
+			// radi equals jer smo ga overajdovali u klasi Artikal inace ne bi radili sa .equals
+			if(stavkaKorpe.getArtikal().equals(artikal)) {
+				sadrziArtikal = true;
+				break;
+			}
+		}
+		return sadrziArtikal;
+	}
 
 
 }

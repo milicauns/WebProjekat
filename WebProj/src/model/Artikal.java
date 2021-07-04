@@ -114,6 +114,46 @@ public class Artikal {
 		this.slika = izmeniArtikal.slika;
 		this.nazivRestorana = izmeniArtikal.nazivRestorana;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((naziv == null) ? 0 : naziv.hashCode());
+		result = prime * result + ((nazivRestorana == null) ? 0 : nazivRestorana.hashCode());
+		return result;
+	}
+
+	
+	
+	
+	/* 
+	 * 
+	 *  metoda koja proverava artikla da li su isti tako sto proveri NAZIV artikla i NAZIVRESTORANA iz kog potice artikal
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Artikal other = (Artikal) obj;
+		if (naziv == null) {
+			if (other.naziv != null)
+				return false;
+		} else if (!naziv.equals(other.naziv))
+			return false;
+		if (nazivRestorana == null) {
+			if (other.nazivRestorana != null)
+				return false;
+		} else if (!nazivRestorana.equals(other.nazivRestorana))
+			return false;
+		return true;
+	}
 	
 
+	
+	
 }

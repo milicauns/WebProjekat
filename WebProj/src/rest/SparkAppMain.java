@@ -288,9 +288,9 @@ public class SparkAppMain {
 			for(StavkaKorpe s : stavke.stavkeZaRestoran)
 				System.out.println(s.getArtikal().getNaziv());
 			
-			porudzbinaServis.kreirajPorudzbinuZaRestoran(stavke,korisnik.getKorisnickoIme());
+			porudzbinaServis.kreirajPorudzbinuZaRestoran(stavke,korisnik);
 			
-		return "uspjeh";
+		return "OK";
 		});
 		
 		put("rest/izmeniPorudzbinu/", (req, res) -> {
@@ -303,6 +303,19 @@ public class SparkAppMain {
 		return "uspjeh";
 		});
 		
+		post("rest/ispraznikorpu", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");	 
+			if(korisnik != null) {
+				korisnik.isprazniKorpu();
+				System.out.println("Korisnik " + korisnik.getKorisnickoIme() + " je uspesno ispraznio korupu");
+				return "OK";
+			}
+			return "Greska";
+		});
 		
 		
 		
