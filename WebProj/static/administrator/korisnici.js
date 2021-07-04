@@ -97,28 +97,30 @@ Vue.component("korisnici", {
                   <td><button v-on:click="pretraziKorisnike">Pretrazi</button></td>
                </tr>
             </table>
-            <h2>Sortiranje</h2>
+      </div>
+      <div class="card">
+         <h2>Sortiranje</h2>
             <table>
-               <tr><td><label>Rastuci rezim po kriterijumu:</label></td></tr>
-               <tr><td>
-               <select name="sort" v-on:change="sortiraj" v-model="sortType">
-				      <option value="RastuceIme">Ime</option>
-				      <option value="RastucePrezime">Prezime</option>
-				      <option value="RastuceKorisnickoIme">Korisnicko ime</option>
-				      <option value="RastuciBrojBodova">Broj bodova</option>
-			      </select>
-               </td>
-               <tr>
-               <tr><td><label>Opadajuci rezim po kriterijumu:</label></td></tr>
-               <tr><td>
-               <select name="sort" v-on:change="sortiraj" v-model="sortType">
-				      <option value="OpadajuceIme">Ime</option>
-				      <option value="OpadajucePrezime">Prezime</option>
-				      <option value="OpadajuceKorisnickoIme">Korisnicko ime</option>
-				      <option value="OpadajuciBrojBodova">Broj bodova</option>
-			      </select>
-               </td>
-               <tr>
+            <tr><td><label>Rastuci rezim po kriterijumu:</label></td></tr>
+            <tr><td>
+            <select name="sort" v-on:change="sortiraj" v-model="sortType">
+            <option value="RastuceIme">Ime</option>
+            <option value="RastucePrezime">Prezime</option>
+            <option value="RastuceKorisnickoIme">Korisnicko ime</option>
+            <option value="RastuciBrojBodova">Broj bodova</option>
+            </select>
+            </td>
+            <tr>
+            <tr><td><label>Opadajuci rezim po kriterijumu:</label></td></tr>
+            <tr><td>
+            <select name="sort" v-on:change="sortiraj" v-model="sortType">
+            <option value="OpadajuceIme">Ime</option>
+            <option value="OpadajucePrezime">Prezime</option>
+            <option value="OpadajuceKorisnickoIme">Korisnicko ime</option>
+            <option value="OpadajuciBrojBodova">Broj bodova</option>
+            </select>
+            </td>
+            <tr>
             </table>
       </div>
    </div>
