@@ -85,14 +85,14 @@ Vue.component("komentari", {
         	.then(response => (this.komentariOdabranogRestorana = response.data));       	
 		},
 		odobriKomentar: function (komentar) {
-			axios.put('rest/odobriKomentar',komentar.id)
+			axios.put('rest/odobriKomentar',komentar.porudzbina)
 			.then(response => {
 				komentar.odobren = true;
 			});
 
 		},
 		odbijKomentar: function(komentar){
-			axios.put('rest/obrisiKomentar',komentar.id)
+			axios.put('rest/obrisiKomentar',komentar.porudzbina)
 			.then(response => {
 				const indexKomentara = this.komentariOdabranogRestorana.indexOf(komentar);
 				this.komentariOdabranogRestorana.splice(indexKomentara, 1);
