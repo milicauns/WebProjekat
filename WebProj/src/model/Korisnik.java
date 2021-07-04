@@ -238,6 +238,23 @@ public class Korisnik {
 	}
 	
 	
+	public boolean azurirajBrojOsvojenihPoena(Porudzbina porudzbina) {
+		boolean izmena = false;
+		if(uloga == Uloga.KUPAC) {
+			if(porudzbina.getStatus() == StatusPorudzbine.OBRADA) {
+				this.brojSakupljenihBodova += 133 * porudzbina.getCena() / 1000;
+				tipKupca.azurirajPodatke(brojSakupljenihBodova);
+				izmena = true;
+			}else if(porudzbina.getStatus() == StatusPorudzbine.OTKAZANA) {
+				this.brojSakupljenihBodova -= 4 * 133 * porudzbina.getCena() / 1000;
+				if(this.brojSakupljenihBodova < 0 )
+					this.brojSakupljenihBodova = 0;
+				tipKupca.azurirajPodatke(brojSakupljenihBodova);
+				izmena = true;
+			} 
+		}
+		return false;
+	}
 	
 	
 	

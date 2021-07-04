@@ -19,10 +19,12 @@ public class PorudzbinaServis {
 	
 	private PorudzbinaDAO porudzbinaDAO = new PorudzbinaDAO();
 	private RestoranServis restoraniServisRef;
+	private KorisnikServis korisnikServisRef;
 	
-	public PorudzbinaServis(RestoranServis restoraniServisRef) {		
+	public PorudzbinaServis(RestoranServis restoraniServisRef, KorisnikServis korisnikServisRef) {		
 		porudzbinaDAO.ucitajPorudzbine();
 		this.restoraniServisRef = restoraniServisRef; 
+		this.korisnikServisRef = korisnikServisRef;
 	}
 	
 	public ArrayList<Porudzbina> getPorudzbineRestorana(String nazivRestorana){
@@ -108,8 +110,18 @@ public class PorudzbinaServis {
 	}
 	
 	public void promeniStatusPorudzbine(StatusPorudzbine status, String idPorudzbine) {
-		
-		porudzbinaDAO.promeniStatusPorudzbine(status,idPorudzbine);
+		for (Porudzbina porudzbina : porudzbinaDAO.getPorudzbine()) {
+			if(porudzbina.getId().equals(idPorudzbine)) {
+				// nema potrebe setovati isti status dva puta
+				if(porudzbina.getStatus() != status) {
+					porudzbina.setStatus(status);
+					Korisnik korisnik = korisnikServisRef.getkorisnikByKorisnickoIme(porudzbina.getKupac());
+					boolean izmena = korisnik.azurirajBrojOsvojenihPoena(porudzbina);
+					if(izmena) 
+						korisnikServisRef.sacuvajPodatke();
+				}
+			}
+		}
 	}
 
 	public void kreirajPorudzbinuZaRestoran(PorudzbinaZaRestoranDTO stavke,Korisnik korisnik) {
@@ -129,6 +141,7 @@ public class PorudzbinaServis {
 		
 		// sada treba i isprazniti korpu kod korisnika za dati restoran
 		korisnik.getKorpa().ukloniSadrzajKorpeZbogKreiranePorudbine(novaPorudzbina);
+		korisnik.azurirajBrojOsvojenihPoena(novaPorudzbina);
 	}
 	
 	public String generisiNoviId() {

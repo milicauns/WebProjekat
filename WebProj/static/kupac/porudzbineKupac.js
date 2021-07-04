@@ -317,7 +317,7 @@ Vue.component("porudzbineKupac", {
 			}
 		},
 		otkaziPorudzbinu: function(porudzbina){
-			
+
 			axios.put('rest/izmeniPorudzbinu/', {
 				params: {
 					id: porudzbina.id,

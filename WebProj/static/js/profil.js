@@ -17,7 +17,7 @@ Vue.component("profil", {
 	template:`
 	<div>
 	<div class="row">
-	<div>
+	<div style="float: left; width: 35%;">
 	  <div class="card">
 		<div>
 		<h1>Profil</h1>
@@ -86,6 +86,11 @@ Vue.component("profil", {
 		  </table>
 		</div>
 	  </div>
+	</div>
+	<div style="float: left; width: 65%; padding-left: 20px; height: 100%;">
+		<div class="card">
+			neke informacije videcemo??
+		</div>
 	</div>
   </div>	
 

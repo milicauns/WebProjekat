@@ -287,7 +287,7 @@ Vue.component("korpa", {
 				restoran.ukupnaCena = novoUkupno;
 			}
 			this.ukupnaCena = ukupnoUKUPNO;
-			this.cenaSaPopustom = this.ukupnaCena * (1 - this.korisnik.tipKupca.popust - 0.3);
+			this.cenaSaPopustom = this.ukupnaCena * (1 - this.korisnik.tipKupca.popust);
 		},
 		promenaSadrzaja: function (stavka) {
 			// axios poziv
@@ -328,7 +328,7 @@ Vue.component("korpa", {
 		potvrdiKupovinuZaRestoran: function(restoran){
 			axios.post('rest/kreirajPorudzbinu/', { "stavkeZaRestoran": restoran.SKDR }).then(response => {
 				if (response.data == 'OK') {
-					alert('Uspesno ste izvrsili kreiranje porudbine za restoran ' + restoran.naziv);
+					alert('Uspesno ste izvrsili kreiranje porudbine za restoran ' + restoran.nazivRestorana);
 					const indexRestorana = this.restorani.indexOf(restoran);
 					this.restorani.splice(indexRestorana, 1);
 

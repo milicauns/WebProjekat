@@ -32,7 +32,7 @@ public class SparkAppMain {
 		KorisnikServis korisnikServis = new KorisnikServis();
 		RestoranServis restoranServis = new RestoranServis(); 
 		KomentarServis komentarServis = new KomentarServis();
-		PorudzbinaServis porudzbinaServis = new PorudzbinaServis(restoranServis);
+		PorudzbinaServis porudzbinaServis = new PorudzbinaServis(restoranServis, korisnikServis);
 		ZahtevDostavljacaServis zahtevDostavljacaServis = new ZahtevDostavljacaServis();
 		
 		get("rest/restorani", (req, res) -> {
@@ -289,6 +289,7 @@ public class SparkAppMain {
 				System.out.println(s.getArtikal().getNaziv());
 			
 			porudzbinaServis.kreirajPorudzbinuZaRestoran(stavke,korisnik);
+			korisnikServis.sacuvajPodatke();
 			
 		return "OK";
 		});
@@ -311,6 +312,7 @@ public class SparkAppMain {
 			Korisnik korisnik = ss.attribute("korisnik");	 
 			if(korisnik != null) {
 				korisnik.isprazniKorpu();
+				korisnikServis.sacuvajPodatke();
 				System.out.println("Korisnik " + korisnik.getKorisnickoIme() + " je uspesno ispraznio korupu");
 				return "OK";
 			}
