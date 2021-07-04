@@ -1,7 +1,7 @@
 Vue.component("komentari", {
 	data: function () {
 		return {
-			restorani: null,
+			restorani: [],
 			komentariOdabranogRestorana: {},
 			odabraniRestoran: {},
 			ulogovaniKorisnik: {}
@@ -20,11 +20,11 @@ Vue.component("komentari", {
 				<div class="sredinacolumn">
 		  			<table style="max-width:600px; word-wrap:break-word;">
 					  	<tr v-if="komentar.odobren == false">
-						  <td><label>NIJE ODOBREN!</lebel></td>
+						  <td><label>NIJE ODOBREN!</label></td>
 						</tr>
 						<tr><td>{{komentar.tekst}}</td></tr>
 						
-						<tr v-if="ulogovaniKorisnik.uloga=='MENADZER'"><td><button class="potvrdanButton" v-on:click="odobriKomentar(komentar)">ODOBRI</button>
+						<tr v-if="ulogovaniKorisnik.uloga=='MENADZER' && komentar.odobren == false"><td><button class="potvrdanButton" v-on:click="odobriKomentar(komentar)">ODOBRI</button>
 						<button class="oprezanButton" v-on:click="odbijKomentar(komentar)">ODBIJ</button></td></tr>
 						
 		  			</table>
@@ -65,8 +65,8 @@ Vue.component("komentari", {
 				if (response.data != 'Err:KorisnikNijeUlogovan') {
 					this.ulogovaniKorisnik = response.data;
 					
-					if(ulogovaniKorisnik.uloga == MENADZER){
-						odabranRestoran(ulogovaniKorisnik.nazivRestorana);
+					if(this.ulogovaniKorisnik.uloga == 'MENADZER'){
+						this.prikaziRestoranMenadzera(this.ulogovaniKorisnik.nazivRestorana);
 					}
 				}
 			});
@@ -88,6 +88,11 @@ Vue.component("komentari", {
 		},
 		odbijKomentar: function(komentar){
 
+		},prikaziRestoranMenadzera: function(nazivRestorana){
+			for(var restoran of this.restorani){
+				if(restoran.naziv == nazivRestorana)
+					this.odabranRestoran(restoran);
+			}
 		}
 
 	}

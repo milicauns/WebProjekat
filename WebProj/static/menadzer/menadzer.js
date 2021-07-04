@@ -58,7 +58,7 @@ Vue.component("menadzer", {
         <button class="buttonUMeniju" v-on:click="selektujKomponentu('artiklimenazdera')">Artikli</button>
         <button class="buttonUMeniju" v-on:click="selektujKomponentu('porudzbineMenadzer')">Porudzbine restorana</button>
         <button class="buttonUMeniju" v-on:click="selektujKomponentu('zahteviDostavljaca')">Zahtevi dostavljaca</button>
-        <button class="buttonUMeniju" v-on:click="selektujKomponentu('komp4')">BUTON 4</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('komentari')">Komentari</button>
       </div>
     </div>
   </div>
