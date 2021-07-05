@@ -16,7 +16,15 @@ public class PorudzbinaDAO {
 	private String putanjaFajla="podaci/porudzbine.json";
 	private ArrayList<Porudzbina> porudzbine = new ArrayList<>();
 	
-	public PorudzbinaDAO() {
+	// SINGLETON PATERN
+	private static PorudzbinaDAO instance = null;
+	public static PorudzbinaDAO getInstance() {
+		if(instance == null) {
+			instance = new PorudzbinaDAO();
+		}
+		return instance;
+	}
+	private PorudzbinaDAO() {
 		ucitajPorudzbine();	
 	}
 	

@@ -18,7 +18,7 @@ import model.Porudzbina;
 
 public class PorudzbinaServis {
 	
-	private PorudzbinaDAO porudzbinaDAO = new PorudzbinaDAO();
+	private PorudzbinaDAO porudzbinaDAO;
 	
 	private KorisnikServis korisnikServis;
 	private RestoranServis restoranServis;
@@ -33,7 +33,11 @@ public class PorudzbinaServis {
 	}
 	
 	public PorudzbinaServis() {		
-		porudzbinaDAO.ucitajPorudzbine();
+		porudzbinaDAO = PorudzbinaDAO.getInstance();
+	}
+	
+	public void sacuvajPodatke() {
+		porudzbinaDAO.sacuvajPorudzbine();
 	}
 	
 	public ArrayList<Porudzbina> getPorudzbineRestorana(String nazivRestorana){
@@ -154,6 +158,7 @@ public class PorudzbinaServis {
 				// nema potrebe setovati isti status dva puta
 				if(porudzbina.getStatus() != status) {
 					porudzbina.setStatus(status);
+					sacuvajPodatke();
 					Korisnik korisnik = korisnikServis.getkorisnikByKorisnickoIme(porudzbina.getKupac());
 					boolean izmena = korisnik.azurirajBrojOsvojenihPoena(porudzbina);
 					if(izmena) 

@@ -17,7 +17,16 @@ public class KorisnikDAO {
 	private String putanjaFajla="podaci/korisnici.json";
 	private ArrayList<Korisnik> korisnici = new ArrayList<>();
 	
-	public KorisnikDAO() {
+	
+	// SINGLETON PATERN
+	private static KorisnikDAO instance = null;
+	public static KorisnikDAO getInstance() {
+		if(instance == null) {
+			instance = new KorisnikDAO();
+		}
+		return instance;
+	}
+	private KorisnikDAO() {
 		ucitajKorisnike();	
 	}
 	

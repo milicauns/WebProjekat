@@ -16,7 +16,16 @@ public class KomentarDAO {
 	private String putanjaFajla="podaci/komentari.json";
 	private ArrayList<Komentar> komentari = new ArrayList<>();
 	
-	public KomentarDAO() {
+	
+	// SINGLETON PATERN
+	private static KomentarDAO instance = null;
+	public static KomentarDAO getInstance() {
+		if(instance == null) {
+			instance = new KomentarDAO();
+		}
+		return instance;
+	}
+	private KomentarDAO() {
 		ucitajKomentare();	
 	}
 	

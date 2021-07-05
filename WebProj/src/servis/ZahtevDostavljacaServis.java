@@ -23,7 +23,7 @@ public class ZahtevDostavljacaServis {
 	}
 	
 	public ZahtevDostavljacaServis() {
-		zahtevDAO = new ZahtevDAO();
+		zahtevDAO = ZahtevDAO.getInstance();
 	}
 	
 	public ArrayList<ZahtevDostavljaca> getZahteviZaRestoran(String nazivRestorana){

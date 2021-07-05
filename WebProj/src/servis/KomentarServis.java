@@ -23,7 +23,7 @@ public class KomentarServis {
 	}
 	
 	public KomentarServis() {
-		komentariDAO = new KomentarDAO();
+		komentariDAO = KomentarDAO.getInstance();
 	}
 	
 	public void dodajKomentar(Komentar k) {

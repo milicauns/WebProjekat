@@ -35,7 +35,7 @@ public class KorisnikServis {
 	}
 	
 	public KorisnikServis() {
-		korisniciDAO = new KorisnikDAO();
+		korisniciDAO = KorisnikDAO.getInstance();
 	}
 	
 	public boolean KorisnikPostoji(String korisnickoIme) {

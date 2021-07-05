@@ -29,7 +29,7 @@ public class RestoranServis {
 	}
 	
 	public RestoranServis() {
-		restoranDAO = new RestoranDAO();
+		restoranDAO = RestoranDAO.getInstance();
 	}
 	
 	public void sacuvajRestorane() {

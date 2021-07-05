@@ -16,7 +16,16 @@ public class RestoranDAO {
 	private String putanjaFajla = "podaci/restorani.json"; 
 	private ArrayList<Restoran> restorani = new ArrayList<>();
 	
-	public RestoranDAO() {
+	
+	// SINGLETON PATERN
+	private static RestoranDAO instance = null;
+	public static RestoranDAO getInstance() {
+		if(instance == null) {
+			instance = new RestoranDAO();
+		}
+		return instance;
+	}
+	private RestoranDAO() {
 		ucitajRestorane();	
 	}
 	

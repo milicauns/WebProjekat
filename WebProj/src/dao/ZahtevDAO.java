@@ -17,7 +17,15 @@ public class ZahtevDAO {
 	private String putanjaFajla = "podaci/zahtevi.json"; 
 	private ArrayList<ZahtevDostavljaca> zahtevi = new ArrayList<>();
 	
-	public ZahtevDAO() {
+	// SINGLETON PATERN
+	private static ZahtevDAO instance = null;
+	public static ZahtevDAO getInstance() {
+		if(instance == null) {
+			instance = new ZahtevDAO();
+		}
+		return instance;
+	}
+	private ZahtevDAO() {
 		ucitajZahteve();	
 	}
 	
