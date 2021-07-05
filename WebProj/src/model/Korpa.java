@@ -115,7 +115,7 @@ public class Korpa {
 	}
 	
 	public void azurirajCenuKorpe() {
-		KorisnikServis korisnici = new KorisnikServis();
+		KorisnikServis korisnici = new KorisnikServis(null);
 		Korisnik K = korisnici.getkorisnikByKorisnickoIme(korisnik);
 		double popust = K.getTipKupca().getPopust();
 		double novaCena = 0;

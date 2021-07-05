@@ -1,7 +1,10 @@
 package test;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.google.gson.Gson;
 
@@ -133,6 +136,15 @@ public class TestMain {
 		}
 		korisnici.sacuvajKorisnike();
 		*/
+	
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DATE, -30);
+		Date dateBefore30Days = cal.getTime();
+		
+		System.out.println(dateBefore30Days);
+	
 	}
 
 }

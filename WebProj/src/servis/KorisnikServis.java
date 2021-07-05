@@ -8,19 +8,27 @@ import dto.ParametriLoginKorisnikDTO;
 import dto.ParametriRegistracijeDTO;
 import dto.PretragaKorisnikaDTO;
 import dto.PromenaLozinkeDTO;
+import enums.StatusPorudzbine;
 import enums.Uloga;
 import model.Artikal;
 import model.Korisnik;
 import model.Korpa;
+import model.Porudzbina;
 import model.Restoran;
 import model.StavkaKorpe;
 
 public class KorisnikServis {
 	
 	private KorisnikDAO korisniciDAO;
+	private PorudzbinaServis porudbinaServisRef;
 	
-	public KorisnikServis() {
+	public KorisnikServis(PorudzbinaServis porudbinaServis) {
 		korisniciDAO = new KorisnikDAO();
+		porudbinaServisRef = porudbinaServis;
+	}
+	
+	public void setPorudzbinaServis(PorudzbinaServis porudbinaServis) {
+		porudbinaServisRef = porudbinaServis;
 	}
 	
 	public boolean KorisnikPostoji(String korisnickoIme) {
@@ -175,6 +183,48 @@ public class KorisnikServis {
 		return odgovor;
 	}
 	
+	
+	public ArrayList<Korisnik> getKorisniciByUloga(Uloga uloga){
+		ArrayList<Korisnik> trazeniKorisnici = new ArrayList<Korisnik>();
+		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
+			if(korisnik.getUloga() == uloga) {
+				trazeniKorisnici.add(korisnik);
+			}
+		}
+		return trazeniKorisnici;
+	}
+	
+	public boolean proveriDaLiJeSumnjiv(Korisnik korisnik) {
+		boolean sumnjiv = false;
+		int brojOtkazanihPorudbina = 0;
+		ArrayList<Porudzbina> porudbineKupcaZadnjihMesecDana = porudbinaServisRef.getPorudzbineKupcaURokuOdmesecDana(korisnik.getKorisnickoIme());
+		if(porudbineKupcaZadnjihMesecDana != null) {
+			for (Porudzbina porudzbina : porudbineKupcaZadnjihMesecDana) {
+				if(porudzbina.getStatus() == StatusPorudzbine.OTKAZANA) {
+					brojOtkazanihPorudbina++;
+				}
+			}
+			
+			if(brojOtkazanihPorudbina > 5) {
+				sumnjiv = true;
+			}
+		}
+		
+		return sumnjiv;
+	}
+	
+	
+	public ArrayList<Korisnik> GetSumnjiviKorisnici(){
+		ArrayList<Korisnik> sumnjiviKorisnici = new ArrayList<Korisnik>();
+		
+		for (Korisnik korisnik : getKorisniciByUloga(Uloga.KUPAC)) {
+			if(proveriDaLiJeSumnjiv(korisnik)) {
+				sumnjiviKorisnici.add(korisnik);
+			}
+		}
+		
+		return sumnjiviKorisnici;
+	}
 
 	
 }

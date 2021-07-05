@@ -29,10 +29,11 @@ public class SparkAppMain {
 		
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 	
-		KorisnikServis korisnikServis = new KorisnikServis();
+		KorisnikServis korisnikServis = new KorisnikServis(null);
 		RestoranServis restoranServis = new RestoranServis(); 
 		KomentarServis komentarServis = new KomentarServis();
 		PorudzbinaServis porudzbinaServis = new PorudzbinaServis(restoranServis, korisnikServis);
+		korisnikServis.setPorudzbinaServis(porudzbinaServis);
 		ZahtevDostavljacaServis zahtevDostavljacaServis = new ZahtevDostavljacaServis();
 		
 		get("rest/restorani", (req, res) -> {
@@ -422,6 +423,11 @@ public class SparkAppMain {
 			return g.toJson(korisnikServis.GetKorisnici());
 		});		
 		
+		get("rest/sumnjiviKorisnici", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			return g.toJson(korisnikServis.GetSumnjiviKorisnici());
+		});	
 		
 		
 		put("rest/izmeniStatusRestorana", (req, res) -> {

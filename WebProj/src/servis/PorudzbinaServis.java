@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 import dao.PorudzbinaDAO;
@@ -38,12 +39,42 @@ public class PorudzbinaServis {
 	}
 	
 	public ArrayList<Porudzbina> getPorudzbineKupca(String korisnickoIme){
-		ArrayList<Porudzbina> ret = new ArrayList<>();
-		for (Porudzbina p : porudzbinaDAO.getPorudzbine()) {
-			if(p.getKupac().equals(korisnickoIme))
-				ret.add(p);			
+		ArrayList<Porudzbina> porudbineKupca = new ArrayList<>();
+		for (Porudzbina porudzbina : porudzbinaDAO.getPorudzbine()) {
+			if(porudzbina.getKupac().equals(korisnickoIme))
+				porudbineKupca.add(porudzbina);			
 		}
-		return ret;
+		return porudbineKupca;
+	}
+	
+	public ArrayList<Porudzbina> getPorudzbineKupcaURokuOdmesecDana(String korisnickoIme){
+		ArrayList<Porudzbina> porudbineKupcaZadnjiMesec = new ArrayList<Porudzbina>();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DATE, -30);
+		Date datumPre30Dana = cal.getTime();
+		
+		for (Porudzbina porudzbina : getPorudzbineKupca(korisnickoIme)) {
+			
+			// 05/07/2021
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			Date datumPorudzbine = null;
+			
+			try {
+				datumPorudzbine = format.parse(porudzbina.getDatum());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			if(datumPorudzbine != null) {
+				if(datumPre30Dana.before(datumPorudzbine)) {
+					porudbineKupcaZadnjiMesec.add(porudzbina);
+				}
+			}
+		}
+		
+		return porudbineKupcaZadnjiMesec;
 	}
 	
 	public ArrayList<Porudzbina> getPorudzbineKupcaPretraga(String korisnickoIme, PretragaPorudbinaDTO pretraga){
@@ -170,6 +201,9 @@ public class PorudzbinaServis {
 		}
 		return trazenaPorudbina;
 	}
+	
+	
+
 
 
 }

@@ -104,7 +104,7 @@ public class Porudzbina {
 
 	
 	public void racunajCenuPorudbine() {
-		KorisnikServis korisnici = new KorisnikServis();
+		KorisnikServis korisnici = new KorisnikServis(null);
 		Korisnik K = korisnici.getkorisnikByKorisnickoIme(kupac);
 		double popust = K.getTipKupca().getPopust();
 		double ukupnaCena = 0;
