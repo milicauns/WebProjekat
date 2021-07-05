@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import enums.StatusPorudzbine;
 import enums.TipRestorana;
+import servis.KorisnikServis;
 
 public class Porudzbina {
 	
@@ -103,11 +104,14 @@ public class Porudzbina {
 
 	
 	public void racunajCenuPorudbine() {
+		KorisnikServis korisnici = new KorisnikServis();
+		Korisnik K = korisnici.getkorisnikByKorisnickoIme(kupac);
+		double popust = K.getTipKupca().getPopust();
 		double ukupnaCena = 0;
 		for (StavkaKorpe stavkaKorpe : artikli) {
 			ukupnaCena += stavkaKorpe.getKolicina() * stavkaKorpe.getArtikal().getCena();
 		}
-		this.cena = ukupnaCena;
+		this.cena = ukupnaCena * (1 - popust);
 	}
 	
 	public boolean sadrziOvajArtikal(Artikal artikal) {

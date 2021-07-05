@@ -196,6 +196,7 @@ Vue.component("porudzbineKupac", {
 		.then(response => {
 			if (response.data != 'Err:KorisnikNijeUlogovan') {
 				this.kupac = response.data;
+				this.osveziInformacijeOKupcu();
 			}else{				
 				alert(response.data);
 			}
@@ -318,15 +319,14 @@ Vue.component("porudzbineKupac", {
 		},
 		otkaziPorudzbinu: function(porudzbina){
 
-			axios.put('rest/izmeniPorudzbinu/', {
-				params: {
-					id: porudzbina.id,
-					status: 'OTKAZANA'
-				}
-			}).then(response => {
+			axios.put('rest/izmeniPorudzbinu/', { id: porudzbina.id, status: 'OTKAZANA' }).then(response => {
 				porudzbina.status = 'OTKAZANA';
+				this.osveziInformacijeOKupcu();
 			});
 		
-		}
+		},
+		osveziInformacijeOKupcu: function() {
+    		this.$root.$emit('InformacijeOKupcu', 'refresh');
+    	}
 	}
 });

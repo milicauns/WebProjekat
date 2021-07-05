@@ -88,8 +88,8 @@ Vue.component("profil", {
 	  </div>
 	</div>
 	<div style="float: left; width: 65%; padding-left: 20px; height: 100%;">
-		<div class="card">
-			neke informacije videcemo??
+		<div id="prikazInfoKupac" v-if="korisnik.uloga == 'KUPAC'">
+			<infoKupac></infoKupac>
 		</div>
 	</div>
   </div>	
