@@ -8,6 +8,7 @@ import dto.ParametriLoginKorisnikDTO;
 import dto.ParametriRegistracijeDTO;
 import dto.PretragaKorisnikaDTO;
 import dto.PromenaLozinkeDTO;
+import dto.SumnjivKorisnikDTO;
 import enums.StatusPorudzbine;
 import enums.Uloga;
 import model.Artikal;
@@ -194,8 +195,7 @@ public class KorisnikServis {
 		return trazeniKorisnici;
 	}
 	
-	public boolean proveriDaLiJeSumnjiv(Korisnik korisnik) {
-		boolean sumnjiv = false;
+	public int brojOtkazanihPorudbinaURokuOdMesecDana(Korisnik korisnik) {
 		int brojOtkazanihPorudbina = 0;
 		ArrayList<Porudzbina> porudbineKupcaZadnjihMesecDana = porudbinaServisRef.getPorudzbineKupcaURokuOdmesecDana(korisnik.getKorisnickoIme());
 		if(porudbineKupcaZadnjihMesecDana != null) {
@@ -204,22 +204,22 @@ public class KorisnikServis {
 					brojOtkazanihPorudbina++;
 				}
 			}
-			
-			if(brojOtkazanihPorudbina > 5) {
-				sumnjiv = true;
-			}
 		}
 		
-		return sumnjiv;
+		return brojOtkazanihPorudbina;
 	}
 	
 	
-	public ArrayList<Korisnik> GetSumnjiviKorisnici(){
-		ArrayList<Korisnik> sumnjiviKorisnici = new ArrayList<Korisnik>();
+	public ArrayList<SumnjivKorisnikDTO> GetSumnjiviKorisnici(){
+		ArrayList<SumnjivKorisnikDTO> sumnjiviKorisnici = new ArrayList<SumnjivKorisnikDTO>();
 		
 		for (Korisnik korisnik : getKorisniciByUloga(Uloga.KUPAC)) {
-			if(proveriDaLiJeSumnjiv(korisnik)) {
-				sumnjiviKorisnici.add(korisnik);
+			int brojOtkazanihPorudbina = brojOtkazanihPorudbinaURokuOdMesecDana(korisnik);
+			if(brojOtkazanihPorudbina > 5) {
+				SumnjivKorisnikDTO sumnjivKorisnikDTO = new SumnjivKorisnikDTO();
+				sumnjivKorisnikDTO.korisnik = korisnik;
+				sumnjivKorisnikDTO.brojOtkazivanjaUMesecDana = brojOtkazanihPorudbina;
+				sumnjiviKorisnici.add(sumnjivKorisnikDTO);
 			}
 		}
 		
