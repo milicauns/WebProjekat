@@ -34,7 +34,6 @@ public class SparkAppMain {
 		ZahtevDostavljacaServis zahtevDostavljacaServis = new ZahtevDostavljacaServis();
 		KomentarServis komentarServis = new KomentarServis();
 		
-		
 		korisnikServis.setRefServisi(restoranServis, porudzbinaServis, zahtevDostavljacaServis, komentarServis);
 		restoranServis.setRefServisi(korisnikServis, porudzbinaServis, zahtevDostavljacaServis, komentarServis);
 		porudzbinaServis.setRefServisi(korisnikServis, restoranServis, zahtevDostavljacaServis, komentarServis);

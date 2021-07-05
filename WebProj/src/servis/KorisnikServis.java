@@ -189,7 +189,7 @@ public class KorisnikServis {
 		return odgovor;
 	}
 	
-	
+	/*
 	public ArrayList<Korisnik> getKorisniciByUloga(Uloga uloga){
 		ArrayList<Korisnik> trazeniKorisnici = new ArrayList<Korisnik>();
 		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
@@ -199,6 +199,7 @@ public class KorisnikServis {
 		}
 		return trazeniKorisnici;
 	}
+	*/
 	
 	public int brojOtkazanihPorudbinaURokuOdMesecDana(Korisnik korisnik) {
 		int brojOtkazanihPorudbina = 0;
@@ -218,7 +219,7 @@ public class KorisnikServis {
 	public ArrayList<SumnjivKorisnikDTO> GetSumnjiviKorisnici(){
 		ArrayList<SumnjivKorisnikDTO> sumnjiviKorisnici = new ArrayList<SumnjivKorisnikDTO>();
 		
-		for (Korisnik korisnik : getKorisniciByUloga(Uloga.KUPAC)) {
+		for (Korisnik korisnik : GetKorisnici(Uloga.KUPAC)) {
 			int brojOtkazanihPorudbina = brojOtkazanihPorudbinaURokuOdMesecDana(korisnik);
 			if(brojOtkazanihPorudbina > 5) {
 				SumnjivKorisnikDTO sumnjivKorisnikDTO = new SumnjivKorisnikDTO();
