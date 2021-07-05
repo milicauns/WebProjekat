@@ -108,7 +108,7 @@ Vue.component("porudzbineKupac", {
 		  <table>
 			 <tr>
 			   <td>
-				 Ne dostavljene
+				 Nedostavljene
 			   </td>
 				<td>
 				   <input type="checkbox" checked="true" value="Nedostavljene" v-model="pretraga.nedostavljene">

@@ -10,10 +10,10 @@ Vue.component("administrator", {
   <div class="Meni">
     <div class="cardMenu">
       <div class="vertical-menu">
-        <button v-on:click="selektujKomponentu('korisnici')">KORISNICI</button>
-        <button v-on:click="selektujKomponentu('registracija')">REGISTRACIJA KORISNIKA</button>
-        <button v-on:click="selektujKomponentu('komentari')">RESTORANI</button>
-        <button v-on:click="selektujKomponentu('registracijaRestorana')">REGISTRACIJA RESTORANA</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('korisnici')">KORISNICI</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('registracija')">REGISTRACIJA KORISNIKA</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('komentari')">RESTORANI</button>
+        <button class="buttonUMeniju" v-on:click="selektujKomponentu('registracijaRestorana')">REGISTRACIJA RESTORANA</button>
       </div>
     </div>
   </div>

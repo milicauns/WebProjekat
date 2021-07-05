@@ -4,16 +4,24 @@
 
 body {
 	font-family: Arial;
-	padding: 10px;
+	padding: 10px; 
 	background: #f1f1f1;  /* ili #f0f2f5 */  
 }
 
 /* Header/Blog Title */
 .header {
-	padding: 30px;
+	position: relative;
 	text-align: center;
-	background: white;
+	background: black;
 }
+
+.pozicijaNaslova {
+	position: absolute;
+	top: 40%;
+	left: 20%;
+	transform: translate(-50%, -50%);
+	color: white;
+  }
 
 .header h1 {
 	font-size: 50px;
@@ -494,3 +502,93 @@ body {
 	font-size: 16px;
 	resize: none;
   }
+
+
+
+
+  /* CSS za forme login i registracija */
+  
+  .inputKredencijali {
+	width: 300px;
+	margin:5px 0;
+	padding:10px;
+	border-radius:20px;
+	border: 2px solid #eee;
+	box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+	}
+  
+  .inputKredencijali:focus{
+	background: #FCFCFC;
+	outline: none;
+	
+  }
+  
+	.buttonLogin {
+	padding:10px;
+	border:none;
+	background-color:#2ECC71;
+	color:#fff;
+	font-weight:600;
+	border-radius:20px;
+	width:300px;
+  }
+  
+  .buttonLogin:hover{
+	background: #333;
+  }
+  
+  .selectKredencijali{
+	width: 300px;
+	margin:5px 0;
+	padding:10px;
+	border-radius:10px;
+	border: 2px solid #eee;    
+	  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+	}
+  
+  .selectKredencijali:focus{
+	outline: none; 
+  }
+  
+  .datapicker{
+	width: 300px;
+	height: 35px;
+	border-radius:3px;  
+	border: 2px solid #eee; 
+	box-shadow:0 0 0 4px rgba(0,0,0,0.06);
+	text-align:right;
+	margin:5px 0;
+	padding: 10px;
+	box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  }
+  
+  .optionComboKredencijali{
+	border-radius: 10px;
+  }
+  
+
+
+
+  /* TEST DA L VALJA */
+
+  input {
+	margin:5px 0;
+	padding:5px;
+	border-radius:10px;
+	border: 2px solid #eee;
+	box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+	outline: none;
+	}
+  
+  input:focus{
+	outline: none;
+	
+  }
+
+select{
+	margin:5px 0;
+	padding:5px;
+	border-radius:10px;
+	border: 2px solid #eee;    
+	  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+	}

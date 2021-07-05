@@ -7,30 +7,29 @@ Vue.component("login", {
   },
   template: `
 	
-<div class="row">
-	  <div class="leftcolumn">
-		<div class="card">
-		  <h1>Login</h1>
-          <div id="loginDiv" class="formaCSS">
-                <p>Korisnicko ime</p>
-                <input type="text" v-model="korisnickoIme">
-                <br>
-                <p>Lozinka</p>
-                <input type="password" v-model="lozinka">
-                <br>
-                <br>
-                <br>
-                <button v-on:click="loginKorisnik">Prijavi se</button>
-          </div>
-		</div>
-	  </div>
-	  <div class="rightcolumn">
-		<div class="card">
-		  <h2>Nemas nalog?</h2>
-          <a href=""><button>Registruj se</button></a>
-		</div>
-	  </div>
-	</div>	`
+  <div class="row">
+  <div style="text-align: center;">
+  <div class="card">
+    <h1>Prijava</h1>
+        <div id="loginDiv" class="formaCSS">
+              <input class="inputKredencijali" placeholder="Korisnicko ime" type="text" v-model="korisnickoIme">
+              <br>
+              <input class="inputKredencijali" placeholder="lozinka" type="password" v-model="lozinka">
+              <br>
+              <br>
+              <br>
+              <button class="buttonLogin" v-on:click="loginKorisnik">Prijavi se</button>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        Nemas nalog? <a href="">Registruj se</a>
+  </div>
+  </div>
+</div>
+  
+  `
   ,
   methods: {
     loginKorisnik: function () {

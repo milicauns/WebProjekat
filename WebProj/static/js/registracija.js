@@ -14,86 +14,59 @@ Vue.component("registracija", {
 	},
 	template:`
 	
-	<div class="row">
-	<div class="leftcolumn">
-	  <div class="card">
-		<div id="registracijaKupac">
-		<h1>Registracija</h1>
-		  <table>
-			<tr>
-			  <td><label>Korisnicko ime</label></td>
-			  <td><input type="text" v-model="korisnickoIme"/></td>
-			</tr>
-			
-			 <tr>
-			  <td><label>Ime</label></td>
-			  <td><input type="text" v-model="ime"/></td>
-			</tr>
-			
-			 <tr>
-			  <td><label>Prezime</label></td>
-			  <td> <input type="text" v-model="prezime"/></td>
-			</tr>
-			
-			 <tr>
-			  <td><label>Datum rodjenja </label></td>
-			  <td><input type="date" v-model="datumRodjenja"/></td>
-			</tr>
-			
-			 <tr>
-			  <td><label>Pol </label></td>
-			  <td>
-				<select v-model="pol" >
-				  <option value = "MUSKI"> Muski</option>
-				  <option value = "ZENSKI"> Zenski</option>
-				</select>
-			  </td>
-			</tr>
-			
-			<tr v-if="ulogovaniKorisnik =='ADMINISTRATOR'">
-			  <td><label>Tip korisnika: </label></td>
-			  <td>
-				<select v-model="tipKorisnika" >
-				  <option value = "DOSTAVLJAC"> DOSTAVLJAC</option>
-				  <option value = "MENADZER"> MENADZER</option>
-				</select>
-			  </td>
-			</tr>
-			
-			
-			 <tr>
-			  <td><label>Lozinka</label></td>
-			  <td><input type="password" v-model="lozinka"/></td>
-			</tr>
-			
-			<tr v-if="ulogovaniKorisnik !='ADMINISTRATOR'">
-			  <td><label>Ponovite lozinku</label></td>
-			  <td><input type="password" v-model="lozinka"/></td>
-			</tr>
-			
-			<tr>
-			  <td></td>
-			  <td><button v-on:click="Registracija">Registruj se</button></td>
-			</tr>
-  
-		  </table>
-		</div>
-	  </div>
-	</div>
-	<div class="rightcolumn" v-if="ulogovaniKorisnik !='ADMINISTRATOR'">
-	  <div class="card">
-		<h2>Imas nalog?</h2>
-		<a href=""><button>Prijavi se</button></a>
-	  </div>
-	  
-	</div>
-  </div>
+<div class="row">
+<div>
+   <div class="card">
+      <div class="row">
+         <div id="registracijaKupac" style="float: left; width: 38%; text-align: center;">
+            <h1>Registracija</h1>
+            <br>
+            <input placeholder="Korisnicko ime" class="inputKredencijali" type="text" v-model="korisnickoIme"/>
+            <br>
+            <input placeholder="Ime" class="inputKredencijali" type="text" v-model="ime"/>
+            <br> 
+            <input placeholder="Prezime" class="inputKredencijali" type="text" v-model="prezime"/>
+            <br>
+            <input class="datapicker" type="date" v-model="datumRodjenja"/>
+            <br>
+            <select class="selectKredencijali" v-model="pol" >
+               <option value="" disabled selected hidden>Pol</option>
+               <option value = "MUSKI">Muski</option>
+               <option value = "ZENSKI"> Zenski</option>
+            </select>
+            <br>
+            <div v-if="ulogovaniKorisnik =='ADMINISTRATOR'">
+               <select class="selectKredencijali" v-model="tipKorisnika" >
+                  <option value="" disabled selected hidden>Uloga</option>
+                  <option value = "DOSTAVLJAC"> DOSTAVLJAC</option>
+                  <option value = "MENADZER"> MENADZER</option>
+               </select>
+            </div>
+            <input placeholder="Lozinka" class="inputKredencijali" type="password" v-model="lozinka"/>
+            <br>
+            <input placeholder="Potvrdi lozinku" class="inputKredencijali" type="password" v-model="lozinka"/>
+            <br>
+            <br>
+            <br>
+            <br>
+            <button class="buttonLogin" v-on:click="Registracija">Registruj se</button>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+         </div>
+         <div style="float: left;left; width: 62%; padding: 120px 0px 0px 150px;">
+            <img src="statickeSlike/ilustracijaRegLog.jpg">
+         </div>
+      </div>
+   </div>
+</div>
 		
 `
 ,
 	mounted(){
-	
-	axios.get('rest/testlogin')
+			axios.get('rest/testlogin')
 			.then(response => {
 				if (response.data != 'Err:KorisnikNijeUlogovan') {
 					this.ulogovaniKorisnik = "ADMINISTRATOR";
