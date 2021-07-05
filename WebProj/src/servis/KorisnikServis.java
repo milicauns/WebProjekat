@@ -21,15 +21,21 @@ import model.StavkaKorpe;
 public class KorisnikServis {
 	
 	private KorisnikDAO korisniciDAO;
-	private PorudzbinaServis porudbinaServisRef;
 	
-	public KorisnikServis(PorudzbinaServis porudbinaServis) {
-		korisniciDAO = new KorisnikDAO();
-		porudbinaServisRef = porudbinaServis;
+	private RestoranServis restoranServis;
+	private PorudzbinaServis porudzbinaServis;
+	private ZahtevDostavljacaServis zahtevDostavljacaServis;
+	private KomentarServis komentarServis;
+	
+	public void setRefServisi(RestoranServis restoranServis, PorudzbinaServis porudzbinaServis, ZahtevDostavljacaServis zahtevDostavljacaServis, KomentarServis komentarServis) {
+		this.restoranServis = restoranServis;
+		this.porudzbinaServis = porudzbinaServis;
+		this.zahtevDostavljacaServis = zahtevDostavljacaServis;
+		this.komentarServis = komentarServis;
 	}
 	
-	public void setPorudzbinaServis(PorudzbinaServis porudbinaServis) {
-		porudbinaServisRef = porudbinaServis;
+	public KorisnikServis() {
+		korisniciDAO = new KorisnikDAO();
 	}
 	
 	public boolean KorisnikPostoji(String korisnickoIme) {
@@ -166,7 +172,6 @@ public class KorisnikServis {
 		String odgovor = "";
 		Korisnik kor = getKorisnikByKorisnickoIme(korisnik.getKorisnickoIme());
 		Korpa korpa = kor.getKorpa();
-		RestoranServis restoranServis = new RestoranServis();
 		Restoran restoran = restoranServis.getRestoranByNaziv(parametriDodajUKorpuDTO.nazivRestorana);
 		Artikal artiakl = null;
 		if(restoran != null) {
@@ -197,7 +202,7 @@ public class KorisnikServis {
 	
 	public int brojOtkazanihPorudbinaURokuOdMesecDana(Korisnik korisnik) {
 		int brojOtkazanihPorudbina = 0;
-		ArrayList<Porudzbina> porudbineKupcaZadnjihMesecDana = porudbinaServisRef.getPorudzbineKupcaURokuOdmesecDana(korisnik.getKorisnickoIme());
+		ArrayList<Porudzbina> porudbineKupcaZadnjihMesecDana = porudzbinaServis.getPorudzbineKupcaURokuOdmesecDana(korisnik.getKorisnickoIme());
 		if(porudbineKupcaZadnjihMesecDana != null) {
 			for (Porudzbina porudzbina : porudbineKupcaZadnjihMesecDana) {
 				if(porudzbina.getStatus() == StatusPorudzbine.OTKAZANA) {
@@ -225,6 +230,8 @@ public class KorisnikServis {
 		
 		return sumnjiviKorisnici;
 	}
+
+
 
 	
 }

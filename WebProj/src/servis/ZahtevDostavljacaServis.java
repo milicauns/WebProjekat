@@ -10,6 +10,18 @@ public class ZahtevDostavljacaServis {
 	
 	private ZahtevDAO zahtevDAO;
 	
+	private KorisnikServis korisnikServis;
+	private RestoranServis restoranServis;
+	private PorudzbinaServis porudzbinaServis;
+	private KomentarServis komentarServis;
+	
+	public void setRefServisi(KorisnikServis korisnikServis, RestoranServis restoranServis, PorudzbinaServis porudzbinaServis, KomentarServis komentarServis) {
+		this.korisnikServis = korisnikServis;
+		this.restoranServis = restoranServis;
+		this.porudzbinaServis = porudzbinaServis;
+		this.komentarServis = komentarServis;
+	}
+	
 	public ZahtevDostavljacaServis() {
 		zahtevDAO = new ZahtevDAO();
 	}
@@ -35,5 +47,7 @@ public class ZahtevDostavljacaServis {
 	public void obrisiZahtev(String idPorudzbine,String korisnickoIme) {
 		zahtevDAO.obrisiZahtev(idPorudzbine,korisnickoIme);
 	}
+
+
 
 }

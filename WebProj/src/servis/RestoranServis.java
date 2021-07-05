@@ -16,6 +16,18 @@ public class RestoranServis {
 	
 	private RestoranDAO restoranDAO;
 	
+	private KorisnikServis korisnikServis;
+	private PorudzbinaServis porudzbinaServis;
+	private ZahtevDostavljacaServis zahtevDostavljacaServis;
+	private KomentarServis komentarServis;
+	
+	public void setRefServisi(KorisnikServis korisnikServis, PorudzbinaServis porudzbinaServis, ZahtevDostavljacaServis zahtevDostavljacaServis, KomentarServis komentarServis) {
+		this.korisnikServis = korisnikServis;
+		this.porudzbinaServis = porudzbinaServis;
+		this.zahtevDostavljacaServis = zahtevDostavljacaServis;
+		this.komentarServis = komentarServis;
+	}
+	
 	public RestoranServis() {
 		restoranDAO = new RestoranDAO();
 	}
@@ -148,6 +160,8 @@ public class RestoranServis {
 		}
 		return retVal;
 	}
+
+
 
 
 }

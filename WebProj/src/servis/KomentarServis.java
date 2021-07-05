@@ -10,6 +10,18 @@ public class KomentarServis {
 	
 	private KomentarDAO komentariDAO;
 	
+	private KorisnikServis korisnikServis;
+	private RestoranServis restoranServis;
+	private PorudzbinaServis porudzbinaServis;
+	private ZahtevDostavljacaServis zahtevDostavljacaServis;
+	
+	public void setRefServisi(KorisnikServis korisnikServis, RestoranServis restoranServis, PorudzbinaServis porudzbinaServis, ZahtevDostavljacaServis zahtevDostavljacaServis) {
+		this.korisnikServis = korisnikServis;
+		this.restoranServis = restoranServis;
+		this.porudzbinaServis = porudzbinaServis;
+		this.zahtevDostavljacaServis = zahtevDostavljacaServis;
+	}
+	
 	public KomentarServis() {
 		komentariDAO = new KomentarDAO();
 	}
@@ -51,6 +63,8 @@ public class KomentarServis {
 		komentariDAO.obrisiKomentar(id);
 		
 	}
+
+
 	
 	
 

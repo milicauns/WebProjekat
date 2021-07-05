@@ -19,13 +19,21 @@ import model.Porudzbina;
 public class PorudzbinaServis {
 	
 	private PorudzbinaDAO porudzbinaDAO = new PorudzbinaDAO();
-	private RestoranServis restoraniServisRef;
-	private KorisnikServis korisnikServisRef;
 	
-	public PorudzbinaServis(RestoranServis restoraniServisRef, KorisnikServis korisnikServisRef) {		
+	private KorisnikServis korisnikServis;
+	private RestoranServis restoranServis;
+	private ZahtevDostavljacaServis zahtevDostavljacaServis;
+	private KomentarServis komentarServis;
+	
+	public void setRefServisi(KorisnikServis korisnikServis, RestoranServis restoranServis, ZahtevDostavljacaServis zahtevDostavljacaServis, KomentarServis komentarServis) {
+		this.korisnikServis = korisnikServis;
+		this.restoranServis = restoranServis;
+		this.zahtevDostavljacaServis = zahtevDostavljacaServis;
+		this.komentarServis = komentarServis;
+	}
+	
+	public PorudzbinaServis() {		
 		porudzbinaDAO.ucitajPorudzbine();
-		this.restoraniServisRef = restoraniServisRef; 
-		this.korisnikServisRef = korisnikServisRef;
 	}
 	
 	public ArrayList<Porudzbina> getPorudzbineRestorana(String nazivRestorana){
@@ -115,7 +123,7 @@ public class PorudzbinaServis {
 						System.out.println("D:" + datumPorudbine);
 						System.out.println("DO:" + datumDo);
 						if(datumOd.before(datumPorudbine) && datumDo.after(datumPorudbine)) {
-							if(pretraga.tipRestorana.equals("SVE") || (!pretraga.tipRestorana.equals("SVE") && restoraniServisRef.getRestoranByNaziv(porudzbina.getNazivRestorana()).getTipRestorana() == TipRestorana.valueOf(pretraga.tipRestorana))) {
+							if(pretraga.tipRestorana.equals("SVE") || (!pretraga.tipRestorana.equals("SVE") && restoranServis.getRestoranByNaziv(porudzbina.getNazivRestorana()).getTipRestorana() == TipRestorana.valueOf(pretraga.tipRestorana))) {
 								if(pretraga.nedostavljene && porudzbina.getStatus() != StatusPorudzbine.DOSTAVLJENA) {
 									pretragaPorudbinaLista.add(porudzbina);
 								}else if(!pretraga.nedostavljene) {
@@ -146,10 +154,10 @@ public class PorudzbinaServis {
 				// nema potrebe setovati isti status dva puta
 				if(porudzbina.getStatus() != status) {
 					porudzbina.setStatus(status);
-					Korisnik korisnik = korisnikServisRef.getkorisnikByKorisnickoIme(porudzbina.getKupac());
+					Korisnik korisnik = korisnikServis.getkorisnikByKorisnickoIme(porudzbina.getKupac());
 					boolean izmena = korisnik.azurirajBrojOsvojenihPoena(porudzbina);
 					if(izmena) 
-						korisnikServisRef.sacuvajPodatke();
+						korisnikServis.sacuvajPodatke();
 				}
 			}
 		}
@@ -201,6 +209,8 @@ public class PorudzbinaServis {
 		}
 		return trazenaPorudbina;
 	}
+
+
 	
 	
 

@@ -27,12 +27,19 @@ public class SparkAppMain {
 		port(8080);
 		staticFiles.externalLocation(new File("./static").getCanonicalPath());
 	
-		KorisnikServis korisnikServis = new KorisnikServis(null);
+		// SERVISI
+		KorisnikServis korisnikServis = new KorisnikServis();
 		RestoranServis restoranServis = new RestoranServis(); 
-		KomentarServis komentarServis = new KomentarServis();
-		PorudzbinaServis porudzbinaServis = new PorudzbinaServis(restoranServis, korisnikServis);
-		korisnikServis.setPorudzbinaServis(porudzbinaServis);
+		PorudzbinaServis porudzbinaServis = new PorudzbinaServis();
 		ZahtevDostavljacaServis zahtevDostavljacaServis = new ZahtevDostavljacaServis();
+		KomentarServis komentarServis = new KomentarServis();
+		
+		
+		korisnikServis.setRefServisi(restoranServis, porudzbinaServis, zahtevDostavljacaServis, komentarServis);
+		restoranServis.setRefServisi(korisnikServis, porudzbinaServis, zahtevDostavljacaServis, komentarServis);
+		porudzbinaServis.setRefServisi(korisnikServis, restoranServis, zahtevDostavljacaServis, komentarServis);
+		zahtevDostavljacaServis.setRefServisi(korisnikServis, restoranServis, porudzbinaServis, komentarServis);
+		komentarServis.setRefServisi(korisnikServis, restoranServis, porudzbinaServis, zahtevDostavljacaServis);
 		
 		
 		// REST
