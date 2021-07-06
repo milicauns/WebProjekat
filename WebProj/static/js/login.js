@@ -33,7 +33,6 @@ Vue.component("login", {
   ,
   methods: {
     loginKorisnik: function () {
-      alert("pokusavamo da loginujemo " + this.korisnickoIme);
       axios.get('rest/login', {
         params: {
           korisnickoIme: this.korisnickoIme,
@@ -46,6 +45,9 @@ Vue.component("login", {
             return;
           } else if (response.data == 'g2') {
             alert('Err: POGRESNA LOZINKA');
+            return;
+          } else if (response.data == 'g3') {
+            alert('Err: Vas nalog je blokiran');
             return;
           }
           window.location.href = "/";

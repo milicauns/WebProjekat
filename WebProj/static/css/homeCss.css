@@ -165,10 +165,14 @@ body {
 
 .mapaDesnaStranaPrikazRestorana{
   float: right;
+  width: 160px;
+  height: 160px;
   
 	background-color: rgb(255,255,255);
+	/*	
 	border-radius: 12px;
 	padding-left: 20px;
+	*/
 }
 
 
@@ -592,3 +596,9 @@ select{
 	border: 2px solid #eee;    
 	  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
 	}
+
+
+.map{
+	width: 250px;
+	height: 160px;
+}

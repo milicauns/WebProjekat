@@ -8,12 +8,14 @@ Vue.component("prikazrestoran", {
       checkBox: {
         checkHrana: true,
         checkPice: true
-      }
+      },
+      map: {}
     }
   },
   template: `
 
     <div class="row">
+    <div id="map" class="map"></div>
     <div class="card">
       <div id="prikazRestorana">
               <div class="restoranDiv" style="height:200px;">
@@ -32,12 +34,10 @@ Vue.component("prikazrestoran", {
                               <tr><td>Status: {{restoran.status}}</td></tr>
                           </table>
                       </div>
-                      <div class="mapaDesnaStranaPrikazRestorana">
-                        <div style="width: 160px; height: 160px;">
-                              Todo <br> prikaz mape sa lokacijom ovog restorana
-                        </div>
+                      <div name="mestozamapu" class="mapaDesnaStranaPrikazRestorana">
+                        <!-- <div id="map" class="map"></div> -->
                       </div>
-                </div>
+                   </div>
         </div>
         <a href="#artikli"><button>Artikli</button></a>
         <a href="#komentari"><button>Komentari</button></a>
@@ -154,8 +154,22 @@ Vue.component("prikazrestoran", {
       }
     })
       .then(response => (this.komentari = response.data));
-
-
+    
+    // dodato za mapu?
+  
+    this.map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([37.41, 8.82]),
+        zoom: 4
+      })
+    });
+      
   },
   computed: {
 

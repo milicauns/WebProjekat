@@ -90,6 +90,11 @@ public class RestKorisnici {
 			if(korisnik == null)
 				return "g2";
 			
+			if(korisnik.isBlokiran()) {
+				System.out.println("Vas nalog je blokiran");
+				return "g3";
+			}
+			
 			res.cookie("korisnikKOLACIC", korisnik.getKorisnickoIme());             // set cookie with a value
 			
 			Session ss = req.session(true);
@@ -138,6 +143,7 @@ public class RestKorisnici {
 			res.type("application/json");
 			res.status(200);
 			String korisnickoIme = g.fromJson(req.body(),String.class);
+			System.out.println(korisnickoIme);
 			korisnikServis.blokirajKorisnika(korisnickoIme);
 			return "OK";
 		});
