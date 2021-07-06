@@ -134,6 +134,22 @@ public class RestKorisnici {
 		return korisnikServis.izmeniLozinku(promenaLozinke, korisnik);
 		});
 		
+		put("rest/blokirajKorisnika", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String korisnickoIme = g.fromJson(req.body(),String.class);
+			korisnikServis.blokirajKorisnika(korisnickoIme);
+			return "OK";
+		});
+		
+		put("rest/obrisiKorisnika", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String korisnickoIme = g.fromJson(req.body(),String.class);
+			korisnikServis.obrisiKorisnika(korisnickoIme);				
+			return "OK";
+		});
+		
 		post("rest/registracijaKupac/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);

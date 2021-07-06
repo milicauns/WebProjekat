@@ -232,6 +232,14 @@ public class KorisnikServis {
 		return sumnjiviKorisnici;
 	}
 
+	public void blokirajKorisnika(String korisnickoIme) {
+		korisniciDAO.blokirajKorisnika(korisnickoIme);
+	}
+	
+	public void obrisiKorisnika(String korisnickoIme) {
+		korisniciDAO.obrisiKorisnika(korisnickoIme);
+	}
+
 
 
 	

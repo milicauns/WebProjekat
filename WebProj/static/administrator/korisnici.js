@@ -8,7 +8,8 @@ Vue.component("korisnici", {
 			tipKorisnika: "BRONZANI",
 			ime: '',
 			prezime: '',
-			korisnickoIme: ''
+			korisnickoIme: '',
+         sortType: ''
 
 		}
 	},
@@ -53,9 +54,11 @@ Vue.component("korisnici", {
             <tr v-if="odabraniKorisnik.uloga=='MENADZER'">
                <td>Restoran: {{odabraniKorisnik.nazivRestorana}}</td>
             </tr>
-            <tr >
-               <td><button v-on:click="obrisiKorisnika(odabraniKorisnik.korisnickoIme)">Obrisi korisnika</button><br /></td>
-            </tr>
+            <tr>
+            <td><button v-on:click="obrisiKorisnika(odabraniKorisnik)">Obrisi korisnika</button>
+            <button v-on:click="blokirajKorisnika(odabraniKorisnik)">Blokiraj korisnika</button>
+            <br /></td>
+         </tr>
          </table>
       </div>
       </div>
@@ -120,7 +123,7 @@ Vue.component("korisnici", {
             <option value="OpadajuciBrojBodova">Broj bodova</option>
             </select>
             </td>
-            <tr>
+            </tr>
             </table>
       </div>
    </div>
@@ -163,6 +166,12 @@ Vue.component("korisnici", {
 			} else if (this.sortType == 'OpadajuciBrojBodova') {
 				this.prikazaniKorisnici.sort((b, a) => (a.brojSakupljenihBodova > b.brojSakupljenihBodova) ? 1 : ((b.brojSakupljenihBodova > a.brojSakupljenihBodova) ? -1 : 0));
 			}     
-      }  
+      },
+        blokirajKorisnika: function(korisnik){
+            axios.put('rest/blokirajKorisnika',korisnik.korisnickoIme);
+        },
+        obrisiKorisnika: function(korisnik){
+            axios.put('rest/obrisiKorisnika',korisnik.korisnickoIme);
+        }  
 	}
 });
