@@ -21,87 +21,68 @@ Vue.component("registracijaRestorana", {
 		}
 	},
 	template: `
+
 	<div class="row">
 	<div class="leftcolumn">
-	  <div class="card">
-		<div id="registracijaKupac">
-		<h1>Novi restoran</h1>
-		  <table>
-			<tr>
-			  <td><label>Naziv restorana:</label></td>
-			  <td><input type="text" v-model="naziv"/></td>
-			</tr>					
-			 <tr>
-			  <td><label>Tip restorana: </label></td>
-			  <td>
-				<select v-model="tip" >
-				  <option value = "ROSTILJ"> ROSTILJ</option>
-				  <option value = "ITALIJANSKI"> ITALIJANSKI</option>
-				</select>
-			  </td>
-			</tr>
-            <tr>
-			  <label>Adresa:</label>
-			  <input type="search" id="pretragaAdrese"/>			  
-			</tr>
-			<tr>
-				<label >Broj:</label>
-	    		<input type="number" min="1" v-model="ulicaNumber" name="ulicaNumber" class="form-control"  placeholder="Unesite broj" />
-	    		
-			</tr>
-			<tr>
-				<label for="form-mesto">Ulica:</label>
-		    	<input type="text" class="form-control" disabled="true" id="form-ulica">			
-			</tr>
-			<tr>
-			 	<label for="form-mesto">Grad:</label>
-		    	<input type="text" class="form-control" disabled="true" id="form-mesto">			
-			</tr>
-			<tr>
-				<label for="form-zip">Postanski broj:</label>
-		    	<input type="text" class="form-control" disabled="true" id="form-zip">			
-			</tr>
-			<tr>
-			  	<label for="form-geografskaDuzina">Geografska duzina:</label>
-		    	<input type="text" class="form-control" disabled="true" id="form-geografskaDuzina">		
-			</tr>
-			<tr>
-				<label for="form-geografskaSirina">Geografska sirina</label>
-		    	<input type="text" class="form-control" disabled="true" id="form-geografskaSirina">			
-			</tr>
-            <tr>
-			  <td><label>Dodaj logo:</label></td>
-			  <input type="file" @change="onFileChange" />
-			</tr>
-           <tr>
-			  <td><label>Dodjeli menadzera:</label></td>
-			  <td>
-              <select v-model="menadzer" id="deptList">
-                <option v-for="m in raspoloziviMenadzeri" v-bind:value="m.korisnickoIme">
-                {{m.ime}}
-                </option>
-              </select>
-             </td>
-			</tr>
-            <tr>
-			  <td><label>Status: </label></td>
-			  <td>
-				<select v-model="status" >
-				  <option value = "RADI"> RADI</option>
-				  <option value = "NE_RADI"> NE RADI</option>
-				</select>
-			  </td>
-			</tr>
-			<tr>
-			  <td></td>
-			  <td><button v-on:click="NoviRestoran">Dodaj</button></td>
-			</tr>
-  
-		  </table>
-		</div>
-	  </div>
-	</div>
-  </div>		
+	   <div class="card">
+		  <div id="registracijaKupac">
+			 <h1>Novi restoran</h1>
+			 <label style="display:inline-block; width: 200px; text-align: left;">Naziv restorana:</label>
+			 <input type="text" v-model="naziv"  style="width:300px"/>
+			 <br>	
+			 <label style="display:inline-block; width: 200px; text-align: left;">Tip restorana: </label>
+			 <select v-model="tip"  style="width:300px">
+				<option value = "ROSTILJ"> ROSTILJ</option>
+				<option value = "ITALIJANSKI"> ITALIJANSKI</option>
+			 </select>
+			 <br>			 
+			 <label style="display:inline-block; width: 200px; text-align: left;">Dodjeli menadzera:</label>
+			 <select v-model="menadzer" id="deptList"  style="width:300px">
+				<option v-for="m in raspoloziviMenadzeri" v-bind:value="m.korisnickoIme">
+				   {{m.ime}}
+				</option>
+			 </select>
+			 <br>
+			 <label style="display:inline-block; width: 200px; text-align: left;">Status: </label>
+			 <select v-model="status"  style="width:300px" >
+				<option value = "RADI"> RADI</option>
+				<option value = "NE_RADI"> NE RADI</option>
+			 </select>
+			 <br>
+			 <label style="display:inline-block; width: 200px; text-align: left;">Dodaj logo:</label>
+			 <input type="file" @change="onFileChange"  style="width:300px"/>
+			 <br>
+             <br>
+			 <label style="display:inline-block; width: 200px; text-align: left;">Adresa:</label>
+			 <input type="search" id="pretragaAdrese"/>
+			 <br>
+
+			 <div id="adresa" align ="right">
+             <label style="display:inline-block; width: 200px; text-align: left;">Broj:</label>
+			 <input type="number" min="1" v-model="ulicaNumber" name="ulicaNumber" class="form-control" />
+			 <br>
+			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-mesto">Ulica:</label>
+			 <input type="text" class="form-control" disabled="true" id="form-ulica">			
+			 <br>
+			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-mesto">Grad:</label>
+			 <input type="text" class="form-control" disabled="true" id="form-mesto">			
+			 <br>
+			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-zip">Postanski broj:</label>
+			 <input type="text" class="form-control" disabled="true" id="form-zip">			
+			 <br>	
+			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-geografskaDuzina">Geografska duzina:</label>
+			 <input type="text" class="form-control" disabled="true" id="form-geografskaDuzina">		
+			 <br>
+			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-geografskaSirina">Geografska sirina</label>
+			 <input type="text" class="form-control" disabled="true" id="form-geografskaSirina">			
+			 <br>
+			 </div>
+			 <div id="button" align ="right">
+			 <button class="buttonLogin" v-on:click="NoviRestoran">Dodaj</button>
+			 </div>
+		  </div>
+	   </div>
+	</div>		
 `
 	,
 	mounted() {
