@@ -15,7 +15,6 @@ Vue.component("prikazrestoran", {
   template: `
 
     <div class="row">
-    <div id="map" class="map"></div>
     <div class="card">
       <div id="prikazRestorana">
               <div class="restoranDiv" style="height:200px;">
@@ -77,11 +76,11 @@ Vue.component("prikazrestoran", {
                                   <tr><td>Opis: {{artikal.opis}}</td></tr>
                                 </table>
                               </div>
-                              <div class="cenaiKolicina" v-if="korisnik.uloga == 'KUPAC'">
-                                  <input type="number" v-bind:id=artikal.naziv>
+                              <div class="cenaiKolicina" v-if="korisnik.uloga == 'KUPAC' && restoran.status=='RADI'">
+                                  <input style="width: 100px;" min=0 v-on:click="kolicinaInputCena(artikal)" onkeydown="return false" type="number" v-bind:id="artikal.naziv+'I'">
                                   <button v-on:click="dodajUKorpu(artikal)">Dodaj</button>
                                   <br><br>
-                                  <label> Cena: cena*kolicina </label>
+                                  <label>Cena: <label v-bind:id="artikal.naziv+'L'">0</label></label>
                               </div>
                           </div>
                       </div>
@@ -157,6 +156,7 @@ Vue.component("prikazrestoran", {
     
     // dodato za mapu?
   
+    /*
     this.map = new ol.Map({
       target: 'map',
       layers: [
@@ -169,6 +169,8 @@ Vue.component("prikazrestoran", {
         zoom: 4
       })
     });
+    */
+
       
   },
   computed: {
@@ -203,7 +205,7 @@ Vue.component("prikazrestoran", {
       }
     },
     dodajUKorpu: function (artikal) {
-      var inputPolje = document.getElementById(artikal.naziv);
+      var inputPolje = document.getElementById(artikal.naziv+'I');
       var kolicinaInput = inputPolje.value;
       
       axios.post('rest/korpa/izmeni', {
@@ -213,13 +215,20 @@ Vue.component("prikazrestoran", {
       }).then(response => {
         if (response.data == 'OK') {
           alert('USPOESNO STE DODALI ARTIKAL U KORPU');
-          //inputPolje.value = 0;
+          inputPolje.value = 0;
+          this.kolicinaInputCena(artikal);
         } else {
           alert(response.data);
         }
       }).catch(error => {
         alert('Greska sa serverom');
       });
+    },
+    kolicinaInputCena: function (artikal) {
+      let inputKolicina = document.getElementById(artikal.naziv+'I');
+      let labelCenaKol = document.getElementById(artikal.naziv+'L');
+      let cena = artikal.cena * inputKolicina.value;
+      labelCenaKol.innerHTML = cena.toString();
     }
   }
 });

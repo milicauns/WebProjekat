@@ -1,5 +1,6 @@
+
 * {
-	box-sizing: border-box;
+	 box-sizing: border-box; 
 }
 
 body {
@@ -207,8 +208,8 @@ body {
 .cenaiKolicina{
   float: right;
   height: 80px;
-  border-radius: 12px;
-  background-color: rgb(255,255,255); 
+  /* border-radius: 12px; */
+  /* background-color: rgb(255,255,255); */
 }
 
 

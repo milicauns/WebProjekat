@@ -118,8 +118,6 @@ Vue.component("registracijaRestorana", {
 	},
 	methods: {
 		NoviRestoran: function () {
-
-			alert($('#form-mesto').val());
 										
 			axios.post('rest/registracijaRestoran/', {
 			"naziv": this.naziv,
