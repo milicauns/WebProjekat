@@ -62,7 +62,9 @@ public class KorisnikServis {
 		korisniciDAO.DodajKorisnika(new Korisnik(kupacInfo.korisnickoIme,kupacInfo.lozinka,kupacInfo.ime,kupacInfo.prezime,kupacInfo.pol,kupacInfo.datumRodjenja,Uloga.KUPAC));
 	}	
 	public void RegistrujMenadzera(ParametriRegistracijeDTO menadzerInfo) {		
-		korisniciDAO.DodajKorisnika(new Korisnik(menadzerInfo.korisnickoIme,menadzerInfo.lozinka,menadzerInfo.ime,menadzerInfo.prezime,menadzerInfo.pol,menadzerInfo.datumRodjenja,Uloga.MENADZER));
+		Korisnik noviMenadzer = new Korisnik(menadzerInfo.korisnickoIme,menadzerInfo.lozinka,menadzerInfo.ime,menadzerInfo.prezime,menadzerInfo.pol,menadzerInfo.datumRodjenja,Uloga.MENADZER); 
+		noviMenadzer.setNazivRestorana("None");
+		korisniciDAO.DodajKorisnika(noviMenadzer);
 	}
 	public void RegistrujDostavljaca(ParametriRegistracijeDTO dostavljacInfo) {		
 		korisniciDAO.DodajKorisnika(new Korisnik(dostavljacInfo.korisnickoIme,dostavljacInfo.lozinka,dostavljacInfo.ime,dostavljacInfo.prezime,dostavljacInfo.pol,dostavljacInfo.datumRodjenja,Uloga.DOSTAVLJAC));

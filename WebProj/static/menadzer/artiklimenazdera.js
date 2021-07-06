@@ -4,7 +4,8 @@ Vue.component("artiklimenazdera", {
             restoran: {},
             menadzer: {},
             mode: "BROWSE",
-            selektovanArtikal: {}
+            selektovanArtikal: {},
+            slikaFile: 'None'
         }
     },
     template: `
@@ -38,7 +39,7 @@ Vue.component("artiklimenazdera", {
 
     <div id="forma" v-if="mode=='EDIT' || mode=='CREATE'">
       <label>Naziv:</label>
-      <input type="text" v-model="selektovanArtikal.naziv" v-bind:disabled="mode=='BROWSE'" /> <br />
+      <input type="text" v-model="selektovanArtikal.naziv" v-bind:disabled="mode=='BROWSE' || mode=='EDIT'" /> <br />
       <label>Tip artikla:</label>
       <select v-model="selektovanArtikal.tip" v-bind:disabled="mode=='BROWSE'">
         <option value="JELO">Jelo</option>
@@ -50,14 +51,13 @@ Vue.component("artiklimenazdera", {
       <input type="number" v-model="selektovanArtikal.kolicina" v-bind:disabled="mode=='BROWSE'" /> <br />
       <label>Opis:</label>
       <input type="text" v-model="selektovanArtikal.opis" v-bind:disabled="mode=='BROWSE'" /> <br />
-      <label>Slika:</label>
-      <input type="text" v-model="selektovanArtikal.slika" v-bind:disabled="mode=='BROWSE'" /> <br />
+      <label>Slika: </label>
+      <input type="file" v-on:change="promenaFajla" v-bind:disabled="mode=='BROWSE' || mode=='EDIT'" /> <br />
 
       <button v-on:click="azurirajArtikal(selektovanArtikal)" v-bind:disabled="mode=='BROWSE'">Sacuvaj</button>
       <button v-on:click="odustaniAzuriranjeArtikla" v-bind:disabled="mode=='BROWSE'">Odustani</button> <br />
       <br> <br>
     </div>
-  
   
 </div>
 
@@ -86,26 +86,28 @@ Vue.component("artiklimenazdera", {
   
   `,
     mounted() {
-        
-        axios.get('rest/testlogin')
-        .then(response => {
-            if (response.data != 'Err:KorisnikNijeUlogovan') {
-                this.menadzer = response.data;
-                axios.get('rest/getRestoranByNaziv', {
-                    params: {
-                        naziv: this.menadzer.nazivRestorana
-                    }
-                }).then(response => {
-                    this.restoran = response.data;
-                });
-            }
-        });
+        this.ucitajPodatke();
 
     },
     computed: {
 
     },
     methods: {
+        ucitajPodatke: function () {
+            axios.get('rest/testlogin')
+            .then(response => {
+                if (response.data != 'Err:KorisnikNijeUlogovan') {
+                    this.menadzer = response.data;
+                    axios.get('rest/getRestoranByNaziv', {
+                        params: {
+                            naziv: this.menadzer.nazivRestorana
+                        }
+                    }).then(response => {
+                        this.restoran = response.data;
+                    });
+                }
+            });
+        },
         selektArtikal : function(artikal) {
     		if (this.mode == 'BROWSE') {
     			this.selektovanArtikal = artikal;
@@ -116,7 +118,18 @@ Vue.component("artiklimenazdera", {
     			return;
             this.backup = [this.selektovanArtikal.naziv, this.selektovanArtikal.cena, this.selektovanArtikal.tip, this.selektovanArtikal.kolicina, this.selektovanArtikal.opis, this.selektovanArtikal.slika, this.selektovanArtikal.nazivRestorana];
     		this.mode = 'EDIT';
-    	},
+        },
+        promenaFajla: function (e) {
+            const file = e.target.files[0];
+            this.napraviBase64Image(file);
+        },
+        napraviBase64Image: function (file) {
+            const reader= new FileReader();
+            reader.onload = (e) =>{
+                this.slikaFile = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        },
         azurirajArtikal: function (selektovanArtikal) {
             if(this.mode == 'EDIT')
             {
@@ -140,14 +153,16 @@ Vue.component("artiklimenazdera", {
                 });
             } else if (this.mode == 'CREATE') {
                 axios
-                .post("rest/artikli/dodaj", selektovanArtikal)
+                    .post("rest/artikli/dodaj", { artikal: selektovanArtikal, slika: this.slikaFile })
                 .then(response => {
                     if (response.data == 'OK') {
                         alert('Dodavanje je uspelo');
                         // dodajmo novi red u tabelu tako sto cemo dodati novi red u 
-                        this.restoran.artikli.push(selektovanArtikal);
+                        //this.restoran.artikli.push(selektovanArtikal);
+                        this.ucitajPodatke();
                         this.mode = 'BROWSE';
                         this.odustaniAzuriranjeArtikla();
+
                     } else {
                         alert('Dodavanje nije uspelo');
                         this.mode = 'BROWSE';

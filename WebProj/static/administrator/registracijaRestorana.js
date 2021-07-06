@@ -9,15 +9,15 @@ Vue.component("registracijaRestorana", {
 			lokacija: "",
 			logo: "",
 			status: "",
-			
-			 	mesto: '',
-		        postanskiBroj:'',
-		        ulica:'',
-		        ulicaError:'',
-		        ulicaNumber:'',
-		        ulicaNumberError:'',
-		        geografskaDuzina:'',
-		        geografskaSirina:'',
+			slikaFile: '',
+			mesto: '',
+			postanskiBroj:'',
+			ulica:'',
+			ulicaError:'',
+			ulicaNumber:'',
+			ulicaNumberError:'',
+			geografskaDuzina:'',
+			geografskaSirina:'',
 		}
 	},
 	template: `
@@ -31,15 +31,16 @@ Vue.component("registracijaRestorana", {
 			 <input type="text" v-model="naziv"  style="width:300px"/>
 			 <br>	
 			 <label style="display:inline-block; width: 200px; text-align: left;">Tip restorana: </label>
-			 <select v-model="tip"  style="width:300px">
-				<option value = "ROSTILJ"> ROSTILJ</option>
-				<option value = "ITALIJANSKI"> ITALIJANSKI</option>
+			 <select v-model="tip" style="width:300px">
+				<option value="KINESKI">Kineski</option>
+				<option value="ITALIJANSKI">Italijanski</option>
+				<option value="ROSTILJ">Rostilj</option>
 			 </select>
 			 <br>			 
 			 <label style="display:inline-block; width: 200px; text-align: left;">Dodjeli menadzera:</label>
 			 <select v-model="menadzer" id="deptList"  style="width:300px">
 				<option v-for="m in raspoloziviMenadzeri" v-bind:value="m.korisnickoIme">
-				   {{m.ime}}
+				   {{m.korisnickoIme}}
 				</option>
 			 </select>
 			 <br>
@@ -50,14 +51,14 @@ Vue.component("registracijaRestorana", {
 			 </select>
 			 <br>
 			 <label style="display:inline-block; width: 200px; text-align: left;">Dodaj logo:</label>
-			 <input type="file" @change="onFileChange"  style="width:300px"/>
+			 <input type="file" @change="promenaFajla"  style="width:300px"/>
 			 <br>
              <br>
-			 <label style="display:inline-block; width: 200px; text-align: left;">Adresa:</label>
-			 <input type="search" id="pretragaAdrese"/>
+			 <label style="width: 200px; text-align: left;">Adresa:</label>
+			 <div style="width: 200px;"><input type="search" id="pretragaAdrese"/></div>
 			 <br>
 
-			 <div id="adresa" align ="right">
+			 <div id="adresa" align ="left">
              <label style="display:inline-block; width: 200px; text-align: left;">Broj:</label>
 			 <input type="number" min="1" v-model="ulicaNumber" name="ulicaNumber" class="form-control" />
 			 <br>
@@ -77,7 +78,7 @@ Vue.component("registracijaRestorana", {
 			 <input type="text" class="form-control" disabled="true" id="form-geografskaSirina">			
 			 <br>
 			 </div>
-			 <div id="button" align ="right">
+			 <div id="button" align ="center">
 			 <button class="buttonLogin" v-on:click="NoviRestoran">Dodaj</button>
 			 </div>
 		  </div>
@@ -121,7 +122,7 @@ Vue.component("registracijaRestorana", {
 										
 			axios.post('rest/registracijaRestoran/', {
 			"naziv": this.naziv,
-			"tipRestorana": this.tip,
+			"tip": this.tip,
 			"status": this.status,
 			"geografskaSirina": $('#form-geografskaSirina').val(),
 			"geografskaDuzina": $('#form-geografskaDuzina').val(),
@@ -129,15 +130,23 @@ Vue.component("registracijaRestorana", {
 			"broj": this.broj,
 			"mesto": $('#form-mesto').val(),
 			"postanskiBroj": $('#form-zip').val(),
-			"logo": this.logo
+			"logo": '',
+			"menadzer": this.menadzer,
+			"slikaFile": this.slikaFile
 		})
 				.then(response => { alert('uspesno ' + response.data.naziv) })
 				.catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI') });
 		},
-		
-		onFileChange(e) {
+		promenaFajla: function (e) {
             const file = e.target.files[0];
-            this.logo=URL.createObjectURL(file);
+            this.napraviBase64Image(file);
+        },
+        napraviBase64Image: function (file) {
+            const reader= new FileReader();
+            reader.onload = (e) =>{
+                this.slikaFile = e.target.result;
+            }
+            reader.readAsDataURL(file);
         }
 
 	}

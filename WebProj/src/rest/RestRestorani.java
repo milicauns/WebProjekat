@@ -113,7 +113,7 @@ public class RestRestorani {
 		post("rest/artikli/dodaj", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
-			Artikal noviArtikal = g.fromJson(req.body(), Artikal.class);			
+			ArtikalDTO noviArtikal = g.fromJson(req.body(), ArtikalDTO.class);			
 			String odgovor = restoranServis.dodajNoviArtikal(noviArtikal);
 			return odgovor;
 		});

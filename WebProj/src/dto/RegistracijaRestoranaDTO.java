@@ -12,4 +12,8 @@ public class RegistracijaRestoranaDTO {
 	public String mesto;
 	public String postanskiBroj;
 	public String logo;
+	public String menadzer;
+	
+	// dodato za potrebe transporta fajla (slike) sa browsera sve do bekenda
+	public String slikaFile;
 }
