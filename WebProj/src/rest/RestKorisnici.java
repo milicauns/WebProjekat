@@ -148,6 +148,15 @@ public class RestKorisnici {
 			return "OK";
 		});
 		
+		put("rest/odblokirajKorisnika", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String korisnickoIme = g.fromJson(req.body(),String.class);
+			System.out.println(korisnickoIme);
+			korisnikServis.odblokirajKorisnika(korisnickoIme);
+			return "OK";
+		});
+		
 		put("rest/obrisiKorisnika", (req, res) -> {
 			res.type("application/json");
 			res.status(200);

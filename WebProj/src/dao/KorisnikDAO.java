@@ -142,6 +142,16 @@ public class KorisnikDAO {
 		}		
 		
 	}
+	public void odblokirajKorisnika(String korisnickoIme) {
+		for(Korisnik k : korisnici) {
+			if(k.getKorisnickoIme().equals(korisnickoIme)){
+				
+				k.setBlokiran(false);
+				sacuvajKorisnike();
+			}
+		}
+		
+	}
 	
 	
 

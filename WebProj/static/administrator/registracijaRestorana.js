@@ -32,9 +32,9 @@ Vue.component("registracijaRestorana", {
 		}
 	},
 	template: `
-<div class="row">
-	<div class="leftcolumn">
-	   <div class="card">
+	<div class="row">
+	<div>
+	   <div class="card" style="float: left; width: 75%;">
 		  <div id="registracijaKupac">
 			 <h1>Novi restoran</h1>
 			 <label style="display:inline-block; width: 200px; text-align: left;">Naziv restorana:</label>
@@ -45,7 +45,7 @@ Vue.component("registracijaRestorana", {
 				<option value="KINESKI">Kineski</option>
 				<option value="ITALIJANSKI">Italijanski</option>
 				<option value="ROSTILJ">Rostilj</option>
-			 </select>			 	
+			 </select>
 			 <br>
 			 <label style="display:inline-block; width: 200px; text-align: left;">Status: </label>
 			 <select v-model="status"  style="width:300px" >
@@ -60,9 +60,8 @@ Vue.component("registracijaRestorana", {
 				</option>
 			 </select>
 			 <label v-else>{{ime}} {{prezime}}</label>
-			 <div v-if="menadzer == 'nema'">
-			 <button v-on:click="NoviMenadzer()">Registruj novog menadzera</button>
-			 </div>
+			 <button v-if="menadzer == 'nema'" v-on:click="NoviMenadzer()">Registruj novog menadzera</button>
+			 
 			 <br>
 			 <label style="display:inline-block; width: 200px; text-align: left;">Dodaj logo:</label>
 			 <input type="file" @change="promenaFajla"  style="width:300px"/>
@@ -98,9 +97,10 @@ Vue.component("registracijaRestorana", {
 		  </div>
 	   </div>
 	</div>
-	<div v-if="potrebanMenadzer == true" class="rightcolumn">
-	   <div class="card">
-		  <div id="registracijaKupac" style="float: left; width: 38%; text-align: center;">
+     
+	<div v-if="potrebanMenadzer == true" style="float:left; width:25%; padding-left:20px;">
+	   <div>
+		  <div id="registracijaKupac" class="card">
 			 <h1>Novi menadzer:</h1>
 			 <br>
 			 <input placeholder="Korisnicko ime" class="inputKredencijali" type="text" v-model="korisnickoIme" style="width:200px"/>
@@ -116,15 +116,20 @@ Vue.component("registracijaRestorana", {
 				<option value = "MUSKI">Muski</option>
 				<option value = "ZENSKI"> Zenski</option>
 			 </select>
+			  <br>
 			 <input placeholder="Lozinka" class="inputKredencijali" type="password" v-model="lozinka" style="width:200px"/>
 			 <br>
 			 <input placeholder="Potvrdi lozinku" class="inputKredencijali" type="password" v-model="ponovljenaLozinka" style="width:200px"/>
-			 <br>
+			 <br><br><br>
 			 <button class="buttonLogin" v-on:click="Registracija" style="width:200px">Potvrdi</button>
 		  </div>
 	   </div>
 	</div>
-</div>		
+   
+   
+   
+   
+ </div>		
 `
 	,
 	mounted() {
@@ -191,6 +196,7 @@ Vue.component("registracijaRestorana", {
         },
 		NoviMenadzer: function(){
 			this.potrebanMenadzer = true;
+			$('#deptList').prop('disabled', true);
 		},
 		Registracija: function () {
            

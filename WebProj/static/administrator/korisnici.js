@@ -36,6 +36,8 @@ Vue.component("korisnici", {
          </tr>
       </table>
       </div>
+      <br>
+      <br>
       <div id="prikazKorisnika"  v-if="odabraniKorisnik.korisnickoIme!=undefined" >
          <table>
             <tr>
@@ -58,7 +60,8 @@ Vue.component("korisnici", {
             </tr>
             <tr>
             <td><button v-on:click="obrisiKorisnika(odabraniKorisnik)">Obrisi korisnika</button>
-            <button v-on:click="blokirajKorisnika(odabraniKorisnik)">Blokiraj korisnika</button>
+            <button v-if="odabraniKorisnik.blokiran == false" v-on:click="blokirajKorisnika(odabraniKorisnik)">Blokiraj korisnika</button>
+            <button v-if="odabraniKorisnik.blokiran == true" v-on:click="odblokirajKorisnika(odabraniKorisnik)">Odblokiraj korisnika</button>
             <br /></td>
          </tr>
          </table>
@@ -172,10 +175,22 @@ Vue.component("korisnici", {
 			}     
       },
         blokirajKorisnika: function(korisnik){
-            axios.put('rest/blokirajKorisnika',korisnik.korisnickoIme);
+            axios.put('rest/blokirajKorisnika',korisnik.korisnickoIme)
+            .then(response => {
+               korisnik.blokiran=true;
+            });
         },
         obrisiKorisnika: function(korisnik){
             axios.put('rest/obrisiKorisnika',korisnik.korisnickoIme);
-        }  
+        },
+
+        odblokirajKorisnika: function(korisnik){
+           alert('usli smo');
+         axios.put('rest/odblokirajKorisnika',korisnik.korisnickoIme)
+         .then(response => {
+				korisnik.blokiran=false;
+			});
+         
+        }
 	}
 });

@@ -237,6 +237,11 @@ public class KorisnikServis {
 		korisniciDAO.obrisiKorisnika(korisnickoIme);
 	}
 
+	public void odblokirajKorisnika(String korisnickoIme) {
+		korisniciDAO.odblokirajKorisnika(korisnickoIme);
+		
+	}
+
 
 
 	
