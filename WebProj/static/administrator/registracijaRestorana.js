@@ -22,6 +22,7 @@ Vue.component("registracijaRestorana", {
 
 			korisnickoIme: "",
 			lozinka: "",
+			ponovljenaLozinka: "",
 			ime: "",
 		 	prezime: "",
 		 	pol: "",
@@ -99,7 +100,7 @@ Vue.component("registracijaRestorana", {
 	</div>
 	<div v-if="potrebanMenadzer == true" class="rightcolumn">
 	   <div class="card">
-		  <div  id="registracijaKupac" style="float: left; width: 38%; text-align: center;">
+		  <div id="registracijaKupac" style="float: left; width: 38%; text-align: center;">
 			 <h1>Novi menadzer:</h1>
 			 <br>
 			 <input placeholder="Korisnicko ime" class="inputKredencijali" type="text" v-model="korisnickoIme" style="width:200px"/>
@@ -117,7 +118,7 @@ Vue.component("registracijaRestorana", {
 			 </select>
 			 <input placeholder="Lozinka" class="inputKredencijali" type="password" v-model="lozinka" style="width:200px"/>
 			 <br>
-			 <input placeholder="Potvrdi lozinku" class="inputKredencijali" type="password" v-model="lozinka" style="width:200px"/>
+			 <input placeholder="Potvrdi lozinku" class="inputKredencijali" type="password" v-model="ponovljenaLozinka" style="width:200px"/>
 			 <br>
 			 <button class="buttonLogin" v-on:click="Registracija" style="width:200px">Potvrdi</button>
 		  </div>

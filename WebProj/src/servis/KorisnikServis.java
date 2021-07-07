@@ -9,6 +9,7 @@ import dto.ParametriRegistracijeDTO;
 import dto.PretragaKorisnikaDTO;
 import dto.PromenaLozinkeDTO;
 import dto.SumnjivKorisnikDTO;
+import enums.ImeTipaKupca;
 import enums.StatusPorudzbine;
 import enums.Uloga;
 import model.Artikal;
@@ -99,23 +100,29 @@ public class KorisnikServis {
 
 	public ArrayList<Korisnik> GetTrazeniKorisnici(PretragaKorisnikaDTO pretraga) {
 		
-		ArrayList<Korisnik> ret = new ArrayList<>();		
-		for (Korisnik korisnik : GetKorisnici(Uloga.valueOf(pretraga.uloga))) {
+		ArrayList<Korisnik> korisnici;
+		ArrayList<Korisnik> ret = new ArrayList<>();
+		
+		if(pretraga.uloga.equals("SVI")) korisnici = GetKorisnici();
+		else korisnici = GetKorisnici(Uloga.valueOf(pretraga.uloga));
+				
+		
+		for (Korisnik korisnik : korisnici) {
 			
 			if(korisnik.getIme().contains(pretraga.ime)
 			&& korisnik.getPrezime().contains(pretraga.prezime)
 			&& korisnik.getKorisnickoIme().contains(pretraga.korisnickoIme)) {
 				
-				if(korisnik.getUloga() == Uloga.KUPAC && korisnik.getTipKupca().toString().equals(pretraga.tipKorisnika)) {
-				ret.add(korisnik);
-				break;
+			ret.add(korisnik);
+			
+				if(!pretraga.tipKorisnika.equals("SVI")) {			
+					if(korisnik.getUloga() == Uloga.KUPAC && !(korisnik.getTipKupca().getImeTipa() == ImeTipaKupca.valueOf(pretraga.tipKorisnika))) {
+					ret.remove(korisnik);		
+					}
 				}
-				ret.add(korisnik);
-			}
-
-		}
-		
-		return ret;
+		}		
+	}
+	return ret;
 	}
 
 	public void izmeniKorisnika(String korisnickoIme, ParametriRegistracijeDTO korisnikInfo) {
@@ -190,18 +197,6 @@ public class KorisnikServis {
 		
 		return odgovor;
 	}
-	
-	/*
-	public ArrayList<Korisnik> getKorisniciByUloga(Uloga uloga){
-		ArrayList<Korisnik> trazeniKorisnici = new ArrayList<Korisnik>();
-		for (Korisnik korisnik : korisniciDAO.getKorisnici()) {
-			if(korisnik.getUloga() == uloga) {
-				trazeniKorisnici.add(korisnik);
-			}
-		}
-		return trazeniKorisnici;
-	}
-	*/
 	
 	public int brojOtkazanihPorudbinaURokuOdMesecDana(Korisnik korisnik) {
 		int brojOtkazanihPorudbina = 0;

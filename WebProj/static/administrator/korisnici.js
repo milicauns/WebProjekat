@@ -4,8 +4,8 @@ Vue.component("korisnici", {
 			prikazaniKorisnici: null,
 			odabraniKorisnik: {},
 
-			uloga: "KUPAC",
-			tipKorisnika: "BRONZANI",
+			uloga: "SVI",
+			tipKorisnika: "SVI",
 			ime: '',
 			prezime: '',
 			korisnickoIme: '',
@@ -25,12 +25,14 @@ Vue.component("korisnici", {
             <th>Ime</th>
             <th>Prezime</th>
             <th>Broj bodova</th>
+            <th>Uloga</th>
          </tr>
          <tr v-for="s in prikazaniKorisnici" v-on:click="odabranKorisnik(s)" v-bind:class="{selected : odabraniKorisnik.korisnickoIme===s.korisnickoIme}">
             <td>{{s.korisnickoIme }}</td>
             <td>{{s.ime }}</td>
             <td>{{s.prezime }}</td>
             <td>{{s.brojSakupljenihBodova }}</td>
+            <td>{{s.uloga }}</td>
          </tr>
       </table>
       </div>
@@ -80,6 +82,7 @@ Vue.component("korisnici", {
                   <td>
                      <label>Uloga:</label>
                      <select v-model="uloga">
+                        <option value="SVI" selected>SVI</option>
                         <option value="KUPAC" selected>KUPAC</option>
                         <option value="MENADZER">MENADZER</option>
                         <option value="DOSTAVLJAC">DOSTAVLJAC</option>
@@ -90,6 +93,7 @@ Vue.component("korisnici", {
                   <td>
                      <label>Tip korisnika:</label>
                      <select v-model="tipKorisnika">
+                        <option value="SVI">Svi</option>                    
                         <option value="ZLATNI">Zlatni</option>
                         <option value="SREBRNI">Srebrni</option>
                         <option value="BRONZANI" selected>Bronzani</option>

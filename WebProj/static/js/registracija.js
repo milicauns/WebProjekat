@@ -2,7 +2,8 @@ Vue.component("registracija", {
 	data: function () {
 		    return {
 		korisnickoIme: "",
-       	lozinka: "",
+      lozinka: "",
+      ponovljenaLozinka: "",
 		ime: "",
 		prezime: "",
 		pol: "",
@@ -44,7 +45,7 @@ Vue.component("registracija", {
             </div>
             <input placeholder="Lozinka" class="inputKredencijali" type="password" v-model="lozinka"/>
             <br>
-            <input placeholder="Potvrdi lozinku" class="inputKredencijali" type="password" v-model="lozinka"/>
+            <input placeholder="Potvrdi lozinku" class="inputKredencijali" type="password" v-model="ponovljenaLozinka"/>
             <br>
             <br>
             <br>
