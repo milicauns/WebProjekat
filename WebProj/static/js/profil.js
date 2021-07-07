@@ -2,6 +2,9 @@ Vue.component("profil", {
 	data: function () {
 		    return {
 		korisnik: {},
+
+		izmenaLozinke: false,
+		izmenaInformacija: false,
 		
 		korisnickoIme:"",
 		ime: "",
@@ -21,7 +24,16 @@ Vue.component("profil", {
 	  <div class="card">
 		<div>
 		<h1>Profil</h1>
-		  <table>
+
+
+		<br>
+		<button class="buttonSettings" v-on:click=IzmenaInformacija>Izmena informacija</button>
+		<br>
+
+			<div v-if="izmenaInformacija == true">
+		  	<table>
+			  <br>
+			  <br>
             <tr>
               <td><label>Tip korisnika:</label></td>
 			  <td><label>{{korisnik.uloga}}</label></td>
@@ -57,14 +69,21 @@ Vue.component("profil", {
 			</tr>
             <tr>
 			  <td></td>
-			  <td><button v-on:click="IzmeniKorisnika">Potvrdi</button></td>
+			  <td><button v-on:click="IzmeniKorisnika">Potvrdi</button>
+			  <button v-on:click="Odustani">Odustani</button></td>
 			</tr>
+			</table>
+			</div>
 
+			<button class="buttonSettings" v-on:click=PromenaLozinke>Promena lozinke</button>
+			<br>
+			<div v-if="izmenaLozinke==true">
+			<table>
+			<br>
+			<br>
             <tr>
 			  <td><label>Promena lozinke:</label></td>
-
-			</tr>
-				
+			</tr>				
 			 <tr>
 			  <td><label>Unesite staru lozinku:</label></td>
 			  <td><input type="password" v-model="staraLozinka"/></td>
@@ -80,9 +99,10 @@ Vue.component("profil", {
 			
 			<tr>
 			  <td></td>
-			  <td><button v-on:click="IzmeniLozinku">Potvrdi</button></td>
+			  <td><button v-on:click="IzmeniLozinku">Potvrdi</button><button v-on:click="Odustani">Odustani</button></td>
 			</tr>
-  
+			</table>
+			</div>
 		  </table>
 		</div>
 	  </div>
@@ -145,6 +165,18 @@ Vue.component("profil", {
 	
 				});
 
+		},
+		Odustani: function(){
+			this.izmenaLozinke = false;
+			this.izmenaInformacija = false;
+		},
+		PromenaLozinke: function(){
+			this.izmenaInformacija = false;
+			this.izmenaLozinke = true;
+		},
+		IzmenaInformacija: function(){
+			this.izmenaLozinke = false;
+			this.izmenaInformacija = true;
 		}		
 		}
 });
