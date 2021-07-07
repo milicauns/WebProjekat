@@ -3,7 +3,7 @@ Vue.component("registracijaRestorana", {
 		return {
 			placesAutocomplete:null,
 			raspoloziviMenadzeri: null,
-			menadzer: "",
+			menadzer: "nema",
 			naziv: "",
 			tip: "",
 			lokacija: "",
@@ -18,11 +18,20 @@ Vue.component("registracijaRestorana", {
 			ulicaNumberError:'',
 			geografskaDuzina:'',
 			geografskaSirina:'',
+			potrebanMenadzer:false,
+
+			korisnickoIme: "",
+			lozinka: "",
+			ime: "",
+		 	prezime: "",
+		 	pol: "",
+		 	datumRodjenja: "",		
+		 	tipKorisnika: "MENADZER",
+		 	ulogovaniKorisnik: ""
 		}
 	},
 	template: `
-
-	<div class="row">
+<div class="row">
 	<div class="leftcolumn">
 	   <div class="card">
 		  <div id="registracijaKupac">
@@ -35,55 +44,86 @@ Vue.component("registracijaRestorana", {
 				<option value="KINESKI">Kineski</option>
 				<option value="ITALIJANSKI">Italijanski</option>
 				<option value="ROSTILJ">Rostilj</option>
-			 </select>
-			 <br>			 
-			 <label style="display:inline-block; width: 200px; text-align: left;">Dodjeli menadzera:</label>
-			 <select v-model="menadzer" id="deptList"  style="width:300px">
-				<option v-for="m in raspoloziviMenadzeri" v-bind:value="m.korisnickoIme">
-				   {{m.korisnickoIme}}
-				</option>
-			 </select>
+			 </select>			 	
 			 <br>
 			 <label style="display:inline-block; width: 200px; text-align: left;">Status: </label>
 			 <select v-model="status"  style="width:300px" >
 				<option value = "RADI"> RADI</option>
 				<option value = "NE_RADI"> NE RADI</option>
 			 </select>
+			 <br>		 
+			 <label style="display:inline-block; width: 200px; text-align: left;">Dodjeli menadzera:</label>
+			 <select v-if="menadzer == 'nema'" v-model="menadzer" id="deptList"  style="width:300px">
+				<option v-for="m in raspoloziviMenadzeri" v-bind:value="m.korisnickoIme">
+				   {{m.korisnickoIme}}
+				</option>
+			 </select>
+			 <label v-else>{{ime}} {{prezime}}</label>
+			 <div v-if="menadzer == 'nema'">
+			 <button v-on:click="NoviMenadzer()">Registruj novog menadzera</button>
+			 </div>
 			 <br>
 			 <label style="display:inline-block; width: 200px; text-align: left;">Dodaj logo:</label>
 			 <input type="file" @change="promenaFajla"  style="width:300px"/>
 			 <br>
-             <br>
+			 <br>
 			 <label style="width: 200px; text-align: left;">Adresa:</label>
-			 <div style="width: 200px;"><input type="search" id="pretragaAdrese"/></div>
+			 <div style="width: 400px;"><input type="search" id="pretragaAdrese"/></div>
 			 <br>
-
 			 <div id="adresa" align ="left">
-             <label style="display:inline-block; width: 200px; text-align: left;">Broj:</label>
-			 <input type="number" min="1" v-model="ulicaNumber" name="ulicaNumber" class="form-control" />
-			 <br>
-			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-mesto">Ulica:</label>
-			 <input type="text" class="form-control" disabled="true" id="form-ulica">			
-			 <br>
-			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-mesto">Grad:</label>
-			 <input type="text" class="form-control" disabled="true" id="form-mesto">			
-			 <br>
-			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-zip">Postanski broj:</label>
-			 <input type="text" class="form-control" disabled="true" id="form-zip">			
-			 <br>	
-			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-geografskaDuzina">Geografska duzina:</label>
-			 <input type="text" class="form-control" disabled="true" id="form-geografskaDuzina">		
-			 <br>
-			 <label style="display:inline-block; width: 200px; text-align: left;" for="form-geografskaSirina">Geografska sirina</label>
-			 <input type="text" class="form-control" disabled="true" id="form-geografskaSirina">			
-			 <br>
+				<label style="display:inline-block; width: 200px; text-align: left;">Broj:</label>
+				<input type="number" min="1" v-model="ulicaNumber" name="ulicaNumber" class="form-control" />
+				<br>
+				<br>
+				<label style="display:inline-block; width: 200px; text-align: left;" for="form-mesto">Ulica:</label>
+				<input type="text" class="form-control" disabled="true" id="form-ulica">			
+				<br>
+				<label style="display:inline-block; width: 200px; text-align: left;" for="form-mesto">Grad:</label>
+				<input type="text" class="form-control" disabled="true" id="form-mesto">			
+				<br>
+				<label style="display:inline-block; width: 200px; text-align: left;" for="form-zip">Postanski broj:</label>
+				<input type="text" class="form-control" disabled="true" id="form-zip">			
+				<br>	
+				<label style="display:inline-block; width: 200px; text-align: left;" for="form-geografskaDuzina">Geografska duzina:</label>
+				<input type="text" class="form-control" disabled="true" id="form-geografskaDuzina">		
+				<br>
+				<label style="display:inline-block; width: 200px; text-align: left;" for="form-geografskaSirina">Geografska sirina</label>
+				<input type="text" class="form-control" disabled="true" id="form-geografskaSirina">			
+				<br>
 			 </div>
 			 <div id="button" align ="center">
-			 <button class="buttonLogin" v-on:click="NoviRestoran">Dodaj</button>
+				<button class="buttonLogin" v-on:click="NoviRestoran">Dodaj</button>
 			 </div>
 		  </div>
 	   </div>
-	</div>		
+	</div>
+	<div v-if="potrebanMenadzer == true" class="rightcolumn">
+	   <div class="card">
+		  <div  id="registracijaKupac" style="float: left; width: 38%; text-align: center;">
+			 <h1>Novi menadzer:</h1>
+			 <br>
+			 <input placeholder="Korisnicko ime" class="inputKredencijali" type="text" v-model="korisnickoIme" style="width:200px"/>
+			 <br>
+			 <input placeholder="Ime" class="inputKredencijali" type="text" v-model="ime" style="width:200px"/>
+			 <br> 
+			 <input placeholder="Prezime" class="inputKredencijali" type="text" v-model="prezime" style="width:200px"/>
+			 <br>
+			 <input class="datapicker" type="date" v-model="datumRodjenja" style="width:200px"/>
+			 <br>
+			 <select class="selectKredencijali" v-model="pol" style="width:200px" >
+				<option value="" disabled selected hidden>Pol</option>
+				<option value = "MUSKI">Muski</option>
+				<option value = "ZENSKI"> Zenski</option>
+			 </select>
+			 <input placeholder="Lozinka" class="inputKredencijali" type="password" v-model="lozinka" style="width:200px"/>
+			 <br>
+			 <input placeholder="Potvrdi lozinku" class="inputKredencijali" type="password" v-model="lozinka" style="width:200px"/>
+			 <br>
+			 <button class="buttonLogin" v-on:click="Registracija" style="width:200px">Potvrdi</button>
+		  </div>
+	   </div>
+	</div>
+</div>		
 `
 	,
 	mounted() {
@@ -147,7 +187,22 @@ Vue.component("registracijaRestorana", {
                 this.slikaFile = e.target.result;
             }
             reader.readAsDataURL(file);
-        }
+        },
+		NoviMenadzer: function(){
+			this.potrebanMenadzer = true;
+		},
+		Registracija: function () {
+           
+			axios.post('rest/registracijaMenadzer/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
+			.then(response => {
+				alert('uspesno '+response.data.korisnickoIme);
+				this.potrebanMenadzer = false;
+				this.menadzer = this.korisnickoIme;
+
+			})
+			.catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
+
+		}
 
 	}
 });
