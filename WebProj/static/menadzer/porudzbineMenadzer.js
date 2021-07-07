@@ -318,7 +318,63 @@ Vue.component("porudzbineMenadzer", {
 			});
 		},
 		sortiraj: function () {
-			
+			if (this.sortType == 'StatusRastuce') {
+				//this.porudzbine.sort((b, a) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
+				this.porudzbineDTO.sort(function (a, b) {
+					
+					let A = 0;
+					let B = 0;
+
+					if (a.porudzbina.status === 'OTKAZANA') A = 1;
+					if (a.porudzbina.status === 'OBRADA') A = 2;
+					if (a.porudzbina.status === 'U_PRIPREMI') A = 3;
+					if (a.porudzbina.status === 'CEKA_DOSTAVLJACA') A = 4;
+					if (a.porudzbina.status === 'U_TRANSPORTU') A = 5;
+					if (a.porudzbina.status === 'DOSTAVLJENA') A = 6;
+
+					if (b.porudzbina.status === 'OTKAZANA') B = 1;
+					if (b.porudzbina.status === 'OBRADA') B = 2;
+					if (b.porudzbina.status === 'U_PRIPREMI') B = 3;
+					if (b.porudzbina.status === 'CEKA_DOSTAVLJACA') B = 4;
+					if (b.porudzbina.status === 'U_TRANSPORTU') B = 5;
+					if (b.porudzbina.status === 'DOSTAVLJENA') B = 6;
+					
+					return (A > B) ? 1 : ((B > A) ? -1 : 0)
+					
+				});
+			} else if (this.sortType == 'StatusOpadajuce') {
+				//this.porudzbine.sort((a, b) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
+				this.porudzbineDTO.sort(function (b, a) {
+					
+					let A = 0;
+					let B = 0;
+
+					if (a.porudzbina.status === 'OTKAZANA') A = 1;
+					if (a.porudzbina.status === 'OBRADA') A = 2;
+					if (a.porudzbina.status === 'U_PRIPREMI') A = 3;
+					if (a.porudzbina.status === 'CEKA_DOSTAVLJACA') A = 4;
+					if (a.porudzbina.status === 'U_TRANSPORTU') A = 5;
+					if (a.porudzbina.status === 'DOSTAVLJENA') A = 6;
+
+					if (b.porudzbina.status === 'OTKAZANA') B = 1;
+					if (b.porudzbina.status === 'OBRADA') B = 2;
+					if (b.porudzbina.status === 'U_PRIPREMI') B = 3;
+					if (b.porudzbina.status === 'CEKA_DOSTAVLJACA') B = 4;
+					if (b.porudzbina.status === 'U_TRANSPORTU') B = 5;
+					if (b.porudzbina.status === 'DOSTAVLJENA') B = 6;
+					
+					return (A > B) ? 1 : ((B > A) ? -1 : 0)
+					
+				});
+			} else if (this.sortType == 'DatumRastuce') {
+				this.porudzbineDTO.sort((a, b) => (a.porudzbina.datum > b.porudzbina.datum) ? 1 : ((b.porudzbina.datum > a.porudzbina.datum) ? -1 : 0));
+			} else if (this.sortType == 'DatumOpadajuce') {
+				this.porudzbineDTO.sort((b, a) => (a.porudzbina.datum > b.porudzbina.datum) ? 1 : ((b.porudzbina.datum > a.porudzbina.datum) ? -1 : 0));
+			} else if (this.sortType == 'CenaRastuca') {
+				this.porudzbineDTO.sort((a, b) => (a.porudzbina.cena > b.porudzbina.cena) ? 1 : ((b.porudzbina.cena > a.porudzbina.cena) ? -1 : 0));
+			} else if (this.sortType == 'CenaOpadajuce') {
+				this.porudzbineDTO.sort((b, a) => (a.porudzbina.cena > b.porudzbina.cena) ? 1 : ((b.porudzbina.cena > a.porudzbina.cena) ? -1 : 0));
+			}
 		}
 	}
 });
