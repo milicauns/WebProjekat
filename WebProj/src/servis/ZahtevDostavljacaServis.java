@@ -27,13 +27,12 @@ public class ZahtevDostavljacaServis {
 	}
 	
 	public ArrayList<ZahtevDostavljaca> getZahteviZaRestoran(String nazivRestorana){
-		
-		ArrayList<ZahtevDostavljaca> ret = new ArrayList<>();
-		for(ZahtevDostavljaca z : zahtevDAO.GetZahtevi()) {
-			if(z.getNazivRestorana().equals(nazivRestorana) && z.getStatus() == StatusZahteva.CEKA)
-				ret.add(z);	
+		ArrayList<ZahtevDostavljaca> zahteviRestorana = new ArrayList<>();
+		for(ZahtevDostavljaca zahtev : zahtevDAO.GetZahtevi()) {
+			if(zahtev.getNazivRestorana().equals(nazivRestorana))
+				zahteviRestorana.add(zahtev);	
 		}
-		return ret;
+		return zahteviRestorana;
 	}
 	
 	public void dodajZahtev(String idPorudzbine,String nazivRestorana,String dostavljac) {		
