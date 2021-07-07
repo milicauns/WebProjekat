@@ -53,16 +53,17 @@ public class RestZahteviDostavljaca {
 		put("rest/promeniStatusZahteva/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
-
+			
 			ParametriIzmeneZahtevaDTO zahtevInfo = g.fromJson(req.body(),ParametriIzmeneZahtevaDTO.class);
 			StatusZahteva status = StatusZahteva.valueOf(zahtevInfo.status);
 			System.out.println(status);
 			
-			if(status == StatusZahteva.ODOBREN)
-				porudzbinaServis.promeniStatusPorudzbine(StatusPorudzbine.U_TRANSPORTU,zahtevInfo.idPorudzbine);
-			
-			zahtevDostavljacaServis.promeniStatusZahteva(zahtevInfo.idPorudzbine,zahtevInfo.dostavljac,status);
-			return "OK";
+			String odgovor = zahtevDostavljacaServis.promeniStatusZahteva(zahtevInfo.idPorudzbine,zahtevInfo.dostavljac,status);
+			System.out.println(odgovor);
+			if(odgovor.startsWith("OK:")) {
+				odgovor = "OK";
+			}
+			return odgovor;
 		});
 		
 		get("rest/getZahteviZaRestoran", (req, res) -> {

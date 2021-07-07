@@ -89,7 +89,7 @@ Vue.component("porudzbineMenadzer", {
 						 </tr>
 					  </table>
                       <br>
-                      <button v-on:click="sledeceStanje(p)" v-if="p.porudzbina.status=='OBRADA' || p.porudzbina.status=='U_PRIPREMI'">Sledece stanje</button>
+                      <button v-on:click="sledeceStanjeFun(p)" v-if="p.porudzbina.status=='OBRADA' || p.porudzbina.status=='U_PRIPREMI'">Sledece stanje</button>
 					  <br><br>
                      
                      <div v-if="p.porudzbina.status =='CEKA_DOSTAVLJACA'">
@@ -102,8 +102,8 @@ Vue.component("porudzbineMenadzer", {
 						 <tr v-for="d in p.zahtevi">
 							<td>{{d.dostavljac }}</td>
 							<td style="text-align: center;">
-                              <button v-on:click="prihvatiDostavljaca(d)" class="potvrdanButtonMali">Prihvati</button>
-                              <button v-on:click="odbijDostavljaca(d)" class="oprezanButtonMali">Odbij</button>
+                              <button v-on:click="prihvatiDostavljaca(p, d)" class="potvrdanButtonMali">Prihvati</button>
+                              <button v-on:click="odbijDostavljaca(p, d)" class="oprezanButtonMali">Odbij</button>
                             </td>
 						 </tr>
 					  </table>
@@ -230,7 +230,7 @@ Vue.component("porudzbineMenadzer", {
 					komentar: komentar,
 				}
 			*/
-			alert('ULAZAK pripremiDTO');
+			//alert('ULAZAK pripremiDTO');
 			for (let porudzbina of this.porudzbine) {
 				
 				let trazeniKomentar = null;
@@ -257,30 +257,16 @@ Vue.component("porudzbineMenadzer", {
 				}
 
 				let poruc = { porudzbina: porudzbina, zahtevi: zahteviPorudzbine, prihZahtev: prihvacenZahtev, komentar: trazeniKomentar }
-				alert('porucbinaDTO id: ' + poruc.porudzbina.id);
+				//alert('porucbinaDTO id: ' + poruc.porudzbina.id);
 				this.porudzbineDTO.push(poruc);
 
 			}
-			alert('KRAJ fun');
+			//alert('KRAJ fun');
 			
 		},
 		pretragaPorudzbina: function () {
 			
 			
-		},
-		promeniStatusPorudzbineUCekaDostavljaca: function (porudzbina) {
-			
-			axios.put('rest/izmeniPorudzbinu/', { id: porudzbina.id, status: 'CEKA_DOSTAVLJACA' })
-				.then(response => {
-					porudzbina.status = "CEKA_DOSTAVLJACA";
-				});
-		},
-		promeniStatusPorudzbineUPripremu: function (porudzbina) {
-
-			axios.put('rest/izmeniPorudzbinu/', { id: porudzbina.id, status: 'U_PRIPREMI' })
-				.then(response => {
-					porudzbina.status = "U_PRIPREMI";
-				});
 		},
 		setujStatusBar: function (p, id) {
 			let poruc = p.porudzbina;
@@ -293,10 +279,18 @@ Vue.component("porudzbineMenadzer", {
 			
 			return false;
 		},
-		sledeceStanje: function (p) {
+		sledeceStanjeFun: function (p) {
 			let sledeceStanje = '';
-			if (p.porudzbina.status == 'U_PRIPREMI') sledeceStanje = 'CEKA_DOSTAVLJACA';
 			if (p.porudzbina.status == 'OBRADA') sledeceStanje = 'U_PRIPREMI';
+			else if (p.porudzbina.status == 'U_PRIPREMI') sledeceStanje = 'CEKA_DOSTAVLJACA';
+			else if (p.porudzbina.status == 'CEKA_DOSTAVLJACA') sledeceStanje = 'U_TRANSPORTU';
+
+			axios.put('rest/izmeniPorudzbinu/', { id: p.porudzbina.id, status: sledeceStanje }).then(response => {
+				alert('Uspesno ste promenili stanje porudbine u ' + sledeceStanje);
+				p.porudzbina.status = sledeceStanje;
+			});
+
+			
 		},
 		odbijKomentar: function (p) {
 			
@@ -304,11 +298,24 @@ Vue.component("porudzbineMenadzer", {
 		odobriKomentar: function (p) {
 			
 		},
-		prihvatiDostavljaca: function (d) {
-			
+		prihvatiDostavljaca: function (p, d) {
+
+			axios.put('rest/promeniStatusZahteva/', { idPorudzbine: d.idNarudzbine, dostavljac: d.dostavljac, status: 'ODOBREN' }).then(response => {
+				if(response.data == 'OK'){
+					this.sledeceStanjeFun(p);
+					alert('Uspesno ste setovali dostavljaca');
+					p.prihZahtev = d;
+				}
+			});
 		},
-		odbijDostavljaca: function (d) {
-			
+		odbijDostavljaca: function (p, d) {
+			axios.put('rest/promeniStatusZahteva/', { idPorudzbine: d.idNarudzbine, dostavljac: d.dostavljac, status: 'ODBIJEN' }).then(response => {
+				if(response.data == 'OK'){
+					alert('Uspesno ste odbacili dostavljaca');
+					const indexOfZahtevOdbijen = p.zahtevi.indexOf(d);
+					p.zahtevi.splice(indexOfZahtevOdbijen, 1);
+				}
+			});
 		},
 		sortiraj: function () {
 			

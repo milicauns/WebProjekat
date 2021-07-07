@@ -82,8 +82,8 @@ public class ZahtevDAO {
 			if(z.getIdNarudzbine().equals(idPorudzbine) && z.getDostavljac().equals(dostavljac)) {
 				z.setStatus(status);
 				sacuvajZahteve();
+				return;
 			}
-			return;
 		}
 	}
 

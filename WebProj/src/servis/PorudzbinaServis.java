@@ -8,13 +8,17 @@ import java.util.Calendar;
 import java.util.Random;
 
 import dao.PorudzbinaDAO;
+import dto.IzmenaPorudzbineDTO;
 import dto.PorudzbinaZaRestoranDTO;
 import dto.PretragaPorudbinaDTO;
+import enums.Status;
 import enums.StatusPorudzbine;
+import enums.StatusZahteva;
 import enums.TipRestorana;
 import java.util.Date;
 import model.Korisnik;
 import model.Porudzbina;
+import model.ZahtevDostavljaca;
 
 public class PorudzbinaServis {
 	
@@ -152,9 +156,10 @@ public class PorudzbinaServis {
 		return ret;
 	}
 	
-	public void promeniStatusPorudzbine(StatusPorudzbine status, String idPorudzbine) {
+	public void promeniStatusPorudzbine(StatusPorudzbine status, String idPorudbine) {
+		
 		for (Porudzbina porudzbina : porudzbinaDAO.getPorudzbine()) {
-			if(porudzbina.getId().equals(idPorudzbine)) {
+			if(porudzbina.getId().equals(idPorudbine)) {
 				// nema potrebe setovati isti status dva puta
 				if(porudzbina.getStatus() != status) {
 					porudzbina.setStatus(status);

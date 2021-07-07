@@ -105,8 +105,8 @@ public class RestPorudzbine {
 			res.type("application/json");
 			res.status(200);
 			
-			IzmenaPorudzbineDTO porudzbinaInfo = g.fromJson(req.body(),IzmenaPorudzbineDTO.class);			
-			StatusPorudzbine status = StatusPorudzbine.valueOf(porudzbinaInfo.status);		
+			IzmenaPorudzbineDTO porudzbinaInfo = g.fromJson(req.body(),IzmenaPorudzbineDTO.class);	
+			StatusPorudzbine status = StatusPorudzbine.valueOf(porudzbinaInfo.status);
 			porudzbinaServis.promeniStatusPorudzbine(status, porudzbinaInfo.id);
 			return "OK";
 		});
