@@ -130,6 +130,18 @@ public class RestPorudzbine {
 			return "OK";
 		});
 		
+		get("rest/slobodnePorudzbine", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			if(korisnik == null) { return "GRESKA: niste ulogovan"; }
+			
+			return g.toJson(porudzbinaServis.getSlobodnePorudzbineZaDostavljace(korisnik));
+		});
+		
 		
 	}
 }

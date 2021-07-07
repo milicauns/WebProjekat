@@ -1,4 +1,4 @@
-Vue.component("menadzer", {
+Vue.component("dostavljac", {
     data: function () {
       return {
         selektovanaKomponenta: 'prikazSlobodnihPorudzbina',

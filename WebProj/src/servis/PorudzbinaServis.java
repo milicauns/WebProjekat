@@ -9,6 +9,7 @@ import java.util.Random;
 
 import dao.PorudzbinaDAO;
 import dto.IzmenaPorudzbineDTO;
+import dto.PorudbineDostavljacaDTO;
 import dto.PorudzbinaZaRestoranDTO;
 import dto.PretragaPorudbinaDTO;
 import enums.Status;
@@ -17,7 +18,9 @@ import enums.StatusZahteva;
 import enums.TipRestorana;
 import java.util.Date;
 import model.Korisnik;
+import model.Lokacija;
 import model.Porudzbina;
+import model.Restoran;
 import model.ZahtevDostavljaca;
 
 public class PorudzbinaServis {
@@ -261,6 +264,40 @@ public class PorudzbinaServis {
 	}
 
 
+	public ArrayList<PorudbineDostavljacaDTO> getSlobodnePorudzbineZaDostavljace(Korisnik dostavljac){
+		ArrayList<PorudbineDostavljacaDTO> slobodnePorudbine = new ArrayList<PorudbineDostavljacaDTO>();
+		
+		for (Porudzbina porudzbina : getPorudzbineZaStatus(StatusPorudzbine.CEKA_DOSTAVLJACA)) {
+			
+			ZahtevDostavljaca zahtev = zahtevDostavljacaServis.getZahtevByDostavljacANDidPorudzbine(dostavljac.getKorisnickoIme(), porudzbina.getId());
+			
+			// ako postoji zahtev za ovu porudzbinu od ovog dostavljaca onda necemo prikazivati je
+			if(zahtev != null) 
+				continue;
+			
+			PorudbineDostavljacaDTO porudbinaDTO = new PorudbineDostavljacaDTO();
+			porudbinaDTO.id = porudzbina.getId();
+			porudbinaDTO.nazivRestorana = porudzbina.getNazivRestorana();
+			Restoran restoran = restoranServis.getRestoranByNaziv(porudzbina.getNazivRestorana());
+			porudbinaDTO.lokacijaRestorana = restoran.getLokacija();
+			porudbinaDTO.datum = porudzbina.getDatum();
+			porudbinaDTO.vreme = porudzbina.getVreme();
+			porudbinaDTO.status = porudzbina.getStatus();
+			porudbinaDTO.cena = porudzbina.getCena();
+			porudbinaDTO.masaPorudzbine = porudzbina.racunajMasuPorudbine();
+			
+			porudbinaDTO.imePrezimeKupca = porudzbina.getImePrezimeKupca();
+			porudbinaDTO.kupac = porudzbina.getKupac();
+			porudbinaDTO.lokacijaKupca = null; 			// dodati lokaciju kupca??
+			
+			porudbinaDTO.brojKonkurencije = zahtevDostavljacaServis.getBrojKonkurencija(porudzbina.getId());
+			
+			slobodnePorudbine.add(porudbinaDTO);
+		}
+		
+		
+		return slobodnePorudbine;
+	}
 	
 	
 

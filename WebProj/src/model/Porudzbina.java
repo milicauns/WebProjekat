@@ -125,6 +125,14 @@ public class Porudzbina {
 		}
 		return sadrziArtikal;
 	}
+	
+	public double racunajMasuPorudbine() {
+		double ukupnaMasa = 0;
+		for (StavkaKorpe stavkaKorpe : artikli) {
+			ukupnaMasa += stavkaKorpe.getArtikal().getKolicina() * stavkaKorpe.getKolicina();
+		}
+		return ukupnaMasa;
+	}
 
 
 }

@@ -73,7 +73,39 @@ public class ZahtevDostavljacaServis {
 		}
 		return trazenZahtev;
 	}
+	
+	public ArrayList<ZahtevDostavljaca> getSviZahteviByIDporudzbine(String idPorudzbine){
+		ArrayList<ZahtevDostavljaca> trazeniZahtevi = new ArrayList<ZahtevDostavljaca>();
+		for (ZahtevDostavljaca zahtev : zahtevDAO.GetZahtevi()) {
+			if(zahtev.getIdNarudzbine().equals(idPorudzbine)) {
+				trazeniZahtevi.add(zahtev);
+			}
+		}
+		return trazeniZahtevi;
+	}
 
+	public int getBrojKonkurencija(String idPorudzbine) {
+		int brojKonkurencije = 0;
+		for (ZahtevDostavljaca zahtev : zahtevDAO.GetZahtevi()) {
+			if(zahtev.getIdNarudzbine().equals(idPorudzbine)) {
+				brojKonkurencije++;
+			}
+		}
+		return brojKonkurencije;
+	}
 
+	public ZahtevDostavljaca getZahtevByDostavljacANDidPorudzbine(String korisnickoImeDostavljaca, String idPorudzbine) {
+		ZahtevDostavljaca trazenZahtev = null;
+		
+		for (ZahtevDostavljaca zahtev : zahtevDAO.GetZahtevi()) {
+			if(zahtev.getDostavljac().equals(korisnickoImeDostavljaca) && zahtev.getIdNarudzbine().equals(idPorudzbine)) {
+				trazenZahtev = zahtev;
+				break;
+			}
+		}
+		
+		return trazenZahtev;
+	}
+	
 
 }

@@ -53,7 +53,11 @@ Vue.component("prikazSlobodnihPorudzbina", {
 						 </tr>
                          <tr>
 							<td>Masa porudzbine: </td>
-							<td>{{racunajMasuPorudzbine(p)}}</td>
+							<td>{{p.masaPorudzbine}}</td>
+						 </tr>
+                         <tr>
+							<td>Adresa restorana: </td>
+							<td>{{p.lokacijaRestorana.adresa.mesto}} {{p.lokacijaRestorana.adresa.Ulica}} {{p.lokacijaRestorana.adresa.broj}}</td>
 						 </tr>
 					  </table>
 					  <br>
@@ -154,7 +158,9 @@ Vue.component("prikazSlobodnihPorudzbina", {
             axios.get('rest/testlogin').then(response => {
                 if (response.data != 'Err:KorisnikNijeUlogovan') {
                     this.dostavljac = response.data;
-                    
+                    axios.get('rest/slobodnePorudzbine').then(response => {
+                        this.porudzbineDTO = response.data;
+                    }).catch(function (error) { alert('Greska rest/slobodnePoruzbine');});
                 }
             }).catch(function(error){alert('GRESKA SA SERVEROM')});
 
@@ -173,7 +179,10 @@ Vue.component("prikazSlobodnihPorudzbina", {
 			else if (poruc.status == 'OTKAZANA') return false;
 			
 			return false;
-		},
+        },
+        posaljiZahtev: function (p) {
+            
+        },
 		sortiraj: function () {
 			if (this.sortType == 'StatusRastuce') {
 				//this.porudzbine.sort((b, a) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
@@ -223,6 +232,10 @@ Vue.component("prikazSlobodnihPorudzbina", {
 					return (A > B) ? 1 : ((B > A) ? -1 : 0)
 					
 				});
+			}else if (this.sortType == 'NazivRestoranaA-Z') {
+				this.porudzbineDTO.sort((b, a) => (a.nazivRestorana > b.nazivRestorana) ? 1 : ((b.nazivRestorana > a.nazivRestorana) ? -1 : 0));
+			} else if (this.sortType == 'NazivRestoranaZ-A') {
+				this.porudzbineDTO.sort((a, b) => (a.nazivRestorana > b.nazivRestorana) ? 1 : ((b.nazivRestorana > a.nazivRestorana) ? -1 : 0));
 			} else if (this.sortType == 'DatumRastuce') {
 				this.porudzbineDTO.sort((a, b) => (a.datum > b.datum) ? 1 : ((b.datum > a.datum) ? -1 : 0));
 			} else if (this.sortType == 'DatumOpadajuce') {
