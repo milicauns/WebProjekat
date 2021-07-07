@@ -76,6 +76,25 @@ public class RestPorudzbine {
 			return g.toJson(porudzbinaServis.getPorudzbineKupcaPretraga(korisnik.getKorisnickoIme(), pretragaPorudbinaDTO));
 		});
 		
+		get("rest/porudzbineRestoranaPretraga", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			PretragaPorudbinaDTO pretragaPorudbinaDTO = new PretragaPorudbinaDTO();
+			pretragaPorudbinaDTO.datumOd = req.queryParams("datumOd");
+			pretragaPorudbinaDTO.datumDo = req.queryParams("datumDo");
+			pretragaPorudbinaDTO.cenaOd =  Double.parseDouble(req.queryParams("cenaOd"));
+			pretragaPorudbinaDTO.cenaDo = Double.parseDouble(req.queryParams("cenaDo"));
+			pretragaPorudbinaDTO.nazivRestorana = req.queryParams("nazivRestorana");
+			pretragaPorudbinaDTO.status = req.queryParams("status");
+			pretragaPorudbinaDTO.podesiParametre();
+			System.out.println(pretragaPorudbinaDTO);
+			
+			return g.toJson(porudzbinaServis.getPorudzbineRestoranaPretraga(korisnik.getKorisnickoIme(), pretragaPorudbinaDTO));
+		});
+		
 		get("rest/porudzbineKojeCekajuDostavljaca", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
@@ -105,8 +124,8 @@ public class RestPorudzbine {
 			res.type("application/json");
 			res.status(200);
 			
-			IzmenaPorudzbineDTO porudzbinaInfo = g.fromJson(req.body(),IzmenaPorudzbineDTO.class);			
-			StatusPorudzbine status = StatusPorudzbine.valueOf(porudzbinaInfo.status);		
+			IzmenaPorudzbineDTO porudzbinaInfo = g.fromJson(req.body(),IzmenaPorudzbineDTO.class);	
+			StatusPorudzbine status = StatusPorudzbine.valueOf(porudzbinaInfo.status);
 			porudzbinaServis.promeniStatusPorudzbine(status, porudzbinaInfo.id);
 			return "OK";
 		});

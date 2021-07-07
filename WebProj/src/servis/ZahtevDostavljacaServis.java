@@ -27,25 +27,51 @@ public class ZahtevDostavljacaServis {
 	}
 	
 	public ArrayList<ZahtevDostavljaca> getZahteviZaRestoran(String nazivRestorana){
-		
-		ArrayList<ZahtevDostavljaca> ret = new ArrayList<>();
-		for(ZahtevDostavljaca z : zahtevDAO.GetZahtevi()) {
-			if(z.getNazivRestorana().equals(nazivRestorana) && z.getStatus() == StatusZahteva.CEKA)
-				ret.add(z);	
+		ArrayList<ZahtevDostavljaca> zahteviRestorana = new ArrayList<>();
+		for(ZahtevDostavljaca zahtev : zahtevDAO.GetZahtevi()) {
+			if(zahtev.getNazivRestorana().equals(nazivRestorana) && zahtev.getStatus() != StatusZahteva.ODBIJEN)
+				zahteviRestorana.add(zahtev);	
 		}
-		return ret;
+		return zahteviRestorana;
 	}
 	
 	public void dodajZahtev(String idPorudzbine,String nazivRestorana,String dostavljac) {		
 		zahtevDAO.dodajZahtev(new ZahtevDostavljaca(nazivRestorana,idPorudzbine,dostavljac));
 	}
 
-	public void promeniStatusZahteva(String idPorudzbine, String dostavljac, StatusZahteva status) {	
+	public String promeniStatusZahteva(String idPorudzbine, String dostavljac, StatusZahteva status) {	
+		String odgovor = "";
+		if(status == StatusZahteva.ODOBREN) {
+			// moramo da proverimo da li je menadzer pokusao dva dostavljaca da angazuje 
+			// proverimo da li postoji vec zahtev za trazenuPoruzbinu i da li je status ODOBREN
+			for (ZahtevDostavljaca zahtev : zahtevDAO.GetZahtevi()) {
+				if(zahtev.getIdNarudzbine().equals(idPorudzbine)) {
+					if(zahtev.getStatus() == StatusZahteva.ODOBREN) {
+						// postoji vec zahtev koji je odobren za koknretnu porudbinu pa vracamo ifnormaicju ogresci
+						odgovor = "Greska: Porudzbina " + idPorudzbine + " je vec kod dostavljaca " + dostavljac;
+						return odgovor;
+					}
+				}
+			}
+		}
 		zahtevDAO.promeniStatusZahteva(idPorudzbine,dostavljac,status);		
+		odgovor = "OK: promemnjen je status zahteva";
+		return odgovor;
 	}
 	
 	public void obrisiZahtev(String idPorudzbine,String korisnickoIme) {
 		zahtevDAO.obrisiZahtev(idPorudzbine,korisnickoIme);
+	}
+	
+	public ZahtevDostavljaca getZahtevByIDporudzbine(String idPorudzbine) {
+		ZahtevDostavljaca trazenZahtev = null;
+		for (ZahtevDostavljaca zahtev : zahtevDAO.GetZahtevi()) {
+			if(zahtev.getIdNarudzbine().equals(idPorudzbine)) {
+				trazenZahtev = zahtev;
+				break;
+			}
+		}
+		return trazenZahtev;
 	}
 
 

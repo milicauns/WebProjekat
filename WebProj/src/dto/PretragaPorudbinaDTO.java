@@ -12,6 +12,7 @@ public class PretragaPorudbinaDTO {
 	public String status;
 	
 	
+	
 	@Override
 	public String toString() {
 		return "PretragaPorudbinaDTO [datumOd=" + datumOd + ", datumDo=" + datumDo + ", cenaOd=" + cenaOd + ", cenaDo="
@@ -21,10 +22,10 @@ public class PretragaPorudbinaDTO {
 	
 	
 	public void podesiParametre() {
-		if(datumOd.isBlank()) datumOd = "1900-01-01";
-		if(datumDo.isBlank()) datumDo = "2900-01-01";
-		if(tipRestorana.isBlank()) tipRestorana = "SVE";
-		if(status.isBlank()) status = "SVE";
+		if(datumOd != null && datumOd.isBlank()) datumOd = "1900-01-01";
+		if(datumDo != null && datumDo.isBlank()) datumDo = "2900-01-01";
+		if(tipRestorana != null && tipRestorana.isBlank()) tipRestorana = "SVE";
+		if(status != null && status.isBlank()) status = "SVE";
 	}
 	
 	

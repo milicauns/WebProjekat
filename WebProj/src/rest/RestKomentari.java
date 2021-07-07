@@ -47,6 +47,13 @@ public class RestKomentari {
 			return g.toJson(komentarServis.getSviKomentariZaRestoran(nazivRestorana));
 		});
 		
+		get("rest/odobreniKomentari", (req, res) -> {
+			res.type("application/json");
+			res.status(200);		
+		    String nazivRestorana = req.queryParams("naziv");
+			return g.toJson(komentarServis.getSviOdobreniKomentariZaRestoran(nazivRestorana));
+		});
+		
 		put("rest/odobriKomentar", (req, res) ->{
 		
 		System.out.println(req.body());

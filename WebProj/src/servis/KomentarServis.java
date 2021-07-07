@@ -45,14 +45,23 @@ public class KomentarServis {
 		return ret;
 	}
 	
-	public ArrayList<Komentar> getSviKomentariZaRestoran(String nazivRestorana){
-		
-		ArrayList<Komentar> ret=new ArrayList<>();
-		for(Komentar k : komentariDAO.getKomentari()) {
-			if(k.getNazivRestorana().equals(nazivRestorana))
-				ret.add(k);
+	public ArrayList<Komentar> getSviKomentariZaRestoran(String nazivRestorana){	
+		ArrayList<Komentar> komentariRestorana=new ArrayList<>();
+		for(Komentar komentar : komentariDAO.getKomentari()) {
+			if(komentar.getNazivRestorana().equals(nazivRestorana))
+				komentariRestorana.add(komentar);
 		}
-		return ret;
+		return komentariRestorana;
+	}
+	
+	public ArrayList<Komentar> getSviOdobreniKomentariZaRestoran(String nazivRestorana){
+		ArrayList<Komentar> odobreniKomentari = new ArrayList<Komentar>();
+		for (Komentar komentar : getSviKomentariZaRestoran(nazivRestorana)) {
+			if(komentar.isOdobren()) {
+				odobreniKomentari.add(komentar);
+			}
+		}
+		return odobreniKomentari;
 	}
 	
 	public void odobriKomentar(String idNarudzbine) {

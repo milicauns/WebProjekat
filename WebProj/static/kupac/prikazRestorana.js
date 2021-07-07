@@ -147,7 +147,7 @@ Vue.component("prikazrestoran", {
     })
       .then(response => (this.restoran = response.data));
 
-    axios.get('rest/getKomentariZaRestoran', {
+    axios.get('rest/odobreniKomentari', {
       params: {
         naziv: naziv
       }
