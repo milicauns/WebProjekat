@@ -10,6 +10,7 @@ Vue.component("porudzbineMenadzer", {
 			komentari: null,
 			
 			pretraga: {
+				nazivRestorana: '',
 				datumOd: '',
 				datumDo:'',
 				cenaOd: 0,
@@ -199,6 +200,7 @@ Vue.component("porudzbineMenadzer", {
 			axios.get('rest/testlogin').then(response => {
 				if (response.data != 'Err:KorisnikNijeUlogovan') {
 					this.menadzer = response.data;
+					this.pretraga.nazivRestorana = this.menadzer.nazivRestorana;
 					axios.get('rest/porudzbineZaRestoran').then(response => {
 						this.porudzbine = response.data;
 						axios.get('rest/getZahteviZaRestoran').then(response => {
@@ -265,7 +267,13 @@ Vue.component("porudzbineMenadzer", {
 			
 		},
 		pretragaPorudzbina: function () {
-			
+			axios.get('rest/porudzbineRestoranaPretraga', {
+				params: this.pretraga
+			}).then(response => {
+				this.porudzbineDTO = [];
+				this.porudzbine = response.data;
+				this.pripremiDTO();
+			});
 			
 		},
 		setujStatusBar: function (p, id) {

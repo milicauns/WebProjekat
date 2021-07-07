@@ -146,6 +146,46 @@ public class PorudzbinaServis {
 		return pretragaPorudbinaLista;
 	}
 	
+	public ArrayList<Porudzbina> getPorudzbineRestoranaPretraga(String korisnickoIme, PretragaPorudbinaDTO pretraga){
+		ArrayList<Porudzbina> pretragaPorudbinaLista = new ArrayList<>();
+		for (Porudzbina porudzbina : getPorudzbineRestorana(pretraga.nazivRestorana)) {
+			if(pretraga.status.equals("SVE") || (!pretraga.status.equals("SVE") && porudzbina.getStatus() == StatusPorudzbine.valueOf(pretraga.status))) {
+				if(pretraga.cenaOd <= porudzbina.getCena() && pretraga.cenaDo >= porudzbina.getCena()) {
+					SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat sdformat2 = new SimpleDateFormat("dd/MM/yyyy");
+					Date datumOd = null, datumDo = null, datumPorudbine = null;
+					boolean parsiranjeOK = true;
+				    try {
+				    	datumOd = sdformat.parse(pretraga.datumOd);
+					} catch (ParseException e) {
+						parsiranjeOK = false;
+						e.printStackTrace();
+					}
+				    try {
+				    	datumDo = sdformat.parse(pretraga.datumDo);
+					} catch (ParseException e) {
+						parsiranjeOK = false;
+						e.printStackTrace();
+					}
+				    try {
+				    	datumPorudbine = sdformat2.parse(porudzbina.getDatum());
+					} catch (ParseException e) {
+						parsiranjeOK = false;
+						e.printStackTrace();
+					}
+					
+					System.out.println("OD:" + datumOd);
+					System.out.println("D:" + datumPorudbine);
+					System.out.println("DO:" + datumDo);
+					if(datumOd.before(datumPorudbine) && datumDo.after(datumPorudbine)) {
+						pretragaPorudbinaLista.add(porudzbina);
+					}
+				}
+			}
+		}
+		return pretragaPorudbinaLista;
+	}
+	
 	public ArrayList<Porudzbina> getPorudzbineZaStatus(StatusPorudzbine status){
 		ArrayList<Porudzbina> ret = new ArrayList<>();
 		
