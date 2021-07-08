@@ -167,6 +167,42 @@ public class RestPorudzbine {
 		
 		
 		
+		get("rest/odobrenePorudzbine", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			if(korisnik == null) { return "GRESKA: niste ulogovan"; }
+			
+			return g.toJson(porudzbinaServis.getOdobrenePorudzbineDostavljaca(korisnik));
+		});
+		
+		get("rest/odobrenePorudzbinePretraga", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			if(korisnik == null) { return "GRESKA: niste ulogovan"; }
+			
+			PretragaPorudbinaDTO pretragaPorudbinaDTO = new PretragaPorudbinaDTO();
+			pretragaPorudbinaDTO.datumOd = req.queryParams("datumOd");
+			pretragaPorudbinaDTO.datumDo = req.queryParams("datumDo");
+			pretragaPorudbinaDTO.cenaOd =  Double.parseDouble(req.queryParams("cenaOd"));
+			pretragaPorudbinaDTO.cenaDo = Double.parseDouble(req.queryParams("cenaDo"));
+			pretragaPorudbinaDTO.tipRestorana = req.queryParams("tipRestorana");
+			pretragaPorudbinaDTO.nazivRestorana = req.queryParams("nazivRestorana");
+			pretragaPorudbinaDTO.status = req.queryParams("status");
+			pretragaPorudbinaDTO.podesiParametre();
+			System.out.println(pretragaPorudbinaDTO);
+			
+			return g.toJson(porudzbinaServis.getOdobrenePorudzbineDostavljacaPretraga(korisnik, pretragaPorudbinaDTO));
+		});
+		
+		
 		
 	}
 }

@@ -275,29 +275,55 @@ public class PorudzbinaServis {
 			if(zahtev != null) 
 				continue;
 			
-			PorudbineDostavljacaDTO porudbinaDTO = new PorudbineDostavljacaDTO();
-			porudbinaDTO.id = porudzbina.getId();
-			porudbinaDTO.nazivRestorana = porudzbina.getNazivRestorana();
-			Restoran restoran = restoranServis.getRestoranByNaziv(porudzbina.getNazivRestorana());
-			porudbinaDTO.tipRestorana = restoran.getTipRestorana();
-			porudbinaDTO.lokacijaRestorana = restoran.getLokacija();
-			porudbinaDTO.datum = porudzbina.getDatum();
-			porudbinaDTO.vreme = porudzbina.getVreme();
-			porudbinaDTO.status = porudzbina.getStatus();
-			porudbinaDTO.cena = porudzbina.getCena();
-			porudbinaDTO.masaPorudzbine = porudzbina.racunajMasuPorudbine();
-			
-			porudbinaDTO.imePrezimeKupca = porudzbina.getImePrezimeKupca();
-			porudbinaDTO.kupac = porudzbina.getKupac();
-			porudbinaDTO.lokacijaKupca = null; 			// dodati lokaciju kupca??
-			
-			porudbinaDTO.brojKonkurencije = zahtevDostavljacaServis.getBrojKonkurencija(porudzbina.getId());
+			PorudbineDostavljacaDTO porudbinaDTO = formirajPorudzbinuDTO(porudzbina);
 			
 			slobodnePorudbine.add(porudbinaDTO);
 		}
 		
 		
 		return slobodnePorudbine;
+	}
+	
+	public ArrayList<PorudbineDostavljacaDTO> getOdobrenePorudzbineDostavljaca(Korisnik dostavljac){
+		ArrayList<PorudbineDostavljacaDTO> odobrenePorudzbine = new ArrayList<PorudbineDostavljacaDTO>();
+		
+		for (Porudzbina porudzbina : getPorudzbineZaStatus(StatusPorudzbine.U_TRANSPORTU)) {
+			
+			ZahtevDostavljaca zahtev = zahtevDostavljacaServis.getZahtevByDostavljacANDidPorudzbine(dostavljac.getKorisnickoIme(), porudzbina.getId());
+			
+			// ako nepostoji zahtev za ovu porudzbinu od ovog dostavljaca onda necemo prikazivati je
+			if(zahtev == null || zahtev.getStatus() != StatusZahteva.ODOBREN) 
+				continue;
+			
+			PorudbineDostavljacaDTO porudbinaDTO = formirajPorudzbinuDTO(porudzbina);
+			
+			odobrenePorudzbine.add(porudbinaDTO);
+		}
+		
+		
+		return odobrenePorudzbine;
+	}
+	
+	public PorudbineDostavljacaDTO formirajPorudzbinuDTO(Porudzbina porudzbina) {
+		PorudbineDostavljacaDTO porudbinaDTO = new PorudbineDostavljacaDTO();
+		porudbinaDTO.id = porudzbina.getId();
+		porudbinaDTO.nazivRestorana = porudzbina.getNazivRestorana();
+		Restoran restoran = restoranServis.getRestoranByNaziv(porudzbina.getNazivRestorana());
+		porudbinaDTO.tipRestorana = restoran.getTipRestorana();
+		porudbinaDTO.lokacijaRestorana = restoran.getLokacija();
+		porudbinaDTO.datum = porudzbina.getDatum();
+		porudbinaDTO.vreme = porudzbina.getVreme();
+		porudbinaDTO.status = porudzbina.getStatus();
+		porudbinaDTO.cena = porudzbina.getCena();
+		porudbinaDTO.masaPorudzbine = porudzbina.racunajMasuPorudbine();
+		
+		porudbinaDTO.imePrezimeKupca = porudzbina.getImePrezimeKupca();
+		porudbinaDTO.kupac = porudzbina.getKupac();
+		porudbinaDTO.lokacijaKupca = null; 			// dodati lokaciju kupca??
+		
+		porudbinaDTO.brojKonkurencije = zahtevDostavljacaServis.getBrojKonkurencija(porudzbina.getId());
+		
+		return porudbinaDTO;
 	}
 	
 	public ArrayList<PorudbineDostavljacaDTO> getSlobodnePorudzbineZaDostavljacePretraga(Korisnik korisnik, PretragaPorudbinaDTO pretraga) {
@@ -340,6 +366,53 @@ public class PorudzbinaServis {
 			}
 		}
 		return slobodnePorudbinePretraga;
+	}
+	
+	
+	public ArrayList<PorudbineDostavljacaDTO> getOdobrenePorudzbineDostavljacaPretraga(Korisnik korisnik, PretragaPorudbinaDTO pretraga){
+		ArrayList<PorudbineDostavljacaDTO> odobrenePorudzbinePretraga = new ArrayList<PorudbineDostavljacaDTO>();
+		
+		for (PorudbineDostavljacaDTO porudzbinaDTO : getOdobrenePorudzbineDostavljaca(korisnik)) {
+			if(porudzbinaDTO.nazivRestorana.toLowerCase().contains(pretraga.nazivRestorana.toLowerCase())) {
+				if(pretraga.status.equals("SVE") || (!pretraga.status.equals("SVE") && porudzbinaDTO.status == StatusPorudzbine.valueOf(pretraga.status))) {
+					if(pretraga.cenaOd <= porudzbinaDTO.cena && pretraga.cenaDo >= porudzbinaDTO.cena) {
+						SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat sdformat2 = new SimpleDateFormat("dd/MM/yyyy");
+						Date datumOd = null, datumDo = null, datumPorudbine = null;
+						boolean parsiranjeOK = true;
+					    try {
+					    	datumOd = sdformat.parse(pretraga.datumOd);
+						} catch (ParseException e) {
+							parsiranjeOK = false;
+							e.printStackTrace();
+						}
+					    try {
+					    	datumDo = sdformat.parse(pretraga.datumDo);
+						} catch (ParseException e) {
+							parsiranjeOK = false;
+							e.printStackTrace();
+						}
+					    try {
+					    	datumPorudbine = sdformat2.parse(porudzbinaDTO.datum);
+						} catch (ParseException e) {
+							parsiranjeOK = false;
+							e.printStackTrace();
+						}
+						
+						System.out.println("OD:" + datumOd);
+						System.out.println("D:" + datumPorudbine);
+						System.out.println("DO:" + datumDo);
+						if(datumOd.before(datumPorudbine) && datumDo.after(datumPorudbine)) {
+							if(pretraga.tipRestorana.equals("SVE") || (!pretraga.tipRestorana.equals("SVE") && restoranServis.getRestoranByNaziv(porudzbinaDTO.nazivRestorana).getTipRestorana() == TipRestorana.valueOf(pretraga.tipRestorana))) {
+								odobrenePorudzbinePretraga.add(porudzbinaDTO);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return odobrenePorudzbinePretraga;
 	}
 	
 

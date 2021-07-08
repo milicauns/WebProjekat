@@ -253,7 +253,7 @@ public class Korisnik {
 				izmena = true;
 			} 
 		}
-		return false;
+		return izmena;
 	}
 	
 	
