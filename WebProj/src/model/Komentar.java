@@ -1,5 +1,7 @@
 package model;
 
+import enums.StatusKomentara;
+
 public class Komentar {
 	
 	private String porudzbina;
@@ -7,7 +9,9 @@ public class Komentar {
 	private String korisnik;
 	private String tekst;
 	private int ocena;
-	private boolean odobren;
+
+
+	private StatusKomentara status;
 	
 	
 	public Komentar(String porudzbina,String nazivRestorana, String korisnik, String tekst, int ocena) {
@@ -17,7 +21,7 @@ public class Komentar {
 		this.korisnik = korisnik;
 		this.tekst = tekst;
 		this.ocena = ocena;
-		this.setOdobren(false);
+		this.status = StatusKomentara.CEKA;
 	}
 
 
@@ -61,16 +65,6 @@ public class Komentar {
 	}
 
 
-	public boolean isOdobren() {
-		return odobren;
-	}
-
-
-	public void setOdobren(boolean odobren) {
-		this.odobren = odobren;
-	}
-
-
 	public String getPorudzbina() {
 		return porudzbina;
 	}
@@ -80,7 +74,18 @@ public class Komentar {
 		this.porudzbina = porudzbina;
 	}
 	
-	
+	public StatusKomentara getStatus() {
+		return status;
+	}
+
+
+	public void setStatus(StatusKomentara status) {
+		this.status = status;
+	}
+
+	public boolean isOdobren() {
+		return status == StatusKomentara.ODOBREN;
+	}
 	
 	
 

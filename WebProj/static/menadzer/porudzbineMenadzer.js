@@ -115,7 +115,7 @@ Vue.component("porudzbineMenadzer", {
 					  <div v-if="p.porudzbina.status =='DOSTAVLJENA'" name="komentar">
 						<label>Ocena: </label><label>{ocena}</label>
 						<br> <br>
-						<textarea disabled v-model="p.komentar" class="komentarInput" >dasdasdas</textarea>
+						<textarea disabled v-model="p.komentar.tekst" class="komentarInput" >dasdasdas</textarea>
 						<button class="potvrdanButtonMali" style="float: left; margin: 5px 0px 0px 10px" v-on:click="odobriKomentar(p)">Odobri</button>
 					    <button class="oprezanButtonMali" style="float: left; margin: 5px 0px 0px 10px" v-on:click="odbijKomentar(p)">Odbij</button>
                      </div>
@@ -235,9 +235,9 @@ Vue.component("porudzbineMenadzer", {
 			//alert('ULAZAK pripremiDTO');
 			for (let porudzbina of this.porudzbine) {
 				
-				let trazeniKomentar = null;
+				let trazeniKomentar = {};
 				for (let komentar of this.komentari) {
-					if (komentar.nazivRestorana == porudzbina.nazivRestorana) {
+					if (komentar.porudzbina == porudzbina.id) {
 						trazeniKomentar = komentar;
 						break;
 					}

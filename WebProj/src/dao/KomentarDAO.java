@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import enums.StatusKomentara;
 import model.Komentar;
 
 public class KomentarDAO {
@@ -75,26 +76,44 @@ public class KomentarDAO {
 	}
 
 
-	public void odobriKomentar(String idNarudzbine) {
-		for(Komentar k : komentari) {
-			if(k.getPorudzbina().equals(idNarudzbine)) {
-				k.setOdobren(true);
-				sacuvajKomentare();
-				return;
-			}
-		}		
+	public void odobriKomentar(String idPorudbine) {
+		Komentar komentar = getKomentarByIDPorudzbine(idPorudbine);
+		if(komentar != null) {
+			komentar.setStatus(StatusKomentara.ODOBREN);
+			sacuvajKomentare();
+		}	
+		
+	}
+	
+	public void odbijKomentar(String idPorudbine) {
+		Komentar komentar = getKomentarByIDPorudzbine(idPorudbine);
+		if(komentar != null) {
+			komentar.setStatus(StatusKomentara.ODBIJEN);
+			sacuvajKomentare();
+		}	
+		
 	}
 
 
-	public void obrisiKomentar(String id) {
-		for(Komentar k : komentari) {
-			if(k.getPorudzbina().equals(id)) {
-				komentari.remove(k);
-				sacuvajKomentare();
-				return;
-			}
+	public void obrisiKomentar(String idPorudbine) {
+		Komentar komentar = getKomentarByIDPorudzbine(idPorudbine);
+		if(komentar != null) {
+			komentari.remove(komentar);
+			sacuvajKomentare();
 		}	
 		
+	}
+
+	
+	public Komentar getKomentarByIDPorudzbine(String idPorudzbine) {
+		Komentar trazenKomentar = null;
+		for (Komentar komentar : komentari) {
+			if(komentar.getPorudzbina().equals(idPorudzbine)) {
+				trazenKomentar = komentar;
+				break;
+			}
+		}
+		return trazenKomentar;
 	}
 
 }

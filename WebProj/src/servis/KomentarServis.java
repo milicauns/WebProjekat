@@ -30,9 +30,28 @@ public class KomentarServis {
 		komentariDAO.dodajKomentar(k);
 	}
 	
-	public void dodajKomentar(KomentarDTO k) {
-		Komentar kom = new Komentar(k.porudzbina, k.nazivRestorana, k.korisnik, k.tekst, k.ocena);
-		komentariDAO.dodajKomentar(kom);
+	public Komentar getKomentarByIDPorudbine(String idPorudzbine) {
+		Komentar trazenKomentar = null;
+		for (Komentar komentar : komentariDAO.getKomentari()) {
+			if(komentar.getPorudzbina().equals(idPorudzbine)) {
+				trazenKomentar = komentar;
+				break;
+			}
+		}
+		return trazenKomentar;
+	}
+	
+	public String dodajKomentar(KomentarDTO k) {
+		String odgovor = "";
+		Komentar postojeciKomentar = getKomentarByIDPorudbine(k.porudzbina);
+		if(postojeciKomentar == null) {
+			Komentar kom = new Komentar(k.porudzbina, k.nazivRestorana, k.korisnik, k.tekst, k.ocena);
+			komentariDAO.dodajKomentar(kom);
+			odgovor = "OK";
+		}else {
+			odgovor = "Greska: pokusaj postavljanja dva puta komentara na istu porudbinu";
+		}
+		return odgovor;
 	}
 	
 	public ArrayList<Komentar> getOdobreniKomentariZaRestoran(String nazivRestorana){
@@ -68,11 +87,24 @@ public class KomentarServis {
 		komentariDAO.odobriKomentar(idNarudzbine);
 	}
 
-	public void obrisiKomentar(String id) {
-		komentariDAO.obrisiKomentar(id);
-		
+	public void obrisiKomentar(String idPorudbine) {
+		komentariDAO.obrisiKomentar(idPorudbine);	
+	}
+	
+	public void odbijKomentar(String idPorudbine) {
+		komentariDAO.odbijKomentar(idPorudbine);	
 	}
 
+	
+	public ArrayList<Komentar> getSviKomentariKupca(String korisnickoIme){
+		ArrayList<Komentar> komentariKupca = new ArrayList<Komentar>();
+		for (Komentar komentar : komentariDAO.getKomentari()) {
+			if(komentar.getKorisnik().equals(korisnickoIme)) {
+				komentariKupca.add(komentar);
+			}
+		}
+		return komentariKupca;
+	}
 
 	
 	

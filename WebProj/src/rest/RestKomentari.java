@@ -69,6 +69,13 @@ public class RestKomentari {
 		return "OK";
 		});
 		
+		put("rest/odbijKomentar", (req, res) ->{
+			
+			String id = g.fromJson(req.body(),String.class);			
+			komentarServis.odbijKomentar(id);
+			return "OK";
+			});
+		
 		post("rest/postaviKomentar", (req, res) ->{
 			String odgovor = "";
 			KomentarDTO komentar = g.fromJson(req.body(), KomentarDTO.class);
@@ -80,8 +87,10 @@ public class RestKomentari {
 				if(porucbina != null && porucbina.getNazivRestorana().equals(komentar.nazivRestorana)) {
 					if(porucbina.getStatus() == StatusPorudzbine.DOSTAVLJENA) {
 						if(komentar.ocena >= 1 && komentar.ocena <= 5) {
-							komentarServis.dodajKomentar(komentar);
-							odgovor = "OK: Komentar za poruzbinu " + porucbina.getId() + " ocena: " + komentar.ocena + " od kupca: " + korisnik.getKorisnickoIme() + " za restoran: " + komentar.nazivRestorana +  " je uspesno postavljen";
+							odgovor = komentarServis.dodajKomentar(komentar);
+							if(odgovor.equals("OK")) {
+								odgovor = "OK: Komentar za poruzbinu " + porucbina.getId() + " ocena: " + komentar.ocena + " od kupca: " + korisnik.getKorisnickoIme() + " za restoran: " + komentar.nazivRestorana +  " je uspesno postavljen";
+							}
 						}else {
 							odgovor = "Greska: ocena komentara nije u ispravnom opsegu";
 						}
@@ -101,6 +110,14 @@ public class RestKomentari {
 			}
 			
 			return odgovor;
+		});
+		
+		
+		get("rest/komentariKupca", (req, res) -> {
+			res.type("application/json");
+			res.status(200);		
+		    String korisnickoIme = req.queryParams("korisnickoIme");
+			return g.toJson(komentarServis.getSviKomentariKupca(korisnickoIme));
 		});
 		
 		
