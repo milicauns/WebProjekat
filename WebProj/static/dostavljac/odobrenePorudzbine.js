@@ -24,7 +24,7 @@ Vue.component("odobrenePorudzbine", {
     <div class="row">
 	<div class="leftcolumn">
 	   <div class="card">
-		  <h1>Slobodne Porudzbine</h1>
+		  <h1>Odobrene Porudzbine</h1>
 		  <div id="porudzbinaID">
 			 <div v-for="p in porudzbineDTO" class="porudbineDiv">
 				<div class="row">
@@ -77,7 +77,7 @@ Vue.component("odobrenePorudzbine", {
 					   </div>
 					 </div>
 					 
-                     <div style="float: left; width: 100%; text-align: left">
+                     <div v-if="p.status == 'U_TRANSPORTU'" style="float: left; width: 100%; text-align: left">
                         <br>
                         <label>Promeni status porudzbine</label><br>
                         <button class="potvrdanButton" v-on:click="setDostavljeno(p)">Dostavljeno</button> 

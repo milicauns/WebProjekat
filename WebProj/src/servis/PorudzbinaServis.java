@@ -287,17 +287,19 @@ public class PorudzbinaServis {
 	public ArrayList<PorudbineDostavljacaDTO> getOdobrenePorudzbineDostavljaca(Korisnik dostavljac){
 		ArrayList<PorudbineDostavljacaDTO> odobrenePorudzbine = new ArrayList<PorudbineDostavljacaDTO>();
 		
-		for (Porudzbina porudzbina : getPorudzbineZaStatus(StatusPorudzbine.U_TRANSPORTU)) {
+		for (Porudzbina porudzbina : porudzbinaDAO.getPorudzbine()) {
 			
-			ZahtevDostavljaca zahtev = zahtevDostavljacaServis.getZahtevByDostavljacANDidPorudzbine(dostavljac.getKorisnickoIme(), porudzbina.getId());
-			
-			// ako nepostoji zahtev za ovu porudzbinu od ovog dostavljaca onda necemo prikazivati je
-			if(zahtev == null || zahtev.getStatus() != StatusZahteva.ODOBREN) 
-				continue;
-			
-			PorudbineDostavljacaDTO porudbinaDTO = formirajPorudzbinuDTO(porudzbina);
-			
-			odobrenePorudzbine.add(porudbinaDTO);
+			if(porudzbina.getStatus() == StatusPorudzbine.U_TRANSPORTU || porudzbina.getStatus() == StatusPorudzbine.DOSTAVLJENA) {
+				ZahtevDostavljaca zahtev = zahtevDostavljacaServis.getZahtevByDostavljacANDidPorudzbine(dostavljac.getKorisnickoIme(), porudzbina.getId());
+				
+				// ako nepostoji zahtev za ovu porudzbinu od ovog dostavljaca onda necemo prikazivati je
+				if(zahtev == null || zahtev.getStatus() != StatusZahteva.ODOBREN) 
+					continue;
+				
+				PorudbineDostavljacaDTO porudbinaDTO = formirajPorudzbinuDTO(porudzbina);
+				
+				odobrenePorudzbine.add(porudbinaDTO);
+			}
 		}
 		
 		
