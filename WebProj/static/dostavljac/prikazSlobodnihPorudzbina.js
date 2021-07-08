@@ -75,7 +75,7 @@ Vue.component("prikazSlobodnihPorudzbina", {
                      <div style="float: left; width: 100%; text-align: left">
                         <br>
                         <label> Broj poslatih zahteva od strane drugih dostavljaca {{p.brojKonkurencije}}</label><br>
-                        <button class="potvrdanButton">Posalji zahtev</button> 
+                        <button class="potvrdanButton" v-on:click="posaljiZahtev(p)">Posalji zahtev</button> 
                      </div>
 				  
 				  </div>
@@ -181,7 +181,15 @@ Vue.component("prikazSlobodnihPorudzbina", {
 			return false;
         },
         posaljiZahtev: function (p) {
-            
+            axios.post('rest/posaljiZahtev/', {idPorudzbine: p.id, nazivRestorana: p.nazivRestorana, dostavljac: this.dostavljac.korisnickoIme}).then(response => {
+                if (response.data == 'OK') {
+                    alert('Uspesno ste poslali zahtev');
+                    const indexOfPorudzbina = this.porudzbineDTO.indexOf(p);
+					this.porudzbineDTO.splice(indexOfPorudzbina, 1);
+                } else {
+                    alert(response.data);
+                }
+            }).catch(function (error) { alert('Greska sa serverom'); });
         },
 		sortiraj: function () {
 			if (this.sortType == 'StatusRastuce') {

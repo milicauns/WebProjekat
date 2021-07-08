@@ -38,16 +38,27 @@ public class RestZahteviDostavljaca {
 		this.komentarServis = komentarServis;
 		g = new Gson();
 		
-		post("rest/dodajZahtev/", (req, res) -> {
+		post("rest/posaljiZahtev/", (req, res) -> {
 			res.type("application/json");
 			res.status(200);
 			
 			Session ss = req.session(true);
 			Korisnik korisnik = ss.attribute("korisnik");			
 			ParametriZahtevaDTO zahtevInfo = g.fromJson(req.body(),ParametriZahtevaDTO.class);	
+			
+			String odgovor = "";
+			if(korisnik == null || !korisnik.getKorisnickoIme().equals(zahtevInfo.dostavljac)) {
+				odgovor = "Greska: korisnik se ne pokapa";
+				System.out.println(odgovor);
+				return odgovor;
+			}
 				
-			zahtevDostavljacaServis.dodajZahtev(zahtevInfo.idPorudzbine,zahtevInfo.nazivRestorana,korisnik.getKorisnickoIme());
-			return "OK";
+			odgovor = zahtevDostavljacaServis.dodajZahtev(zahtevInfo.idPorudzbine,zahtevInfo.nazivRestorana,korisnik.getKorisnickoIme());
+			System.out.println(odgovor);
+			if(odgovor.startsWith("OK:")) {
+				odgovor = "OK";
+			}
+			return odgovor;
 		});
 		
 		put("rest/promeniStatusZahteva/", (req, res) -> {

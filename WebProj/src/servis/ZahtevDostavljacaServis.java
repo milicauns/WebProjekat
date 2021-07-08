@@ -35,8 +35,16 @@ public class ZahtevDostavljacaServis {
 		return zahteviRestorana;
 	}
 	
-	public void dodajZahtev(String idPorudzbine,String nazivRestorana,String dostavljac) {		
-		zahtevDAO.dodajZahtev(new ZahtevDostavljaca(nazivRestorana,idPorudzbine,dostavljac));
+	public String dodajZahtev(String idPorudzbine,String nazivRestorana,String dostavljac) {	
+		String odgovor = "";
+		ZahtevDostavljaca zahtev = getZahtevByDostavljacANDidPorudzbine(dostavljac, idPorudzbine);
+		if(zahtev == null) {
+			zahtevDAO.dodajZahtev(new ZahtevDostavljaca(nazivRestorana,idPorudzbine,dostavljac));
+			odgovor = "OK: zahtev dostavljaca je uspesno dodat";
+		}else {
+			odgovor = "Greska: zahtev dostavljaca NIJE uspesno dodat";
+		}
+		return odgovor;
 	}
 
 	public String promeniStatusZahteva(String idPorudzbine, String dostavljac, StatusZahteva status) {	
