@@ -26,6 +26,7 @@ public class PretragaPorudbinaDTO {
 		if(datumDo != null && datumDo.isBlank()) datumDo = "2900-01-01";
 		if(tipRestorana != null && tipRestorana.isBlank()) tipRestorana = "SVE";
 		if(status != null && status.isBlank()) status = "SVE";
+		if(cenaOd == 0 && cenaOd == 0) cenaDo = 10000000;
 	}
 	
 	

@@ -245,7 +245,7 @@ Vue.component("porudzbineMenadzer", {
 
 				let zahteviPorudzbine = [];
 				for (let itZahtev of this.zahtevi) {
-					if (itZahtev.nazivRestorana == porudzbina.nazivRestorana) {
+					if (itZahtev.nazivRestorana == porudzbina.nazivRestorana && itZahtev.idNarudzbine == porudzbina.id) {
 						zahteviPorudzbine.push(itZahtev);
 					}
 				}

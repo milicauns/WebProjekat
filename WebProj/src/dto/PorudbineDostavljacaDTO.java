@@ -1,12 +1,14 @@
 package dto;
 
 import enums.StatusPorudzbine;
+import enums.TipRestorana;
 import model.Lokacija;
 
 public class PorudbineDostavljacaDTO {
 	
 	public String id;
 	public String nazivRestorana;
+	public TipRestorana tipRestorana;
 	public Lokacija lokacijaRestorana;
 	public String datum;
 	public String vreme;

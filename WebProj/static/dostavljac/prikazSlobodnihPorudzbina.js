@@ -31,6 +31,10 @@ Vue.component("prikazSlobodnihPorudzbina", {
 					 <div style="float: left; width: 30%;">
 					  <h4>{{p.nazivRestorana}} ID:{{p.id}}</h4>
 					  <table>
+                        <tr>
+                            <td>Tip restorana:</td>
+                            <td>{{p.tipRestorana}}</td>
+                        </tr>
 						 <tr>
 							<td>Datum:</td>
 							<td>{{p.datum}}</td>
@@ -53,7 +57,7 @@ Vue.component("prikazSlobodnihPorudzbina", {
 						 </tr>
                          <tr>
 							<td>Masa porudzbine: </td>
-							<td>{{p.masaPorudzbine}}</td>
+							<td>{{p.masaPorudzbine/1000}} Kg</td>
 						 </tr>
                          <tr>
 							<td>Adresa restorana: </td>
@@ -166,7 +170,11 @@ Vue.component("prikazSlobodnihPorudzbina", {
 
 		},
         pretragaPorudzbina: function () {
-
+            axios.get('rest/slobodnePorudzbinePretraga', {
+				params: this.pretraga
+			}).then(response => {
+				this.porudzbineDTO = response.data;
+			});
 			
 		},
 		setujStatusBar: function (p, id) {

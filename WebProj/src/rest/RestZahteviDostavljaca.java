@@ -87,5 +87,6 @@ public class RestZahteviDostavljaca {
 			return g.toJson(zahtevDostavljacaServis.getZahteviZaRestoran(korisnik.getNazivRestorana()));
 		});
 		
+		
 	}
 }

@@ -279,6 +279,7 @@ public class PorudzbinaServis {
 			porudbinaDTO.id = porudzbina.getId();
 			porudbinaDTO.nazivRestorana = porudzbina.getNazivRestorana();
 			Restoran restoran = restoranServis.getRestoranByNaziv(porudzbina.getNazivRestorana());
+			porudbinaDTO.tipRestorana = restoran.getTipRestorana();
 			porudbinaDTO.lokacijaRestorana = restoran.getLokacija();
 			porudbinaDTO.datum = porudzbina.getDatum();
 			porudbinaDTO.vreme = porudzbina.getVreme();
@@ -299,6 +300,47 @@ public class PorudzbinaServis {
 		return slobodnePorudbine;
 	}
 	
+	public ArrayList<PorudbineDostavljacaDTO> getSlobodnePorudzbineZaDostavljacePretraga(Korisnik korisnik, PretragaPorudbinaDTO pretraga) {
+		ArrayList<PorudbineDostavljacaDTO> slobodnePorudbinePretraga = new ArrayList<PorudbineDostavljacaDTO>();
+		for (PorudbineDostavljacaDTO porudzbinaDTO : getSlobodnePorudzbineZaDostavljace(korisnik)) {
+			if(porudzbinaDTO.nazivRestorana.toLowerCase().contains(pretraga.nazivRestorana.toLowerCase())) {
+				if(pretraga.cenaOd <= porudzbinaDTO.cena && pretraga.cenaDo >= porudzbinaDTO.cena) {
+					SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+					SimpleDateFormat sdformat2 = new SimpleDateFormat("dd/MM/yyyy");
+					Date datumOd = null, datumDo = null, datumPorudbine = null;
+					boolean parsiranjeOK = true;
+				    try {
+				    	datumOd = sdformat.parse(pretraga.datumOd);
+					} catch (ParseException e) {
+						parsiranjeOK = false;
+						e.printStackTrace();
+					}
+				    try {
+				    	datumDo = sdformat.parse(pretraga.datumDo);
+					} catch (ParseException e) {
+						parsiranjeOK = false;
+						e.printStackTrace();
+					}
+				    try {
+				    	datumPorudbine = sdformat2.parse(porudzbinaDTO.datum);
+					} catch (ParseException e) {
+						parsiranjeOK = false;
+						e.printStackTrace();
+					}
+					
+					System.out.println("OD:" + datumOd);
+					System.out.println("D:" + datumPorudbine);
+					System.out.println("DO:" + datumDo);
+					if(datumOd.before(datumPorudbine) && datumDo.after(datumPorudbine)) {
+						if(pretraga.tipRestorana.equals("SVE") || (!pretraga.tipRestorana.equals("SVE") && restoranServis.getRestoranByNaziv(porudzbinaDTO.nazivRestorana).getTipRestorana() == TipRestorana.valueOf(pretraga.tipRestorana))) {
+							slobodnePorudbinePretraga.add(porudzbinaDTO);
+						}
+					}
+				}
+			}
+		}
+		return slobodnePorudbinePretraga;
+	}
 	
 
 
