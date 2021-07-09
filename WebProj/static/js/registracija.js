@@ -60,7 +60,7 @@ Vue.component("registracija", {
             <br>
             <button class="buttonLogin" v-on:click="Registracija">Registruj se</button>
             <div v-if="validInfo.poljaPrazna != 'OK'"> <br>
-               <label>{{validInfo.poljaPrazna}}</label>
+               <label style="color: red;">{{validInfo.poljaPrazna}}</label>
             </div>
             <br>
             <br>
@@ -149,19 +149,18 @@ Vue.component("registracija", {
             return false;
          }
         
-         if (this.ime == '') this.validInfo.poljaPrazna = 'Ime ne moze biti prazno';
+         if (this.ime == '') { this.validInfo.poljaPrazna = 'Ime ne moze biti prazno'; return;}
        
-         if (this.prezime == '') this.validInfo.poljaPrazna = 'Prezime ne moze biti prazno';
+         if (this.prezime == '') {this.validInfo.poljaPrazna = 'Prezime ne moze biti prazno'; return;}
          
-         if (this.pol == '') this.validInfo.poljaPrazna = 'Niste odabrali pol';
+         if (this.pol == '') {this.validInfo.poljaPrazna = 'Niste odabrali pol'; return;}
          
-         if (this.datumRodjenja == '') this.validInfo.poljaPrazna = 'Niste uneli Datum rodjenja';
+         if (this.datumRodjenja == '') {this.validInfo.poljaPrazna = 'Niste uneli Datum rodjenja'; return;}
          
-         if (this.lozinka == '') this.validInfo.poljaPrazna = 'Niste uneli lozinku';
+         if (this.lozinka == '') {this.validInfo.poljaPrazna = 'Niste uneli lozinku'; return;}
          
-         if (this.lozinka != this.ponovljenaLozinka) this.validInfo.poljaPrazna = 'lozinke se ne poklapaju';
+         if (this.lozinka != this.ponovljenaLozinka) {this.validInfo.poljaPrazna = 'lozinke se ne poklapaju'; return;}
 
-         if (this.validInfo.poljaPrazna != 'OK') return false;
          
          axios.post('rest/korisnickoImePostoji', this.korisnickoIme).
             then(response => {
