@@ -54,12 +54,12 @@ Vue.component("registracijaRestorana", {
 			 </select>
 			 <br>		 
 			 <label style="display:inline-block; width: 200px; text-align: left;">Dodjeli menadzera:</label>
-			 <select v-if="menadzer == 'nema'" v-model="menadzer" id="deptList"  style="width:300px">
+			 <select v-model="menadzer" id="deptList"  style="width:300px">
 				<option v-for="m in raspoloziviMenadzeri" v-bind:value="m.korisnickoIme">
 				   {{m.korisnickoIme}}
 				</option>
 			 </select>
-			 <label v-else>{{ime}} {{prezime}}</label>
+			 <!-- <label v-else>{{ime}} {{prezime}}</label> -->
 			 <button v-if="menadzer == 'nema'" v-on:click="NoviMenadzer()">Registruj novog menadzera</button>
 			 
 			 <br>
@@ -92,7 +92,7 @@ Vue.component("registracijaRestorana", {
 				<br>
 			 </div>
 			 <div id="button" align ="center">
-				<button class="buttonLogin" v-on:click="NoviRestoran">Dodaj</button>
+				<button class="buttonLogin" v-on:click="registrujRestoran">Dodaj</button>
 			 </div>
 		  </div>
 	   </div>
@@ -121,7 +121,7 @@ Vue.component("registracijaRestorana", {
 			 <br>
 			 <input placeholder="Potvrdi lozinku" class="inputKredencijali" type="password" v-model="ponovljenaLozinka" style="width:200px"/>
 			 <br><br><br>
-			 <button class="buttonLogin" v-on:click="Registracija" style="width:200px">Potvrdi</button>
+			 <button class="buttonLogin" v-on:click="registrujMenadzera" style="width:200px">Potvrdi</button>
 		  </div>
 	   </div>
 	</div>
@@ -254,6 +254,86 @@ Vue.component("registracijaRestorana", {
 			   return true;
 			});
 
+		},
+		registrujMenadzera: function () {
+
+			if(this.korisnickoIme == '') return false;
+			if(this.ime == '') return false;
+			if(this.prezime == '') return false;
+			if(this.lozinka == '') return false;
+			if(this.pol == '') return false;
+			if(this.datumRodjenja == '') return false;
+			if(this.lozinka != this.ponovljenaLozinka) return false;
+
+			axios.post('rest/korisnickoImePostoji',this.korisnickoIme).
+			then(response => {
+			   alert(response.data);
+				if (response.data == 'true') return false;
+				
+				axios.post('rest/registracijaMenadzer/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
+				.then(response => {
+					if (response.data == 'OK') {
+						alert('Registracija uspesna');
+						this.potrebanMenadzer = false;
+						this.menadzer = this.korisnickoIme;
+					}
+				}).catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
+			   
+			   
+			});        
+		},
+		registrujRestoran: function () {
+
+			
+
+			if(this.naziv == '') return false;
+			if(this.tip == '') return false;
+			if(this.status == '') return false;
+
+			/*
+			if( $('#form-geografskaSirina').val() == '') return false;
+			if( $('#form-geografskaDuzina').val() == '') return false;
+			if( $('#form-ulica').val() == '') return false;
+			//if(this.broj == '') return false;
+			if ($('#form-mesto').val() == '') return false;
+			if($('#form-zip').val() == '') return false;
+			*/
+			if(this.slikaFile == '') return false;
+			if (this.menadzer == 'nema') return false;
+
+			
+			//alert('NAZIV RESTORANA:' + this.naziv);
+
+			axios.get('rest/imeRestoranaPostoji', {params:{nazivRestorana: this.naziv}})
+				.then(response => {
+					//alert(response.data);
+					
+					if (response.data == 'true') {
+						alert('Naziv restorana je zauzet');
+						return false;
+					}
+
+
+					
+					axios.post('rest/registracijaRestoran/', {
+						"naziv": this.naziv,
+						"tip": this.tip,
+						"status": this.status,
+						"geografskaSirina": $('#form-geografskaSirina').val(),
+						"geografskaDuzina": $('#form-geografskaDuzina').val(),
+						"ulica": $('#form-ulica').val(),
+						"broj": this.broj,
+						"mesto": $('#form-mesto').val(),
+						"postanskiBroj": $('#form-zip').val(),
+						"logo": '',
+						"menadzer": this.menadzer,
+						"slikaFile": this.slikaFile
+					})
+						.then(response => { alert('Registracija uspesna') })
+						.catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI RESTORANA') });
+			   
+			   
+				}).catch(function (error) { alert('GRESKA SA SERVEROM'); });
 		}
 
 	}

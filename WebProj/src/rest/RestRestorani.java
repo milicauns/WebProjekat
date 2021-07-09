@@ -87,9 +87,11 @@ public class RestRestorani {
 			return g.toJson(trazenRestoran);
 		});
 			
-		post("rest/imeRestoranaPostoji", (req, res) -> {
+		get("rest/imeRestoranaPostoji", (req, res) -> {
 			res.type("application/json");
-			String naziv = g.fromJson(req.body(), String.class);
+			
+			String naziv = req.queryParams("nazivRestorana");
+			System.out.println(naziv);
 			res.status(200);
 			if(restoranServis.getRestoranByNaziv(naziv) == null) return false;
 			else return true;
