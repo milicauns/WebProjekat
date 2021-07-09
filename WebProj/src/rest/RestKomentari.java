@@ -72,6 +72,7 @@ public class RestKomentari {
 		put("rest/odbijKomentar", (req, res) ->{
 			
 			String id = g.fromJson(req.body(),String.class);			
+			System.out.println("stigo nam " + id);
 			komentarServis.odbijKomentar(id);
 			return "OK";
 			});

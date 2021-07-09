@@ -94,7 +94,8 @@ Vue.component("porudzbineKupac", {
 						  <option value="3">3 - dobro</option>
 						  <option value="4">4 - vrlo dobro</option>
 						  <option value="5">5 - odlicno</option>
-						</select>
+						</select> <br>
+						<div v-if="porucDTO.komentar.status != 'FRONT'">Status komentara: {{porucDTO.komentar.status}}</div>
 						<br> <br>
 						<textarea :disabled="porucDTO.komentar.status != 'FRONT'" v-model="porucDTO.komentar.tekst" v-bind:id="porucDTO.porudzbina.id+'TA'" class="komentarInput" ></textarea>
 						<button v-if="porucDTO.komentar.status == 'FRONT'" style="float: right; margin: 5px 0px 0px 10px" v-on:click="posaljiKomentar(porucDTO)">Postavi</button>

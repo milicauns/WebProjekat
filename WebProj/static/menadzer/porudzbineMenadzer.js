@@ -112,13 +112,14 @@ Vue.component("porudzbineMenadzer", {
                      </div>
 					  
 					 
-					  <div v-if="p.porudzbina.status =='DOSTAVLJENA'" name="komentar">
-						<label>Ocena: </label><label>{ocena}</label>
+					  <div v-if="p.porudzbina.status =='DOSTAVLJENA' && p.komentar.status != undefined" name="komentar">
+						<label>Ocena: </label><label>{{p.komentar.ocena}}</label> <br>
+						<label>Status komentara: {{p.komentar.status}}</label>
 						<br> <br>
 						<textarea disabled v-model="p.komentar.tekst" class="komentarInput" >dasdasdas</textarea>
-						<button class="potvrdanButtonMali" style="float: left; margin: 5px 0px 0px 10px" v-on:click="odobriKomentar(p)">Odobri</button>
-					    <button class="oprezanButtonMali" style="float: left; margin: 5px 0px 0px 10px" v-on:click="odbijKomentar(p)">Odbij</button>
-                     </div>
+						<button v-if="p.komentar.status == 'CEKA'" class="potvrdanButtonMali" style="float: left; margin: 5px 0px 0px 10px" v-on:click="odobriKomentar(p)">Odobri</button>
+					    <button v-if="p.komentar.status == 'CEKA'" class="oprezanButtonMali" style="float: left; margin: 5px 0px 0px 10px" v-on:click="odbijKomentar(p)">Odbij</button>
+					</div>
 				  
 				  </div>
 				</div>
@@ -301,10 +302,20 @@ Vue.component("porudzbineMenadzer", {
 			
 		},
 		odbijKomentar: function (p) {
-			
+			let idPorudzbine = p.komentar.porudzbina;
+			axios.put('rest/odbijKomentar', idPorudzbine).then(response => {
+				if (response.data == 'OK') {
+					p.komentar.status = 'ODBIJEN';
+				}
+			}).catch(function (error) { alert('GRESKA SA SERVEROM');});
 		},
 		odobriKomentar: function (p) {
-			
+			let idPorudzbine = p.komentar.porudzbina;
+			axios.put('rest/odobriKomentar', idPorudzbine).then(response => {
+				if (response.data == 'OK') {
+					p.komentar.status = 'ODOBREN';
+				}
+			}).catch(function (error) { alert('GRESKA SA SERVEROM');});
 		},
 		prihvatiDostavljaca: function (p, d) {
 

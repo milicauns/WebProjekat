@@ -76,13 +76,13 @@ public class KomentarDAO {
 	}
 
 
-	public void odobriKomentar(String idPorudbine) {
+	public Komentar odobriKomentar(String idPorudbine) {
 		Komentar komentar = getKomentarByIDPorudzbine(idPorudbine);
 		if(komentar != null) {
 			komentar.setStatus(StatusKomentara.ODOBREN);
 			sacuvajKomentare();
 		}	
-		
+		return komentar;
 	}
 	
 	public void odbijKomentar(String idPorudbine) {

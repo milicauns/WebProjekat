@@ -1,10 +1,12 @@
 package servis;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import dao.KomentarDAO;
 import dto.KomentarDTO;
 import model.Komentar;
+import model.Restoran;
 
 public class KomentarServis {
 	
@@ -84,7 +86,22 @@ public class KomentarServis {
 	}
 	
 	public void odobriKomentar(String idNarudzbine) {
-		komentariDAO.odobriKomentar(idNarudzbine);
+		Komentar komentar = komentariDAO.odobriKomentar(idNarudzbine);
+		if(komentar != null) {
+			// sada je komentar odobren ajde da izracunamo ocenu restorana
+			Restoran restoran = restoranServis.getRestoranByNaziv(komentar.getNazivRestorana());
+			if(restoran != null) {
+				double suma = 0;
+				int brojKomentara = 0;
+				for (Komentar kom : getOdobreniKomentariZaRestoran(restoran.getNaziv())) {
+					suma += kom.getOcena();
+					brojKomentara++;
+				}
+				double novaProsecnaOcena = suma / brojKomentara;
+				restoran.setProsecnaOcena(novaProsecnaOcena);
+				restoranServis.sacuvajRestorane();
+			}
+		}
 	}
 
 	public void obrisiKomentar(String idPorudbine) {
