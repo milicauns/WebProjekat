@@ -125,9 +125,7 @@ Vue.component("registracija", {
             if(this.datumRodjenja == '') return false;
             if(this.lozinka != this.ponovljenaLozinka) return false;
             return true;
-         });
-
-         
+         });        
         }
 		
 	},

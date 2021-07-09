@@ -4,11 +4,11 @@ Vue.component("registracijaRestorana", {
 			placesAutocomplete:null,
 			raspoloziviMenadzeri: null,
 			menadzer: "nema",
-			naziv: "",
-			tip: "",
-			lokacija: "",
-			logo: "",
-			status: "",
+			naziv: '',
+			tip: '',
+			lokacija: '',
+			logo: '',
+			status: '',
 			slikaFile: '',
 			mesto: '',
 			postanskiBroj:'',
@@ -165,24 +165,29 @@ Vue.component("registracijaRestorana", {
 	},
 	methods: {
 		NoviRestoran: function () {
-										
-			axios.post('rest/registracijaRestoran/', {
-			"naziv": this.naziv,
-			"tip": this.tip,
-			"status": this.status,
-			"geografskaSirina": $('#form-geografskaSirina').val(),
-			"geografskaDuzina": $('#form-geografskaDuzina').val(),
-			"ulica": $('#form-ulica').val(),
-			"broj": this.broj,
-			"mesto": $('#form-mesto').val(),
-			"postanskiBroj": $('#form-zip').val(),
-			"logo": '',
-			"menadzer": this.menadzer,
-			"slikaFile": this.slikaFile
-		})
-				.then(response => { alert('uspesno ' + response.data.naziv) })
-				.catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI') });
-		},
+			
+			if(this.RestoranRegistracijaValidna()){
+
+				axios.post('rest/registracijaRestoran/', {
+					"naziv": this.naziv,
+					"tip": this.tip,
+					"status": this.status,
+					"geografskaSirina": $('#form-geografskaSirina').val(),
+					"geografskaDuzina": $('#form-geografskaDuzina').val(),
+					"ulica": $('#form-ulica').val(),
+					"broj": this.broj,
+					"mesto": $('#form-mesto').val(),
+					"postanskiBroj": $('#form-zip').val(),
+					"logo": '',
+					"menadzer": this.menadzer,
+					"slikaFile": this.slikaFile
+				})
+				.then(response => { alert('Registracija uspesna') })
+				.catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI') });				
+			}else{
+				alert('Neispravno uneseni podaci');
+			}
+			},
 		promenaFajla: function (e) {
             const file = e.target.files[0];
             this.napraviBase64Image(file);
@@ -200,14 +205,54 @@ Vue.component("registracijaRestorana", {
 		},
 		Registracija: function () {
            
+			if(!this.MenadzerRegistracijaValidna()){
+				alert('Nepravilno unesena polja');
+				return;
+			}
 			axios.post('rest/registracijaMenadzer/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
 			.then(response => {
-				alert('uspesno '+response.data.korisnickoIme);
+				alert('Registracija uspesna');
 				this.potrebanMenadzer = false;
 				this.menadzer = this.korisnickoIme;
 
 			})
 			.catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
+
+		},MenadzerRegistracijaValidna: function(){       
+			axios.post('rest/korisnickoImePostoji',this.korisnickoIme).
+			then(response => {
+			   alert(response.data);
+			   if(response.data == 'true') return false;
+			   if(this.korisnickoIme == '') return false;
+			   if(this.ime == '') return false;
+			   if(this.prezime == '') return false;
+			   if(this.lozinka == '') return false;
+			   if(this.pol == '') return false;
+			   if(this.datumRodjenja == '') return false;
+			   if(this.lozinka != this.ponovljenaLozinka) return false;
+			   return true;
+			});        
+		},RestoranRegistracijaValidna: function(){
+
+			axios.post('rest/imeRestoranaPostoji',this.naziv).
+			then(response => {
+			   alert(response.data);
+			   if(response.data == 'true') return false;
+
+			   if(this.naziv == '') return false;
+			   if(this.tip == '') return false;
+			   if(this.status == '') return false;
+
+			   if( $('#form-geografskaSirina').val() == '') return false;
+			   if( $('#form-geografskaDuzina').val() == '') return false;
+			   if( $('#form-ulica').val() == '') return false;
+			   if(this.broj == '') return false;
+			   if($('#form-mesto').val() == '') return false;
+			   if($('#form-zip').val() == '') return false;
+			   if(this.slikaFile == '') return false;
+			   if (this.menadzer == 'nema') return false;
+			   return true;
+			});
 
 		}
 
