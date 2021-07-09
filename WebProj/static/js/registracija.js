@@ -9,9 +9,14 @@ Vue.component("registracija", {
             pol: '',
             datumRodjenja: '',		
             tipKorisnika: "KUPAC",
-            ulogovaniKorisnik: null
+            ulogovaniKorisnik: null,
+
+            validInfo: {
+               korisnickoIme: 'OK',
+               poljaPrazna: 'OK'
+            }
 							
-			    }
+			}
 	},
 	template:`
 	
@@ -23,6 +28,9 @@ Vue.component("registracija", {
             <h1>Registracija</h1>
             <br>
             <input placeholder="Korisnicko ime" class="inputKredencijali" type="text" v-model="korisnickoIme"/>
+            <div v-if="validInfo.korisnickoIme!='OK'"><br>
+            <label style="color: red;">{{validInfo.korisnickoIme}}</label>
+            </div>
             <br>
             <input placeholder="Ime" class="inputKredencijali" type="text" v-model="ime"/>
             <br> 
@@ -51,6 +59,9 @@ Vue.component("registracija", {
             <br>
             <br>
             <button class="buttonLogin" v-on:click="Registracija">Registruj se</button>
+            <div v-if="validInfo.poljaPrazna != 'OK'"> <br>
+               <label>{{validInfo.poljaPrazna}}</label>
+            </div>
             <br>
             <br>
             <br>
@@ -62,6 +73,7 @@ Vue.component("registracija", {
          </div>
       </div>
    </div>
+</div>
 </div>
 		
 `
@@ -84,11 +96,11 @@ Vue.component("registracija", {
 		
 	}, 
 	methods : {	
-	      Registracija: function () {
+         PoljaValidna: function () {
 	        
-         alert(this.PoljaValidna());
-         
-         if(this.PoljaValidna()){
+         //alert(this.PoljaValidna());
+
+            alert('ULAZIMO ');
 
 	        if(this.tipKorisnika === "KUPAC"){
         
@@ -125,25 +137,45 @@ Vue.component("registracija", {
            
            
            }
-         }else{
-            alert('Nepravilno uneseni podaci');
+         
+      },
+      Registracija: function () {
+         
+         this.validInfo.korisnickoIme = 'OK';
+         this.validInfo.poljaPrazna = 'OK';
+         
+         if (this.korisnickoIme == '') {
+            this.validInfo.korisnickoIme = 'Morate uneti Korisnicko ime';
+            return false;
          }
-        },PoljaValidna: function(){       
-         axios.post('rest/korisnickoImePostoji',this.korisnickoIme).
-         then(response => {
-            alert(response.data);
-            if(response.data == 'true') return false;
-            if(this.korisnickoIme == '') return false;
-            if(this.ime == '') return false;
-            if(this.prezime == '') return false;
-            if(this.pol == '') return false;
-            if(this.datumRodjenja == '') return false;
-            if(this.lozinka == '') return false;
-            if(this.lozinka != this.ponovljenaLozinka) return false;
+        
+         if (this.ime == '') this.validInfo.poljaPrazna = 'Ime ne moze biti prazno';
+       
+         if (this.prezime == '') this.validInfo.poljaPrazna = 'Prezime ne moze biti prazno';
+         
+         if (this.pol == '') this.validInfo.poljaPrazna = 'Niste odabrali pol';
+         
+         if (this.datumRodjenja == '') this.validInfo.poljaPrazna = 'Niste uneli Datum rodjenja';
+         
+         if (this.lozinka == '') this.validInfo.poljaPrazna = 'Niste uneli lozinku';
+         
+         if (this.lozinka != this.ponovljenaLozinka) this.validInfo.poljaPrazna = 'lozinke se ne poklapaju';
 
-            alert('validacija dobra, nije naisao na false');
-            return true;
-         });        
+         if (this.validInfo.poljaPrazna != 'OK') return false;
+         
+         axios.post('rest/korisnickoImePostoji', this.korisnickoIme).
+            then(response => {
+               let nijeJedinstvenoKorisnickoIme = response.data;
+               if (nijeJedinstvenoKorisnickoIme) {
+                  this.validInfo.korisnickoIme = 'Korisnicko ime vec postoji';
+                  return;
+               }
+               else {
+                  this.PoljaValidna();   
+               }
+               
+
+            }).catch(function (error) { alert('GRSKA SA SERVEROM')});
         }
 		
 	},
