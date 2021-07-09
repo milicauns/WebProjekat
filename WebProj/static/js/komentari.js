@@ -19,13 +19,13 @@ Vue.component("komentari", {
 				</div>
 				<div class="sredinacolumn">
 		  			<table style="max-width:600px; word-wrap:break-word;">
-					  	<tr v-if="komentar.odobren == false">
-						  <td><label>NIJE ODOBREN!</label></td>
+					  	<tr>
+						  <td><label>Status Komentara: {{komentar.status}}</label></td>
 						</tr>
 						<tr><td>{{komentar.tekst}}</td></tr>
 						
-						<tr v-if="ulogovaniKorisnik.uloga=='MENADZER' && komentar.odobren == false"><td><button class="potvrdanButton" v-on:click="odobriKomentar(komentar)">ODOBRI</button>
-						<button class="oprezanButton" v-on:click="odbijKomentar(komentar)">ODBIJ</button></td></tr>
+						<tr v-if="ulogovaniKorisnik.uloga=='MENADZER' && komentar.status == 'CEKA'"><td><button class="potvrdanButtonMali" v-on:click="odobriKomentar(komentar)">ODOBRI</button>
+						<button class="oprezanButtonMali" v-on:click="odbijKomentar(komentar)">ODBIJ</button></td></tr>
 						
 		  			</table>
 				</div>
@@ -93,15 +93,18 @@ Vue.component("komentari", {
 		odobriKomentar: function (komentar) {
 			axios.put('rest/odobriKomentar',komentar.porudzbina)
 			.then(response => {
-				komentar.odobren = true;
+				if (response.data == 'OK') {
+					komentar.status = 'ODOBREN';
+				}
 			});
 
 		},
 		odbijKomentar: function(komentar){
-			axios.put('rest/obrisiKomentar',komentar.porudzbina)
+			axios.put('rest/odbijKomentar',komentar.porudzbina)
 			.then(response => {
-				const indexKomentara = this.komentariOdabranogRestorana.indexOf(komentar);
-				this.komentariOdabranogRestorana.splice(indexKomentara, 1);
+				if (response.data == 'OK') {
+					komentar.status = 'ODBIJEN';
+				}
 			  });
 
 		},prikaziRestoranMenadzera: function(nazivRestorana){
