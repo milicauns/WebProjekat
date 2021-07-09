@@ -120,6 +120,13 @@ public class RestKomentari {
 			return g.toJson(komentarServis.getSviKomentariKupca(korisnickoIme));
 		});
 		
+		get("rest/komentariKupca", (req, res) -> {
+			res.type("application/json");
+			res.status(200);		
+		    String korisnickoIme = req.queryParams("korisnickoIme");
+			return g.toJson(komentarServis.getSviKomentariKupca(korisnickoIme));
+		});
+		
 		
 		
 		

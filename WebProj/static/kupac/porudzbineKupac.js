@@ -4,7 +4,7 @@ Vue.component("porudzbineKupac", {
 
 			pretraga: {
 				datumOd: '',
-				datumDo:'',
+				datumDo: '',
 				cenaOd: 0,
 				cenaDo: 0,
 				tipRestorana: '',
@@ -13,8 +13,12 @@ Vue.component("porudzbineKupac", {
 				status: ''
 			},
 		
+			porudzbineDTO: [],
+
 			porudzbine: null,
 			kupac: null,
+			komentari: [],
+
 			sortType: 'DatumOpadajuce'
 		
 		}
@@ -27,28 +31,28 @@ Vue.component("porudzbineKupac", {
 	   <div class="card">
 		  <h1>Vase porudzbine</h1>
 		  <div id="porudzbinaID">
-			 <div v-for="poruc in porudzbine" class="porudbineDiv">
+			 <div v-for="porucDTO in porudzbineDTO" class="porudbineDiv">
 				<div class="row">
 				   <div>
 					 
 					 <div style="float: left; width: 30%;">
-					  <h4>{{poruc.nazivRestorana}} ID:{{poruc.id}}</h4>
+					  <h4>{{porucDTO.porudzbina.nazivRestorana}} ID:{{porucDTO.porudzbina.id}}</h4>
 					  <table>
 						 <tr>
 							<td>Datum:</td>
-							<td>{{poruc.datum}}</td>
+							<td>{{porucDTO.porudzbina.datum}}</td>
 						 </tr>
 						<tr>
 						  <td>Vreme:</td>
-						  <td>{{poruc.vreme}}</td>
+						  <td>{{porucDTO.porudzbina.vreme}}</td>
 						</tr>
 						 <tr>
 						   <td>Status: </td>
-						   <td>{{poruc.status}}</td>
+						   <td>{{porucDTO.porudzbina.status}}</td>
 						 </tr>
 						 <tr>
 							<td>Cena:</td>
-							<td>{{poruc.cena}}</td>
+							<td>{{porucDTO.porudzbina.cena}}</td>
 						 </tr>
 					  </table>
 					  <br>
@@ -56,11 +60,11 @@ Vue.component("porudzbineKupac", {
 					 <div name="STATUS_VIZUAL" style="float: left; width: 70%; padding: 0px;">
 					   <div class="container">
 						 <ul class="progressbar">
-						   <li v-bind:class="{ active: setujStatusBar(poruc, 1)}">OBRADA</li>
-						   <li v-bind:class="{ active: setujStatusBar(poruc, 2)}">U PRIPREMI</li>
-						   <li v-bind:class="{ active: setujStatusBar(poruc, 3)}">CEKA DOSTAVLJACA</li>
-						   <li v-bind:class="{ active: setujStatusBar(poruc, 4)}">U TRANSPORTU</li>
-						   <li v-bind:class="{ active: setujStatusBar(poruc, 5)}">DOSTAVLJENA</li>
+						   <li v-bind:class="{ active: setujStatusBar(porucDTO, 1)}">OBRADA</li>
+						   <li v-bind:class="{ active: setujStatusBar(porucDTO, 2)}">U PRIPREMI</li>
+						   <li v-bind:class="{ active: setujStatusBar(porucDTO, 3)}">CEKA DOSTAVLJACA</li>
+						   <li v-bind:class="{ active: setujStatusBar(porucDTO, 4)}">U TRANSPORTU</li>
+						   <li v-bind:class="{ active: setujStatusBar(porucDTO, 5)}">DOSTAVLJENA</li>
 						 </ul>
 					   </div>
 					 </div>
@@ -72,7 +76,7 @@ Vue.component("porudzbineKupac", {
 							<th>Kolicina</th>
 							<th>Cena</th>
 						 </tr>
-						 <tr v-for="stavkaKorpe in poruc.artikli">
+						 <tr v-for="stavkaKorpe in porucDTO.porudzbina.artikli">
 							<td>{{stavkaKorpe.artikal.naziv }}</td>
 							<td>{{stavkaKorpe.artikal.cena }}</td>
 							<td>{{stavkaKorpe.kolicina}}</td>
@@ -80,20 +84,20 @@ Vue.component("porudzbineKupac", {
 						 </tr>
 					  </table>
 					  <br><br>
-					  <button v-if="poruc.status =='OBRADA'" class="oprezanButtonMali" v-on:click="otkaziPorudzbinu(poruc)">Otkazi porudzbinu</button>
+					  <button v-if="porucDTO.porudzbina.status =='OBRADA'" class="oprezanButtonMali" v-on:click="otkaziPorudzbinu(porucDTO)">Otkazi porudzbinu</button>
 					 
-					  <div v-if="poruc.status =='DOSTAVLJENA'" name="komentar">
+					  <div v-if="porucDTO.porudzbina.status =='DOSTAVLJENA'" name="komentar">
 						<label>Ocena: </label>
-						<select v-bind:id="poruc.id+'S'">
-						  <option value = "1">1 - lose</option>
-						  <option value = "2">2 - dovoljno</option>
-						  <option value = "3">3 - dobro</option>
-						  <option value = "4">4 - vrlo dobro</option>
-						  <option value = "5">5 - odlicno</option>
+						<select :disabled="porucDTO.komentar.status != 'FRONT'" v-model="porucDTO.komentar.ocena" v-bind:id="porucDTO.porudzbina.id+'S'">
+						  <option value="1">1 - lose</option>
+						  <option value="2">2 - dovoljno</option>
+						  <option value="3">3 - dobro</option>
+						  <option value="4">4 - vrlo dobro</option>
+						  <option value="5">5 - odlicno</option>
 						</select>
 						<br> <br>
-						<textarea v-bind:id="poruc.id+'TA'" class="komentarInput" ></textarea>
-						<button style="float: right; margin: 5px 0px 0px 10px" v-on:click="posaljiKomentar(poruc)">Postavi</button>
+						<textarea :disabled="porucDTO.komentar.status != 'FRONT'" v-model="porucDTO.komentar.tekst" v-bind:id="porucDTO.porudzbina.id+'TA'" class="komentarInput" ></textarea>
+						<button v-if="porucDTO.komentar.status == 'FRONT'" style="float: right; margin: 5px 0px 0px 10px" v-on:click="posaljiKomentar(porucDTO)">Postavi</button>
 					 </div>
 				  
 				  </div>
@@ -189,27 +193,79 @@ Vue.component("porudzbineKupac", {
 
 
 `
-,
+	,
 	mounted() {
 		
 		axios.get('rest/testlogin')
-		.then(response => {
-			if (response.data != 'Err:KorisnikNijeUlogovan') {
-				this.kupac = response.data;
-				this.osveziInformacijeOKupcu();
-			}else{				
-				alert(response.data);
-			}
+			.then(response => {
+				if (response.data != 'Err:KorisnikNijeUlogovan') {
+					this.kupac = response.data;
+					this.osveziInformacijeOKupcu();
+					axios.get('rest/porudzbineKupca')
+						.then(response => {
+							this.porudzbine = response.data
+							axios.get('rest/komentariKupca', {
+								params: {
+									korisnickoIme: this.kupac.korisnickoIme
+								}
+							}).then(response => {
+								this.komentari = response.data;
+								this.pripremiPodatke();
+							}).catch(function(error){alert('Greska sa serverom komentariKupca')});
+						}).catch(function(error){alert('Greska sa serverom porudzbineKupca')});
 
-		}).catch(function (error) {
-			alert('GRESKA SA SERVEROM');
-		});
-		
-		axios.get('rest/porudzbineKupca')
-			.then(response => (this.porudzbine = response.data));
+				} else {
+					alert(response.data);
+				}
+			}).catch(function (error) {
+				alert('GRESKA SA SERVEROM');
+			});
 	},
 	methods: {
-		setujStatusBar: function (poruc, id) {
+		pripremiPodatke: function () {
+			/*
+				porudzbineDTO: null,
+
+				porudzbine: null,
+				kupac: null,
+				komentari: [],
+			*/
+
+			/*
+				porudzbineDTO: {
+					porudzbina: porudzbina,
+					komentar: komentar
+				}
+
+			*/
+			this.porudzbineDTO = [];
+
+			for (let porudzbina of this.porudzbine) {
+				
+				let trazeniKomentar = null;
+				for (let itKomentar of this.komentari) {
+					if (itKomentar.porudzbina == porudzbina.id) {
+						trazeniKomentar = itKomentar;
+						break;
+					}
+				}
+
+				let kom = null;
+				if (trazeniKomentar == null) {
+					kom = {porudzbina: porudzbina.id, nazivRestorana: porudzbina.nazivRestorana, korisnik: this.kupac.korisnickoIme, tekst: '', ocena: '1', status: 'FRONT'};
+				} else {
+					let ocenaStr = trazeniKomentar.ocena.toString();
+					kom = {porudzbina: porudzbina.id, nazivRestorana: porudzbina.nazivRestorana, korisnik: this.kupac.korisnickoIme, tekst: trazeniKomentar.tekst, ocena: ocenaStr, status: trazeniKomentar.status};
+				}
+				
+				let porudzbinaDTO = {porudzbina: porudzbina, komentar: kom};
+				this.porudzbineDTO.push(porudzbinaDTO);
+			}
+
+
+		},
+		setujStatusBar: function (porucDTO, id) {
+			let poruc = porucDTO.porudzbina;
 			if (poruc.status == 'OBRADA' && id == 1) return true;
 			else if (poruc.status == 'U_PRIPREMI' && (id == 1 || id == 2)) return true;
 			else if (poruc.status == 'CEKA_DOSTAVLJACA' && (id == 1 || id == 2 || id == 3)) return true;
@@ -219,23 +275,41 @@ Vue.component("porudzbineKupac", {
 			
 			return false;
 		},
-		posaljiKomentar: function (porudzbina) {
+		posaljiKomentar: function (porucDTO) {
 
+			if (porucDTO.komentar.status != 'FRONT') {
+				return;
+			}
+
+			let porudzbina = porucDTO.porudzbina;
+			//alert('TEKST: ' + porucDTO.komentar.tekst);
+			//alert('OCENA: ' + porucDTO.komentar.ocena);
+
+			/*
 			let komentarInput = document.getElementById(porudzbina.id+'TA');
 			let ocenaInput = document.getElementById(porudzbina.id+'S');
-
+			
 			let ocena = -1;
 			if (ocenaInput.value == '1') ocena = 1;
 			else if (ocenaInput.value == '2') ocena = 2;
 			else if (ocenaInput.value == '3') ocena = 3;
 			else if (ocenaInput.value == '4') ocena = 4;
 			else if (ocenaInput.value == '5') ocena = 5;
+			*/
+
+			let ocenaSTR = porucDTO.komentar.ocena;
+			let ocena = -1;
+			if (ocenaSTR == '1') ocena = 1;
+			else if (ocenaSTR == '2') ocena = 2;
+			else if (ocenaSTR == '3') ocena = 3;
+			else if (ocenaSTR == '4') ocena = 4;
+			else if (ocenaSTR == '5') ocena = 5;
 
 			const komentarDTO = {
 				porudzbina: porudzbina.id,
 				nazivRestorana: porudzbina.nazivRestorana,
 				korisnik: porudzbina.kupac,
-				tekst: komentarInput.value,
+				tekst: porucDTO.komentar.tekst,
 				ocena: ocena
 			};
 
@@ -243,82 +317,86 @@ Vue.component("porudzbineKupac", {
 				axios.post('rest/postaviKomentar', komentarDTO).then(response => {
 					if (response.data == 'OK') {
 						alert('Uspesno ste postavili komentar');
+						porucDTO.komentar.status = 'CEKA';
 					}
 				});
 			}
+		
 		},
 		pretragaPorudzbina: function () {
 			axios.get('rest/porudzbineKupcaPretraga', {
 				params: this.pretraga
 			}).then(response => {
 				this.porudzbine = response.data;
+				this.pripremiPodatke();
 			});
 		},
 		sortiraj: function () {
 			if (this.sortType == 'StatusRastuce') {
 				//this.porudzbine.sort((b, a) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
-				this.porudzbine.sort(function (a, b) {
+				this.porudzbineDTO.sort(function (a, b) {
 					
 					let A = 0;
 					let B = 0;
 
-					if (a.status === 'OTKAZANA') A = 1;
-					if (a.status === 'OBRADA') A = 2;
-					if (a.status === 'U_PRIPREMI') A = 3;
-					if (a.status === 'CEKA_DOSTAVLJACA') A = 4;
-					if (a.status === 'U_TRANSPORTU') A = 5;
-					if (a.status === 'DOSTAVLJENA') A = 6;
+					if (a.porudzbina.status === 'OTKAZANA') A = 1;
+					if (a.porudzbina.status === 'OBRADA') A = 2;
+					if (a.porudzbina.status === 'U_PRIPREMI') A = 3;
+					if (a.porudzbina.status === 'CEKA_DOSTAVLJACA') A = 4;
+					if (a.porudzbina.status === 'U_TRANSPORTU') A = 5;
+					if (a.porudzbina.status === 'DOSTAVLJENA') A = 6;
 
-					if (b.status === 'OTKAZANA') B = 1;
-					if (b.status === 'OBRADA') B = 2;
-					if (b.status === 'U_PRIPREMI') B = 3;
-					if (b.status === 'CEKA_DOSTAVLJACA') B = 4;
-					if (b.status === 'U_TRANSPORTU') B = 5;
-					if (b.status === 'DOSTAVLJENA') B = 6;
+					if (b.porudzbina.status === 'OTKAZANA') B = 1;
+					if (b.porudzbina.status === 'OBRADA') B = 2;
+					if (b.porudzbina.status === 'U_PRIPREMI') B = 3;
+					if (b.porudzbina.status === 'CEKA_DOSTAVLJACA') B = 4;
+					if (b.porudzbina.status === 'U_TRANSPORTU') B = 5;
+					if (b.porudzbina.status === 'DOSTAVLJENA') B = 6;
 					
 					return (A > B) ? 1 : ((B > A) ? -1 : 0)
 					
 				});
 			} else if (this.sortType == 'StatusOpadajuce') {
 				//this.porudzbine.sort((a, b) => (a.status > b.status) ? 1 : ((b.status > a.status) ? -1 : 0));
-				this.porudzbine.sort(function (b, a) {
+				this.porudzbineDTO.sort(function (b, a) {
 					
 					let A = 0;
 					let B = 0;
 
-					if (a.status === 'OTKAZANA') A = 1;
-					if (a.status === 'OBRADA') A = 2;
-					if (a.status === 'U_PRIPREMI') A = 3;
-					if (a.status === 'CEKA_DOSTAVLJACA') A = 4;
-					if (a.status === 'U_TRANSPORTU') A = 5;
-					if (a.status === 'DOSTAVLJENA') A = 6;
+					if (a.porudzbina.status === 'OTKAZANA') A = 1;
+					if (a.porudzbina.status === 'OBRADA') A = 2;
+					if (a.porudzbina.status === 'U_PRIPREMI') A = 3;
+					if (a.porudzbina.status === 'CEKA_DOSTAVLJACA') A = 4;
+					if (a.porudzbina.status === 'U_TRANSPORTU') A = 5;
+					if (a.porudzbina.status === 'DOSTAVLJENA') A = 6;
 
-					if (b.status === 'OTKAZANA') B = 1;
-					if (b.status === 'OBRADA') B = 2;
-					if (b.status === 'U_PRIPREMI') B = 3;
-					if (b.status === 'CEKA_DOSTAVLJACA') B = 4;
-					if (b.status === 'U_TRANSPORTU') B = 5;
-					if (b.status === 'DOSTAVLJENA') B = 6;
+					if (b.porudzbina.status === 'OTKAZANA') B = 1;
+					if (b.porudzbina.status === 'OBRADA') B = 2;
+					if (b.porudzbina.status === 'U_PRIPREMI') B = 3;
+					if (b.porudzbina.status === 'CEKA_DOSTAVLJACA') B = 4;
+					if (b.porudzbina.status === 'U_TRANSPORTU') B = 5;
+					if (b.porudzbina.status === 'DOSTAVLJENA') B = 6;
 					
 					return (A > B) ? 1 : ((B > A) ? -1 : 0)
 					
 				});
 			} else if (this.sortType == 'NazivRestoranaA-Z') {
-				this.porudzbine.sort((b, a) => (a.nazivRestorana > b.nazivRestorana) ? 1 : ((b.nazivRestorana > a.nazivRestorana) ? -1 : 0));
+				this.porudzbineDTO.sort((b, a) => (a.porudzbina.nazivRestorana > b.porudzbina.nazivRestorana) ? 1 : ((b.porudzbina.nazivRestorana > a.porudzbina.nazivRestorana) ? -1 : 0));
 			} else if (this.sortType == 'NazivRestoranaZ-A') {
-				this.porudzbine.sort((a, b) => (a.nazivRestorana > b.nazivRestorana) ? 1 : ((b.nazivRestorana > a.nazivRestorana) ? -1 : 0));
+				this.porudzbineDTO.sort((a, b) => (a.porudzbina.nazivRestorana > b.porudzbina.nazivRestorana) ? 1 : ((b.porudzbina.nazivRestorana > a.porudzbina.nazivRestorana) ? -1 : 0));
 			} else if (this.sortType == 'DatumRastuce') {
-				this.porudzbine.sort((a, b) => (a.datum > b.datum) ? 1 : ((b.datum > a.datum) ? -1 : 0));
+				this.porudzbineDTO.sort((a, b) => (a.porudzbina.datum > b.porudzbina.datum) ? 1 : ((b.porudzbina.datum > a.porudzbina.datum) ? -1 : 0));
 			} else if (this.sortType == 'DatumOpadajuce') {
-				this.porudzbine.sort((b, a) => (a.datum > b.datum) ? 1 : ((b.datum > a.datum) ? -1 : 0));
+				this.porudzbineDTO.sort((b, a) => (a.porudzbina.datum > b.porudzbina.datum) ? 1 : ((b.porudzbina.datum > a.porudzbina.datum) ? -1 : 0));
 			} else if (this.sortType == 'CenaRastuca') {
-				this.porudzbine.sort((b, a) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
+				this.porudzbineDTO.sort((b, a) => (a.porudzbina.cena > b.porudzbina.cena) ? 1 : ((b.porudzbina.cena > a.porudzbina.cena) ? -1 : 0));
 			} else if (this.sortType == 'CenaOpadajuce') {
-				this.porudzbine.sort((a, b) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
+				this.porudzbineDTO.sort((a, b) => (a.porudzbina.cena > b.porudzbina.cena) ? 1 : ((b.porudzbina.cena > a.porudzbina.cena) ? -1 : 0));
 			}
 		},
-		otkaziPorudzbinu: function(porudzbina){
+		otkaziPorudzbinu: function(porucDTO){
 
+			let porudzbina = porucDTO.porudzbina;
 			axios.put('rest/izmeniPorudzbinu/', { id: porudzbina.id, status: 'OTKAZANA' }).then(response => {
 				porudzbina.status = 'OTKAZANA';
 				this.osveziInformacijeOKupcu();
