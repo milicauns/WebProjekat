@@ -172,6 +172,13 @@ public class RestKorisnici {
 			korisnikServis.RegistrujKupca(kupacInfo);
 		return "uspjeh";
 		});
+			
+		post("rest/korisnickoImePostoji", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			String korisnickoIme = g.fromJson(req.body(),String.class);
+			return korisnikServis.KorisnikPostoji(korisnickoIme);
+		});
 		
 		post("rest/ispraznikorpu", (req, res) -> {
 			res.type("application/json");

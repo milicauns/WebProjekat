@@ -1,15 +1,15 @@
 Vue.component("registracija", {
 	data: function () {
 		    return {
-		korisnickoIme: "",
-      lozinka: "",
-      ponovljenaLozinka: "",
-		ime: "",
-		prezime: "",
-		pol: "",
-		datumRodjenja: "",		
+		korisnickoIme: '',
+      lozinka: '',
+      ponovljenaLozinka: '',
+		ime: '',
+		prezime: '',
+		pol: '',
+		datumRodjenja: '',		
 		tipKorisnika: "KUPAC",
-		ulogovaniKorisnik: ""
+		ulogovaniKorisnik: null
 							
 			    }
 	},
@@ -84,8 +84,10 @@ Vue.component("registracija", {
 		
 	}, 
 	methods : {	
-	        Registracija: function () {
+	      Registracija: function () {
 	        
+         if(this.PoljaValidna()){
+
 	        if(this.tipKorisnika === "KUPAC"){
         
             axios.post('rest/registracijaKupac/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
@@ -101,11 +103,31 @@ Vue.component("registracija", {
            }else{
            
            	axios.post('rest/registracijaDostavljac/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
-                .then(response => {alert('uspesno '+response.data.korisnickoIme)})
+                .then(response => {
+                  alert('Registracija uspjesna')})
                 .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
            
            
            }
+         }else{
+            alert('Nepravilno uneseni podaci');
+         }
+        },PoljaValidna: function(){       
+         axios.post('rest/korisnickoImePostoji',this.korisnickoIme).
+         then(response => {
+            alert(response.data);
+            if(response.data == 'true') return false;
+            if(this.korisnickoIme == '') return false;
+            if(this.ime == '') return false;
+            if(this.prezime == '') return false;
+            if(this.lozinka == '') return false;
+            if(this.pol == '') return false;
+            if(this.datumRodjenja == '') return false;
+            if(this.lozinka != this.ponovljenaLozinka) return false;
+            return true;
+         });
+
+         
         }
 		
 	},
