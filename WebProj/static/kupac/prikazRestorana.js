@@ -34,7 +34,7 @@ Vue.component("prikazrestoran", {
                           </table>
                       </div>
                       <div name="mestozamapu" class="mapaDesnaStranaPrikazRestorana">
-                        <div id="map1234" class="map"></div>
+                        <div v-bind:id="'mapaR'+restoran.naziv" class="map"></div>
                       </div>
                    </div>
         </div>
@@ -145,7 +145,22 @@ Vue.component("prikazrestoran", {
         naziv: naziv
       }
     })
-      .then(response => (this.restoran = response.data));
+      .then(response => {
+          this.restoran = response.data;
+          alert('kreiraj mapu');
+          this.map = new ol.Map({
+              target: 'mapaR'+this.restoran.naziv,
+              layers: [
+                new ol.layer.Tile({
+                  source: new ol.source.OSM()
+                })
+              ],
+              view: new ol.View({
+                center: ol.proj.fromLonLat([37.41, 8.82]),
+                zoom: 4
+              })
+           });
+      });
 
     axios.get('rest/odobreniKomentari', {
       params: {
@@ -157,20 +172,8 @@ Vue.component("prikazrestoran", {
     // dodato za mapu?
     
     
-    this.$nextTick(function () {
-      alert('ss');
-      var mapaa = new ol.Map({
-      target: 'map123',
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([37.41, 8.82]),
-        zoom: 4
-      })
-    });});
+    //this.$nextTick(function () {
+     //});
     
     
     
