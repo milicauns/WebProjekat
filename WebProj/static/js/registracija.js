@@ -1,15 +1,15 @@
 Vue.component("registracija", {
 	data: function () {
-		    return {
-		korisnickoIme: '',
-      lozinka: '',
-      ponovljenaLozinka: '',
-		ime: '',
-		prezime: '',
-		pol: '',
-		datumRodjenja: '',		
-		tipKorisnika: "KUPAC",
-		ulogovaniKorisnik: null
+		   return {
+            korisnickoIme: '',
+            lozinka: '',
+            ponovljenaLozinka: '',
+            ime: '',
+            prezime: '',
+            pol: '',
+            datumRodjenja: '',		
+            tipKorisnika: "KUPAC",
+            ulogovaniKorisnik: null
 							
 			    }
 	},
@@ -86,25 +86,41 @@ Vue.component("registracija", {
 	methods : {	
 	      Registracija: function () {
 	        
+         alert(this.PoljaValidna());
+         
          if(this.PoljaValidna()){
 
 	        if(this.tipKorisnika === "KUPAC"){
         
             axios.post('rest/registracijaKupac/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
-                .then(response => {alert('uspesno '+response.data.korisnickoIme)})
+                .then(response => {
+                   alert('Registracija uspesna!');
+
+                     axios.get('rest/login', {
+                        params: {
+                        korisnickoIme: this.korisnickoIme,
+                        lozinka: this.lozinka
+                        }
+                     })
+                     .then(response => {
+                       window.location.href = "/";
+             
+                     });
+
+                  })
                 .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
                 
            }else if(this.tipKorisnika === "MENADZER"){
            
            	axios.post('rest/registracijaMenadzer/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
-                .then(response => {alert('uspesno '+response.data.korisnickoIme)})
+                .then(response => {alert('Registracija uspesna!')})
                 .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
                           
            }else{
            
            	axios.post('rest/registracijaDostavljac/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
                 .then(response => {
-                  alert('Registracija uspjesna')})
+                  alert('Registracija uspesna!')})
                 .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
            
            
@@ -120,10 +136,12 @@ Vue.component("registracija", {
             if(this.korisnickoIme == '') return false;
             if(this.ime == '') return false;
             if(this.prezime == '') return false;
-            if(this.lozinka == '') return false;
             if(this.pol == '') return false;
             if(this.datumRodjenja == '') return false;
+            if(this.lozinka == '') return false;
             if(this.lozinka != this.ponovljenaLozinka) return false;
+
+            alert('validacija dobra, nije naisao na false');
             return true;
          });        
         }
