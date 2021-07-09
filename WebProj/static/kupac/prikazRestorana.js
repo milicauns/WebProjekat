@@ -34,7 +34,7 @@ Vue.component("prikazrestoran", {
                           </table>
                       </div>
                       <div name="mestozamapu" class="mapaDesnaStranaPrikazRestorana">
-                        <!-- <div id="map" class="map"></div> -->
+                        <div id="map1234" class="map"></div>
                       </div>
                    </div>
         </div>
@@ -155,10 +155,12 @@ Vue.component("prikazrestoran", {
       .then(response => (this.komentari = response.data));
     
     // dodato za mapu?
-  
-    /*
-    this.map = new ol.Map({
-      target: 'map',
+    
+    
+    this.$nextTick(function () {
+      alert('ss');
+      var mapaa = new ol.Map({
+      target: 'map123',
       layers: [
         new ol.layer.Tile({
           source: new ol.source.OSM()
@@ -168,8 +170,11 @@ Vue.component("prikazrestoran", {
         center: ol.proj.fromLonLat([37.41, 8.82]),
         zoom: 4
       })
-    });
-    */
+    });});
+    
+    
+    
+    
 
       
   },

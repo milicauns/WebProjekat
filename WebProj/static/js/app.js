@@ -47,7 +47,25 @@ var app = new Vue({
 			.catch(function (error) {
 				alert('GRESKA PRI PROVERI LOGINA');
 			}
-			);
+		);
+		
+
+		/*
+		this.$nextTick(function () {
+			alert('ss');
+			this.map = new ol.Map({
+			target: 'map1234',
+			layers: [
+			  new ol.layer.Tile({
+				source: new ol.source.OSM()
+			  })
+			],
+			view: new ol.View({
+			  center: ol.proj.fromLonLat([37.41, 8.82]),
+			  zoom: 4
+			})
+		  });});
+		  */
 	},
 	methods: {
 		logout: function () {
