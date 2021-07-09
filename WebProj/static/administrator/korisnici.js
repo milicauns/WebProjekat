@@ -38,6 +38,7 @@ Vue.component("korisnici", {
       </div>
       <br>
       <br>
+      <div id="prikazKorisnikaID">
       <div id="prikazKorisnika"  v-if="odabraniKorisnik.korisnickoIme!=undefined" >
          <table>
             <tr>
@@ -65,6 +66,7 @@ Vue.component("korisnici", {
             <br /></td>
          </tr>
          </table>
+      </div>
       </div>
       </div>
    </div>
@@ -144,7 +146,8 @@ Vue.component("korisnici", {
 	},
 	methods: {
 		odabranKorisnik: function (korisnik) {
-			this.odabraniKorisnik = korisnik;
+         this.odabraniKorisnik = korisnik;
+         window.location.href = "#prikazKorisnikaID";
 		},
 		pretraziKorisnike: function () {
 			alert('SALJEMO ' + {"ime": this.ime, "prezime": this.prezime, "korisnickoIme": this.korisnickoIme, "uloga": this.uloga, "tipKorisnika": this.tipKorisnika});
