@@ -40,12 +40,12 @@ Vue.component("komentari", {
 <div v-if="ulogovaniKorisnik.uloga=='ADMINISTRATOR'" class="row">
 	<div class="rightcolumn">
 	   <div class="card">
-		  <table class="korisnici">
+		  <table class="clasicnaTabela">
 			 <tr bgcolor="lightgrey">
 				<th>Restorani:</th>
 			 </tr>
-			 <tr v-for="s in restorani" v-on:click="odabranRestoran(s)" v-bind:class="{selected : odabraniRestoran.naziv===s.naziv}">
-				<td>{{s.naziv }}</td>
+			 <tr v-for="s in restorani" v-on:click="odabranRestoran(s)" v-bind:class="{selectedTable : odabraniRestoran.naziv===s.naziv}">
+				<td class="clasicnaTabelatd">{{s.naziv }}</td>
 			 </tr>
 		  </table>
 	   </div>

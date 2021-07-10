@@ -10,11 +10,11 @@ Vue.component("administrator", {
   <div class="Meni">
     <div class="cardMenu">
       <div class="vertical-menu">
-        <button class="buttonUMeniju" v-on:click="selektujKomponentu('korisnici')">KORISNICI</button>
-        <button class="buttonUMeniju" v-on:click="selektujKomponentu('sumnjiviKorisnici')">SUMNJIVI KORISNICI</button>
-        <button class="buttonUMeniju" v-on:click="selektujKomponentu('registracija')">REGISTRACIJA KORISNIKA</button>
-        <button class="buttonUMeniju" v-on:click="selektujKomponentu('komentari')">RESTORANI</button>
-        <button class="buttonUMeniju" v-on:click="selektujKomponentu('registracijaRestorana')">REGISTRACIJA RESTORANA</button>
+        <button v-bind:class="{selectComponent : selektovanaKomponenta === 'korisnici'}" class="buttonUMeniju" v-on:click="selektujKomponentu('korisnici')">Korisnici</button>
+        <button v-bind:class="{selectComponent : selektovanaKomponenta === 'sumnjiviKorisnici'}" class="buttonUMeniju" v-on:click="selektujKomponentu('sumnjiviKorisnici')">Sumnjivi korisnici</button>
+        <button v-bind:class="{selectComponent : selektovanaKomponenta === 'registracija'}" class="buttonUMeniju" v-on:click="selektujKomponentu('registracija')">Registracija korisnika</button>
+        <button v-bind:class="{selectComponent : selektovanaKomponenta === 'komentari'}" class="buttonUMeniju" v-on:click="selektujKomponentu('komentari')">Komentari restorana</button>
+        <button v-bind:class="{selectComponent : selektovanaKomponenta === 'registracijaRestorana'}" class="buttonUMeniju" v-on:click="selektujKomponentu('registracijaRestorana')">Registracija restorana</button>
       </div>
     </div>
   </div>

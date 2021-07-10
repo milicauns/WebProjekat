@@ -28,6 +28,7 @@ Vue.component("korpa", {
 						 <label style="font-size: 20px;">{{RK.nazivRestorana}}</label><br><br>
 						 <label>Ukupno: </label>
 						 <label>{{RK.ukupnaCena}}</label>
+						 <button class="potvrdanButton" v-on:click="potvrdiKupovinuZaRestoran(RK)">Poruci iz restorana</button>
 					  </div>
 				   </div>
 				</div>
@@ -72,7 +73,7 @@ Vue.component("korpa", {
 				  
 				</div>
 				<br><br>
-				<button class="potvrdanButton" v-on:click="potvrdiKupovinuZaRestoran(RK)">Poruci iz restorana</button>
+				<!--<button class="potvrdanButton" v-on:click="potvrdiKupovinuZaRestoran(RK)">Poruci iz restorana</button> -->
 			 </div>
 		  </div>
 	   </div>

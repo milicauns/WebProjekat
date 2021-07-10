@@ -67,7 +67,7 @@ Vue.component("restorani", {
 			<table>
 			  <tr><td><input type="text" placeholder="Naziv Restorana" v-model="parPret.naziv"></td></tr>
 			  <tr><td><input type="text" placeholder="Lokacija Restorana" v-model="parPret.lokacija"></td></tr>
-			  <tr><td><input type="number" placeholder="Vise od prosecne ocene" v-model="parPret.ocena"></td></tr>
+			  <tr><td><input type="number" placeholder="Vise od prosecne ocene" min=0 max=5 v-model="parPret.ocena"></td></tr>
 			  <tr><td><select name="Tip Restorana" v-model="parPret.tip">
 				<option selected value="SVE">SVE</option>
 				<option value="KINESKI">Kineski</option>

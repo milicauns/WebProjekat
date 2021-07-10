@@ -23,7 +23,7 @@ Vue.component("artiklimenazdera", {
 		<th>Opis</th>
 	</tr>
 	
-	<tr v-for="artikal in restoran.artikli" v-on:click="selektArtikal(artikal)" v-bind:class="{selected : selektovanArtikal.naziv===artikal.naziv}">
+	<tr v-for="artikal in restoran.artikli" v-on:click="selektArtikal(artikal)" v-bind:class="{selectedTable : selektovanArtikal.naziv===artikal.naziv}">
 		<td>{{artikal.naziv }}</td>
 		<td>{{artikal.tip }}</td>
 		<td>{{artikal.cena }}</td>
