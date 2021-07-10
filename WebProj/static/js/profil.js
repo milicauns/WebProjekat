@@ -40,7 +40,7 @@ Vue.component("profil", {
 			</tr>
 			<tr>
               <td><label>Korisnicko ime:</label></td>
-			  <td><input type="text" v-model="korisnik.korisnickoIme"/></td>
+			  <td><input disabled type="text" v-model="korisnik.korisnickoIme"/></td>
 			</tr>
 			
 			 <tr>

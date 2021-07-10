@@ -65,7 +65,9 @@ public class Korpa {
 	/*
 	 *  
 	 */
-	public String dodajArtikal(Artikal artikal, int kolicina) {
+	
+	
+	public String izmeniArtikal(Artikal artikal, int kolicina) {
 		String odgovor = "";
 		boolean izvrseno = false;
 		
@@ -75,6 +77,7 @@ public class Korpa {
 			if(stavkaKorpe.getArtikal().getNaziv().equals(artikal.getNaziv()) && 
 			   stavkaKorpe.getArtikal().getNazivRestorana().equals(artikal.getNazivRestorana())) 
 			{
+				
 				if(kolicina < 1) {
 					stavkeKorpe.remove(stavkaKorpe);
 					odgovor = "OK: Artikal je uklonjen iz korpe";
@@ -87,6 +90,39 @@ public class Korpa {
 				break;
 			}
 		}
+		
+		if(!izvrseno) {
+			// treba ga dodati jer ne postoji i bice novi
+			if(kolicina > 0) {
+				stavkeKorpe.add(new StavkaKorpe(artikal, kolicina));
+				odgovor = "OK: Dodat novi artikal u korpu";
+			}
+		}
+		azurirajCenuKorpe();
+		return odgovor;
+	}
+	
+	
+	
+	public String dodajArtikal(Artikal artikal, int kolicina) {
+			String odgovor = "";
+			boolean izvrseno = false;
+			
+			// kroz sve postojece artikle u korpi
+			for (StavkaKorpe stavkaKorpe : stavkeKorpe) {
+				// ako postoji artikal sa istim imenom i nalazi se u istom restoranu onda je to on
+				if(stavkaKorpe.getArtikal().getNaziv().equals(artikal.getNaziv()) && 
+				   stavkaKorpe.getArtikal().getNazivRestorana().equals(artikal.getNazivRestorana())) 
+				{
+					if(kolicina > 0) {
+						stavkaKorpe.setKolicina(stavkaKorpe.getKolicina() + kolicina);
+						odgovor = "OK: Promenjena kolicina u postojecem artiklu";
+					}
+					
+					izvrseno = true;
+					break;
+				}
+			}
 		
 		if(!izvrseno) {
 			// treba ga dodati jer ne postoji i bice novi

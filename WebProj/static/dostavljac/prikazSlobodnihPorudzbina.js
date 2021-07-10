@@ -253,9 +253,75 @@ Vue.component("prikazSlobodnihPorudzbina", {
 			} else if (this.sortType == 'NazivRestoranaZ-A') {
 				this.porudzbineDTO.sort((a, b) => (a.nazivRestorana > b.nazivRestorana) ? 1 : ((b.nazivRestorana > a.nazivRestorana) ? -1 : 0));
 			} else if (this.sortType == 'DatumRastuce') {
-				this.porudzbineDTO.sort((a, b) => (a.datum > b.datum) ? 1 : ((b.datum > a.datum) ? -1 : 0));
+				this.porudzbineDTO.sort(function (b, a) {
+					// 10/07/2021
+					let nizA = a.datum.split('/');
+					let danA = parseInt(nizA[0]);
+					let mesecA = parseInt(nizA[1]);
+					let godinaA = parseInt(nizA[2]);
+
+					let nizB = b.datum.split('/');
+					let danB = parseInt(nizB[0]);
+					let mesecB = parseInt(nizB[1]);
+					let godinaB = parseInt(nizB[2]);
+					
+					if (godinaA > godinaB) {
+						return 1;
+					} else if (godinaA < godinaB) {
+						return -1;
+					} else {
+						if (mesecA > mesecB) {
+							return 1;
+						} else if(mesecA < mesecB){
+							return -1;
+						} else {
+							if (danA > danB) {
+								return 1;
+							} else if (danA < danB) {
+								return -1;
+							} else {
+								return 0;
+							}
+						}
+					}
+					
+
+				});
 			} else if (this.sortType == 'DatumOpadajuce') {
-				this.porudzbineDTO.sort((b, a) => (a.datum > b.datum) ? 1 : ((b.datum > a.datum) ? -1 : 0));
+				this.porudzbineDTO.sort(function (a, b) {
+					// 10/07/2021
+					let nizA = a.datum.split('/');
+					let danA = parseInt(nizA[0]);
+					let mesecA = parseInt(nizA[1]);
+					let godinaA = parseInt(nizA[2]);
+
+					let nizB = b.datum.split('/');
+					let danB = parseInt(nizB[0]);
+					let mesecB = parseInt(nizB[1]);
+					let godinaB = parseInt(nizB[2]);
+					
+					if (godinaA > godinaB) {
+						return 1;
+					} else if (godinaA < godinaB) {
+						return -1;
+					} else {
+						if (mesecA > mesecB) {
+							return 1;
+						} else if(mesecA < mesecB){
+							return -1;
+						} else {
+							if (danA > danB) {
+								return 1;
+							} else if (danA < danB) {
+								return -1;
+							} else {
+								return 0;
+							}
+						}
+					}
+					
+
+				});
 			} else if (this.sortType == 'CenaRastuca') {
 				this.porudzbineDTO.sort((a, b) => (a.cena > b.cena) ? 1 : ((b.cena > a.cena) ? -1 : 0));
 			} else if (this.sortType == 'CenaOpadajuce') {

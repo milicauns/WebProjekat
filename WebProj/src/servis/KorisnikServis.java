@@ -177,7 +177,7 @@ public class KorisnikServis {
 		return trazeniKorisnik;
 	}
 	
-	public String azurirajKorpu(Korisnik korisnik, ParametriDodajArtikalUKorpuDTO parametriDodajUKorpuDTO){
+	public String azurirajKorpu(Korisnik korisnik, ParametriDodajArtikalUKorpuDTO parametriDodajUKorpuDTO, boolean dodaj){
 		String odgovor = "";
 		Korisnik kor = getKorisnikByKorisnickoIme(korisnik.getKorisnickoIme());
 		Korpa korpa = kor.getKorpa();
@@ -190,7 +190,12 @@ public class KorisnikServis {
 		}
 		
 		if(artiakl != null) {
-			odgovor = korpa.dodajArtikal(artiakl, parametriDodajUKorpuDTO.kolicina);
+			if(dodaj) {
+				odgovor = korpa.dodajArtikal(artiakl, parametriDodajUKorpuDTO.kolicina);
+			}else {
+				odgovor = korpa.izmeniArtikal(artiakl, parametriDodajUKorpuDTO.kolicina);
+			}
+			
 		}else {
 			odgovor = "artikal ne postoji u restoranu";
 		}

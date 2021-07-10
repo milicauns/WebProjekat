@@ -257,7 +257,37 @@ public class RestKorisnici {
 				if(korisnik.getUloga() != Uloga.KUPAC) {
 					odgovor = "Morate biti kupac da bi ste kupovali";
 				}else {
-					odgovor = korisnikServis.azurirajKorpu(korisnik, parametriDodajUKorpuDTO);
+					odgovor = korisnikServis.azurirajKorpu(korisnik, parametriDodajUKorpuDTO, false);
+				}
+			}else {
+				odgovor = "Nije pronadjen korisnik morate bit kupac i ulogovani";
+			}
+			
+			System.out.println(odgovor);
+			if(odgovor.startsWith("OK:")) {
+				korisnikServis.sacuvajPodatke();
+				odgovor = "OK";
+			}
+			return odgovor;
+		});
+		
+		
+		post("rest/korpa/dodaj", (req, res) -> {
+			res.type("application/json");
+			res.status(200);
+			ParametriDodajArtikalUKorpuDTO parametriDodajUKorpuDTO = g.fromJson(req.body(), ParametriDodajArtikalUKorpuDTO.class);			
+			
+			System.out.println(parametriDodajUKorpuDTO.kolicina + " " + parametriDodajUKorpuDTO.nazivArtikla);
+			
+			Session ss = req.session(true);
+			Korisnik korisnik = ss.attribute("korisnik");
+			
+			String odgovor = "";
+			if(korisnik != null) {
+				if(korisnik.getUloga() != Uloga.KUPAC) {
+					odgovor = "Morate biti kupac da bi ste kupovali";
+				}else {
+					odgovor = korisnikServis.azurirajKorpu(korisnik, parametriDodajUKorpuDTO, true);
 				}
 			}else {
 				odgovor = "Nije pronadjen korisnik morate bit kupac i ulogovani";
