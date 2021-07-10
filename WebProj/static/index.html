@@ -3,7 +3,6 @@
 <head>
 <title>Web Projekat</title>
 
-
 <link href="css/homeCss.css" rel="stylesheet" type="text/css"/>
 <link href="css/tabeladizajnCSS.css" rel="stylesheet" type="text/css"/>
 <link href="css/CustomProgresBar.css" rel="stylesheet" type="text/css"/>
@@ -12,6 +11,10 @@
 <!-- MAPA -->
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+<!--
+<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+-->
+
 
 
 
@@ -21,8 +24,11 @@
 <link href="v6.5.0-dist/ol.css.map" rel="stylesheet" type="text/css"/>
 -->
 
+
+
 </head>
 <body>
+
 	
 
 	
@@ -30,8 +36,7 @@
 
 <div id="initialDiv">
 	
-	 <div id="map123" style="height: 300px; width: 300px;"></div>
-	 
+	
 	 
 
 	<div class="topnav">
@@ -56,6 +61,12 @@
 		
 	</div>
 
+	<div v-if="prikazMape" class="card">
+		<div id="map123" style="width: 100%; height: 400px;"></div>
+	</div>
+	
+	 
+
 	<router-view></router-view>
 	
 	<div class="footer">
@@ -66,18 +77,22 @@
 </div>
 <!-- Potrebne biblioteke --> 
 
-<script src="vue.js"></script>
-<script src="skripte/vue-routerR.js"></script>
+<script src="skripte/vue.js"></script>
+<script src="skripte/vue-router.js"></script>
 
 <script src="skripte/axios.js"></script>
 <script src="skripte/jquery.min.js"></script>
+
 
 <!--
 <script src="v6.5.0-dist/ol.js"></script>
 <script src="v6.5.0-dist/ol.js.map"></script>
 <script src="v6.5.0-dist/index.umd.js"></script>
 -->
+
 <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+
+
 <!--
 <script type="text/javascript">
 	var map = new ol.Map({
@@ -105,7 +120,7 @@
 <!-- <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script> -->
 
 
-<!-- <script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/places.js@1.19.0"></script>
 <script src="kupac/porudzbineKupac.js"></script>
 <script src="kupac/infoKupac.js"></script>
 <script src="js/dostavljac.js"></script>

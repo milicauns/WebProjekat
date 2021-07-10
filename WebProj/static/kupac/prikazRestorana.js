@@ -131,6 +131,7 @@ Vue.component("prikazrestoran", {
 `,
   mounted() {
     // nekako dobaviti koji restoran smo hteli
+
    
     axios.get('rest/testlogin').then(response => {
       this.korisnik = response.data;
@@ -146,21 +147,29 @@ Vue.component("prikazrestoran", {
       }
     })
       .then(response => {
-          this.restoran = response.data;
-          alert('kreiraj mapu');
-          this.map = new ol.Map({
-              target: 'mapaR'+this.restoran.naziv,
-              layers: [
-                new ol.layer.Tile({
-                  source: new ol.source.OSM()
-                })
-              ],
-              view: new ol.View({
-                center: ol.proj.fromLonLat([37.41, 8.82]),
-                zoom: 4
-              })
-           });
+        this.restoran = response.data;
+        this.setujMapuFUN();
       });
+      
+    /*
+    this.$nextTick(function () {
+      alert('kreiraj mapu');
+      this.map = new ol.Map({
+        target: 'mapa123',
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: ol.proj.fromLonLat([37.41, 8.82]),
+          zoom: 4
+        })
+      });
+    });
+    */
+    
+
 
     axios.get('rest/odobreniKomentari', {
       params: {
@@ -237,6 +246,9 @@ Vue.component("prikazrestoran", {
       let labelCenaKol = document.getElementById(artikal.naziv+'L');
       let cena = artikal.cena * inputKolicina.value;
       labelCenaKol.innerHTML = cena.toString();
+    },
+    setujMapuFUN : function() {
+      this.$root.$emit('molimTePrikaziMapu', {mapaPotrebna: true, nazivRestorana: this.restoran.naziv, GS: this.restoran.lokacija.geografskaSirina, GD: this.restoran.lokacija.geografskaDuzina});
     }
   }
 });
