@@ -2,7 +2,10 @@ Vue.component("login", {
   data: function () {
     return {
       korisnickoIme: "",
-      lozinka: ""
+      lozinka: "",
+
+      infoGreska: 'OK'
+      
     }
   },
   template: `
@@ -19,6 +22,9 @@ Vue.component("login", {
               <br>
               <br>
               <button class="buttonLogin" v-on:click="loginKorisnik">Prijavi se</button>
+              <div v-if="infoGreska != 'OK'"> <br>
+              <label style="color: red;">{{infoGreska}}</label>
+              </div>
         </div>
         <br>
         <br>
@@ -33,6 +39,7 @@ Vue.component("login", {
   ,
   methods: {
     loginKorisnik: function () {
+      this.infoGreska = 'OK';
       axios.get('rest/login', {
         params: {
           korisnickoIme: this.korisnickoIme,
@@ -41,13 +48,16 @@ Vue.component("login", {
       })
         .then(response => {
           if (response.data == 'g1') {
-            alert('Err: NEPOSTOJECE KORISNICKO IME');
+            //alert('Err: NEPOSTOJECE KORISNICKO IME');
+            this.infoGreska = 'Ne postojece korisnicko ime';
             return;
           } else if (response.data == 'g2') {
-            alert('Err: POGRESNA LOZINKA');
+            //alert('Err: POGRESNA LOZINKA');
+            this.infoGreska = 'Pogresna lozinka';
             return;
           } else if (response.data == 'g3') {
-            alert('Err: Vas nalog je blokiran');
+            //alert('Err: Vas nalog je blokiran');
+            this.infoGreska = 'Vas nalog je blokiran';
             return;
           }
           window.location.href = "/";

@@ -34,7 +34,8 @@ Vue.component("porudzbineMenadzer", {
 				   <div>
 					 
 					 <div style="float: left; width: 30%;">
-					  <h4>{{p.porudzbina.nazivRestorana}} ID:{{p.porudzbina.id}}</h4>
+					  <h3 style="color: #55b776;">Restoran: {{p.porudzbina.nazivRestorana}} </h3>
+					  <h4>ID:{{p.porudzbina.id}}</h4>
 					  <table>
 						 <tr>
 							<td>Datum:</td>

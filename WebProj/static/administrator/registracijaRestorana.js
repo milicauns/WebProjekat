@@ -329,8 +329,12 @@ Vue.component("registracijaRestorana", {
 						"menadzer": this.menadzer,
 						"slikaFile": this.slikaFile
 					})
-						.then(response => { alert('Registracija uspesna') })
-						.catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI RESTORANA') });
+						.then(response => {
+							if (response.data == 'OK') {
+								alert('Registracija uspesna')	
+								this.resetujPolja();
+							}
+						}).catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI RESTORANA') });
 			   
 			   
 				}).catch(function (error) { alert('GRESKA SA SERVEROM'); });
@@ -346,6 +350,36 @@ Vue.component("registracijaRestorana", {
 				return char
 			  return latin[index]
 			}).join('')
+		},
+		resetujPolja: function () {
+			
+			this.menadzer = "nema";
+			this.naziv = '';
+			this.tip = '';
+			this.lokacija = '';
+			this.logo = '';
+			this.status = '';
+			this.slikaFile = '';
+			this.mesto = '';
+			this.postanskiBroj = '';
+			this.ulica = '';
+			
+			this.ulicaNumber = '';
+			this.ulicaNumberError = '';
+			this.geografskaDuzina = '';
+			this.geografskaSirina = '';
+			this.potrebanMenadzer = '';
+
+			this.korisnickoIme = "";
+			this.lozinka = "";
+			this.ponovljenaLozinka = "";
+			this.ime = "";
+			this.prezime = "";
+			this.pol = "";
+			this.datumRodjenja = "";
+			this.tipKorisnika = "MENADZER";
+			this.ulogovaniKorisnik = "";
+			  
 		}
 
 	}

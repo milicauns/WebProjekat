@@ -36,7 +36,8 @@ Vue.component("porudzbineKupac", {
 				   <div>
 					 
 					 <div style="float: left; width: 30%;">
-					  <h4>{{porucDTO.porudzbina.nazivRestorana}} ID:{{porucDTO.porudzbina.id}}</h4>
+					  <h3 style="color: #55b776;">Restoran: {{porucDTO.porudzbina.nazivRestorana}}</h3>
+					  <h4> ID:{{porucDTO.porudzbina.id}}</h4>
 					  <table>
 						 <tr>
 							<td>Datum:</td>

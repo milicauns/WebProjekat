@@ -31,7 +31,7 @@ Vue.component("odobrenePorudzbine", {
 				   <div>
 					 
 					 <div style="float: left; width: 30%;">
-					  <h4>{{p.nazivRestorana}} ID:{{p.id}}</h4>
+					  <h3 style="color: #55b776;">Restoran: {{p.nazivRestorana}} </h3> <h4> ID:{{p.id}}</h4>
 					  <table>
                         <tr>
                             <td>Tip restorana:</td>

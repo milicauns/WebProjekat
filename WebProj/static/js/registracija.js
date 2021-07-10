@@ -121,15 +121,22 @@ Vue.component("registracija", {
            }else if(this.tipKorisnika === "MENADZER"){
            
            	axios.post('rest/registracijaMenadzer/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
-                .then(response => {alert('Registracija uspesna!')})
-                .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
+                   .then(response => {
+                      if (response.data == 'OK') {
+                        alert('Registracija uspesna!');
+                        this.resetujPolja();  
+                      }
+                   }).catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI') });
                           
            }else{
            
            	axios.post('rest/registracijaDostavljac/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })
                 .then(response => {
-                  alert('Registracija uspesna!')})
-                .catch(() => {alert('NEKA GRESKA PRI REGISTRACIJI')});
+                  if (response.data == 'OK') {
+                     alert('Registracija uspesna!');
+                     this.resetujPolja();  
+                   }
+                }).catch(() => { alert('NEKA GRESKA PRI REGISTRACIJI') });
            
            
            }
@@ -171,7 +178,17 @@ Vue.component("registracija", {
                
 
             }).catch(function (error) { alert('GRSKA SA SERVEROM')});
-        }
+      },
+      resetujPolja: function () {
+         this.korisnickoIme = '';
+         this.lozinka = '';
+         this.ponovljenaLozinka = '';
+         this.ime = '';
+         this.prezime = '';
+         this.pol = '';
+         this.datumRodjenja = '';
+         this.tipKorisnika = "KUPAC";
+      }
 		
 	},
 });

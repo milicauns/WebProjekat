@@ -170,7 +170,7 @@ public class RestKorisnici {
 			res.status(200);
 			ParametriRegistracijeDTO kupacInfo = g.fromJson(req.body(),ParametriRegistracijeDTO.class);
 			korisnikServis.RegistrujKupca(kupacInfo);
-		return "uspjeh";
+		return "OK";
 		});
 			
 		post("rest/korisnickoImePostoji", (req, res) -> {
@@ -200,7 +200,7 @@ public class RestKorisnici {
 			res.status(200);
 			ParametriRegistracijeDTO menadzerInfo = g.fromJson(req.body(),ParametriRegistracijeDTO.class);			
 			korisnikServis.RegistrujMenadzera(menadzerInfo);
-		return "uspjeh";
+		return "OK";
 		});
 		
 		post("rest/registracijaDostavljac/", (req, res) -> {
@@ -208,7 +208,7 @@ public class RestKorisnici {
 			res.status(200);
 			ParametriRegistracijeDTO dostavljacInfo = g.fromJson(req.body(),ParametriRegistracijeDTO.class);			
 			korisnikServis.RegistrujDostavljaca(dostavljacInfo);
-		return "uspjeh";
+		return "OK";
 		});
 		
 		get("rest/testlogin", (req, res) -> {
