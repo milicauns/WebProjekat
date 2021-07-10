@@ -28,7 +28,9 @@ Vue.component("registracijaRestorana", {
 		 	pol: "",
 		 	datumRodjenja: "",		
 		 	tipKorisnika: "MENADZER",
-		 	ulogovaniKorisnik: ""
+			ulogovaniKorisnik: "",
+			  
+			slikaPrikaz: ''
 		}
 	},
 	template: `
@@ -37,6 +39,7 @@ Vue.component("registracijaRestorana", {
 	   <div class="card" style="float: left; width: 75%;">
 		  <div id="registracijaKupac">
 			 <h1>Novi restoran</h1>
+
 			 <label style="display:inline-block; width: 200px; text-align: left;">Naziv restorana:</label>
 			 <input type="text" v-model="naziv"  style="width:300px"/>
 			 <br>	
@@ -66,6 +69,9 @@ Vue.component("registracijaRestorana", {
 			 <label style="display:inline-block; width: 200px; text-align: left;">Dodaj logo:</label>
 			 <input type="file" @change="promenaFajla"  style="width:300px"/>
 			 <br>
+			 <div v-if="slikaPrikaz!=''" style="width: 200px; height:200px;">
+				<img :src="slikaPrikaz" style="width: 200px; height:200px;">
+			 </div>
 			 <br>
 			 <label style="width: 200px; text-align: left;">Adresa:</label>
 			 <div style="width: 400px;"><input type="search" id="pretragaAdrese"/></div>
@@ -197,7 +203,9 @@ Vue.component("registracijaRestorana", {
             reader.onload = (e) =>{
                 this.slikaFile = e.target.result;
             }
-            reader.readAsDataURL(file);
+			reader.readAsDataURL(file);
+			this.slikaPrikaz = URL.createObjectURL(file);
+			
         },
 		NoviMenadzer: function(){
 			this.potrebanMenadzer = true;

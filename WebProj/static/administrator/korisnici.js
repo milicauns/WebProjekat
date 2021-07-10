@@ -40,29 +40,29 @@ Vue.component("korisnici", {
       <br>
       <div id="prikazKorisnikaID">
       <div id="prikazKorisnika"  v-if="odabraniKorisnik.korisnickoIme!=undefined" >
-         <table>
+         <table style="font-size: 24px;">
             <tr>
-               <td>Korisnicko ime: {{odabraniKorisnik.korisnickoIme}}</td>
+               <td>Korisnicko ime: </td><td> {{odabraniKorisnik.korisnickoIme}}</td>
             </tr>
             <tr>
-               <td>Ime i prezime: {{odabraniKorisnik.ime}} {{odabraniKorisnik.prezime}}</td>
+               <td>Ime i prezime: </td><td> {{odabraniKorisnik.ime}} {{odabraniKorisnik.prezime}}</td>
             </tr>
             <tr>
-               <td>Datum rodjenja: {{odabraniKorisnik.datumRodjenja}}</td>
+               <td>Datum rodjenja: </td><td> {{odabraniKorisnik.datumRodjenja}}</td>
             </tr>
             <tr>
-               <td>Uloga: {{odabraniKorisnik.uloga}}</td>
+               <td>Uloga:</td><td> {{odabraniKorisnik.uloga}}</td>
             </tr>
             <tr v-if="odabraniKorisnik.uloga=='KUPAC'">
-               <td>Tip kupca: {{odabraniKorisnik.tipKupca.imeTipa}} {{odabraniKorisnik.brojSakupljenihBodova}}</td>
+               <td>Tip kupca: {{odabraniKorisnik.tipKupca.imeTipa}} </td><td> {{odabraniKorisnik.brojSakupljenihBodova}}</td>
             </tr>
             <tr v-if="odabraniKorisnik.uloga=='MENADZER'">
-               <td>Restoran: {{odabraniKorisnik.nazivRestorana}}</td>
+               <td>Restoran:</td><td> {{odabraniKorisnik.nazivRestorana}}</td>
             </tr>
             <tr>
-            <td><button v-on:click="obrisiKorisnika(odabraniKorisnik)">Obrisi korisnika</button>
-            <button v-if="odabraniKorisnik.blokiran == false" v-on:click="blokirajKorisnika(odabraniKorisnik)">Blokiraj korisnika</button>
-            <button v-if="odabraniKorisnik.blokiran == true" v-on:click="odblokirajKorisnika(odabraniKorisnik)">Odblokiraj korisnika</button>
+            <td><button class="oprezanButton" v-on:click="obrisiKorisnika(odabraniKorisnik)">Obrisi korisnika</button>
+            <button class="oprezanButton" v-if="odabraniKorisnik.blokiran == false" v-on:click="blokirajKorisnika(odabraniKorisnik)">Blokiraj korisnika</button>
+            <button class="potvrdanButton" v-if="odabraniKorisnik.blokiran == true" v-on:click="odblokirajKorisnika(odabraniKorisnik)">Odblokiraj korisnika</button>
             <br /></td>
          </tr>
          </table>

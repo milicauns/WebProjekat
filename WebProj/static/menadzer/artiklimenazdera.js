@@ -4,7 +4,7 @@ Vue.component("artiklimenazdera", {
             restoran: {},
             menadzer: {},
             mode: "BROWSE",
-            selektovanArtikal: {},
+            selektovanArtikal: { naziv: '', cena: 0.0, tip: '', kolicina: 0, opis: '', slika: '', nazivRestorana: ''},
             slikaFile: 'None'
         }
     },
@@ -61,7 +61,7 @@ Vue.component("artiklimenazdera", {
   
 </div>
 
-                <div v-if="selektovanArtikal.naziv!=undefined">
+                <div v-if="selektovanArtikal.naziv!=''">
                   <div id="artikal">
                       <div class="artikalDiv">
                           <div class="row">
@@ -130,6 +130,8 @@ Vue.component("artiklimenazdera", {
                 this.slikaFile = e.target.result;
             }
             reader.readAsDataURL(file);
+
+            this.selektovanArtikal.slika = URL.createObjectURL(file);
         },
         azurirajArtikal: function (selektovanArtikal) {
             if(this.mode == 'EDIT')
