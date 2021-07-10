@@ -50,7 +50,7 @@ var app = new Vue({
 			if (mapaDTO.mapaPotrebna) {
 				this.openLayerMapa = mapaDTO;
 				this.prikazMape = mapaDTO.mapaPotrebna;
-				alert('GS:' + mapaDTO.GS + ' GD:' + mapaDTO.GD);
+				//alert('GS:' + mapaDTO.GS + ' GD:' + mapaDTO.GD);
 				this.ucitajMapu();
 			}
 			
@@ -96,11 +96,10 @@ var app = new Vue({
 		},
 		ucitajMapu: function () {
 			//center: ol.proj.fromLonLat([this.openLayerMapa.GS, this.openLayerMapa.GD]),
-			alert('POZ: ' + ol.proj.fromLonLat([this.openLayerMapa.GS, this.openLayerMapa.GD]));
+			//alert('POZ: ' + ol.proj.fromLonLat([this.openLayerMapa.GS, this.openLayerMapa.GD]));
 			//ol.proj.fromLonLat([this.openLayerMapa.GD, this.openLayerMapa.GS]), // [21*111139, 50*111139],
 			this.$nextTick(function () {
-				alert('ucitajMapu');
-				
+				//alert('ucitajMapu');
 				this.map = new ol.Map({
 				target: 'map123',
 				layers: [

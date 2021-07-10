@@ -29,7 +29,7 @@ Vue.component("prikazrestoran", {
                           <table>
                               <tr><td><h4>{{restoran.naziv}}</h4></td></tr>
                               <tr><td>Tip restorana: {{restoran.tipRestorana}}</td></tr>
-                              <tr><td>Lokacija: {{restoran.lokacija.adresa.mesto}}</td></tr>
+                              <tr><td>Lokacija: {{restoran.lokacija.adresa.mesto}} {{restoran.lokacija.adresa.Ulica}} {{restoran.lokacija.adresa.broj}}</td></tr>
                               <tr><td>Status: {{restoran.status}}</td></tr>
                           </table>
                       </div>
