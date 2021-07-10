@@ -321,9 +321,9 @@ Vue.component("registracijaRestorana", {
 						"status": this.status,
 						"geografskaSirina": $('#form-geografskaSirina').val(),
 						"geografskaDuzina": $('#form-geografskaDuzina').val(),
-						"ulica": $('#form-ulica').val(),
+						"ulica": this.translate($('#form-ulica').val()),
 						"broj": this.broj,
-						"mesto": $('#form-mesto').val(),
+						"mesto": this.translate($('#form-mesto').val()),
 						"postanskiBroj": $('#form-zip').val(),
 						"logo": '',
 						"menadzer": this.menadzer,
@@ -334,6 +334,18 @@ Vue.component("registracijaRestorana", {
 			   
 			   
 				}).catch(function (error) { alert('GRESKA SA SERVEROM'); });
+
+		},
+		translate: function(string){
+			var cyrillic = 'А_Б_В_Г_Д_Ђ_Е_Ё_Ж_З_И_Й_Ј_К_Л_Љ_М_Н_Њ_О_П_Р_С_Т_Ћ_У_Ф_Х_Ц_Ч_Џ_Ш_Щ_Ъ_Ы_Ь_Э_Ю_Я_а_б_в_г_д_ђ_е_ё_ж_з_и_й_ј_к_л_љ_м_н_њ_о_п_р_с_т_ћ_у_ф_х_ц_ч_џ_ш_щ_ъ_ы_ь_э_ю_я'.split('_')
+			var latin = 'A_B_V_G_D_Dj_E_Ë_Z_Z_I_J_J_K_L_Lj_M_N_Nj_O_P_R_S_T_C_U_F_H_C_C_Dz_S_Ŝ_ʺ_Y_ʹ_È_Û_Â_a_b_v_g_d_dj_e_ë_z_z_i_j_j_k_l_lj_m_n_nj_o_p_r_s_t_c_u_f_h_c_c_dz_s_s_ʺ_y_ʹ_è_û_â'.split('_')
+		
+			return string.split('').map(function(char) {
+			  var index = cyrillic.indexOf(char)
+			  if (!~index)
+				return char
+			  return latin[index]
+			}).join('')
 		}
 
 	}

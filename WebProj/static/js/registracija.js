@@ -97,11 +97,7 @@ Vue.component("registracija", {
 	}, 
 	methods : {	
          PoljaValidna: function () {
-	        
-         //alert(this.PoljaValidna());
-
-            alert('ULAZIMO ');
-
+            
 	        if(this.tipKorisnika === "KUPAC"){
         
             axios.post('rest/registracijaKupac/', { "korisnickoIme": this.korisnickoIme, "lozinka" : this.lozinka,"ime" : this.ime,"prezime" : this.prezime,"pol": this.pol,"datumRodjenja": this.datumRodjenja })

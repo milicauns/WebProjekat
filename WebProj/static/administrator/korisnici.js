@@ -150,8 +150,7 @@ Vue.component("korisnici", {
          window.location.href = "#prikazKorisnikaID";
 		},
 		pretraziKorisnike: function () {
-			alert('SALJEMO ' + {"ime": this.ime, "prezime": this.prezime, "korisnickoIme": this.korisnickoIme, "uloga": this.uloga, "tipKorisnika": this.tipKorisnika});
-			axios.get('rest/getTrazeniKorisnici', {
+      axios.get('rest/getTrazeniKorisnici', {
 				params: {
 					"ime": this.ime, "prezime": this.prezime, "korisnickoIme": this.korisnickoIme, "uloga": this.uloga, "tipKorisnika": this.tipKorisnika
 				}
@@ -184,8 +183,15 @@ Vue.component("korisnici", {
             });
         },
         obrisiKorisnika: function(korisnik){
-            axios.put('rest/obrisiKorisnika',korisnik.korisnickoIme);
-        },
+            axios.put('rest/obrisiKorisnika',korisnik.korisnickoIme).
+            then(response=> {
+               if(response.data == 'OK'){
+               const index = this.prikazaniKorisnici.indexOf(korisnik);
+               this.prikazaniKorisnici.splice(index, 1);
+               }
+            });
+        
+         },
 
         odblokirajKorisnika: function(korisnik){
            alert('usli smo');

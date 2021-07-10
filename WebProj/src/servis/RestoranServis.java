@@ -103,6 +103,7 @@ public class RestoranServis {
 		if(menadzer != null) {
 			if(menadzer.getNazivRestorana().equals("None")) {
 				menadzer.setNazivRestorana(noviRestoran.getNaziv());
+				korisnikServis.sacuvajPodatke();
 			}
 		}
 		

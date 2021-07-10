@@ -87,7 +87,13 @@ Vue.component("restorani", {
 	},
 	methods: {
 		pretragaRestorana: function () {
-			axios.get('rest/getTrazeniRestorani', { params: this.parPret })
+			axios.get('rest/getTrazeniRestorani', { params: {
+				 naziv: this.parPret.naziv,
+				 lokacija: this.parPret.lokacija,
+				 ocena: this.parPret.ocena,
+				 tip: this.parPret.tip,
+				 samoOtvoreni: this.parPret.samoOtvoreni
+			} })
 				.then(response => (this.restorani = response.data)).catch(function (error) {
 					alert('greska sa servera');
 				});	

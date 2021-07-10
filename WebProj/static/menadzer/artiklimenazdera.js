@@ -61,7 +61,7 @@ Vue.component("artiklimenazdera", {
   
 </div>
 
-
+                <div v-if="selektovanArtikal.naziv!=undefined">
                   <div id="artikal">
                       <div class="artikalDiv">
                           <div class="row">
@@ -80,6 +80,7 @@ Vue.component("artiklimenazdera", {
                           </div>
                       </div>
                   </div>
+                </div>
 
   
 </div>
@@ -133,7 +134,6 @@ Vue.component("artiklimenazdera", {
         azurirajArtikal: function (selektovanArtikal) {
             if(this.mode == 'EDIT')
             {
-                alert('saljemo na server ' + selektovanArtikal.nazivRestorana);
                 axios
                 .post("rest/artikli/azuriraj", selektovanArtikal)
                 .then(response => {
