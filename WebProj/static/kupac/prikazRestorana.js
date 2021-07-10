@@ -33,9 +33,6 @@ Vue.component("prikazrestoran", {
                               <tr><td>Status: {{restoran.status}}</td></tr>
                           </table>
                       </div>
-                      <div name="mestozamapu" class="mapaDesnaStranaPrikazRestorana">
-                        <!-- <div id="map" class="map"></div> -->
-                      </div>
                    </div>
         </div>
         <a href="#artikli"><button>Artikli</button></a>
@@ -145,7 +142,10 @@ Vue.component("prikazrestoran", {
         naziv: naziv
       }
     })
-      .then(response => (this.restoran = response.data));
+      .then(response => {
+        this.restoran = response.data;
+        this.setujMapuFUN();
+      });
 
     axios.get('rest/odobreniKomentari', {
       params: {
@@ -153,23 +153,6 @@ Vue.component("prikazrestoran", {
       }
     })
       .then(response => (this.komentari = response.data));
-    
-    // dodato za mapu?
-  
-    /*
-    this.map = new ol.Map({
-      target: 'map',
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([37.41, 8.82]),
-        zoom: 4
-      })
-    });
-    */
 
       
   },
@@ -229,6 +212,9 @@ Vue.component("prikazrestoran", {
       let labelCenaKol = document.getElementById(artikal.naziv+'L');
       let cena = artikal.cena * inputKolicina.value;
       labelCenaKol.innerHTML = cena.toString();
+    },
+    setujMapuFUN : function() {
+      this.$root.$emit('prikaziMAPU', {mapaPotrebna: true, nazivRestorana: this.restoran.naziv, GS: this.restoran.lokacija.geografskaSirina, GD: this.restoran.lokacija.geografskaDuzina});
     }
   }
 });

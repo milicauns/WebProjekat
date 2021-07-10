@@ -37,11 +37,6 @@ Vue.component("menadzer", {
                 </tr>
             </table>
         </div>
-        <div class="mapaDesnaStranaPrikazRestorana">
-          <div style="width: 160px; height: 160px;">
-                Todo <br> prikaz mape sa lokacijom ovog restorana
-          </div>
-        </div>
   </div>
 </div>
 </div>
